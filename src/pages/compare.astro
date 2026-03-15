@@ -1,0 +1,53 @@
+---
+import ComparePatterns from "../components/ComparePatterns.jsx";
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BOAR — Design Compare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body { background: #040d09; -webkit-font-smoothing: antialiased; }
+      /* nav bar */
+      .compare-nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+        background: rgba(4,13,9,0.96); backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        padding: 12px 24px;
+        display: flex; gap: 32px; align-items: center;
+      }
+      .compare-nav a {
+        font-family: 'Big Shoulders Display', sans-serif;
+        font-size: 13px; font-weight: 700; letter-spacing: 0.15em;
+        text-transform: uppercase; text-decoration: none;
+        color: rgba(255,255,255,0.5); transition: color 0.2s;
+      }
+      .compare-nav a:hover { color: #fff; }
+      .compare-nav .back {
+        color: rgba(255,255,255,0.3); font-size: 11px; margin-right: 8px;
+      }
+      .compare-body { margin-top: 48px; }
+    </style>
+  </head>
+  <body>
+    <nav class="compare-nav">
+      <a href="/" class="back">← Site</a>
+      <a href="#pa">A — Dark Immersion</a>
+      <a href="#pb">B — Sharp Contrast</a>
+      <a href="#pc">C — Stone &amp; Black</a>
+      <a href="#pd">D — Stone &amp; Deep Green</a>
+    </nav>
+    <div class="compare-body">
+      <ComparePatterns client:load />
+    </div>
+  </body>
+</html>
