@@ -31,6 +31,9 @@
 - /contact : Contact form
 
 ## Key Messages
+- Tagline JP: 技術の可能性を、産業の未来へ。
+- Tagline EN (sub): Deep tech, for industry.
+- EN is displayed smaller, as a subtitle under the JP tagline
 - Tagline: 技術を事業にする、その全工程に責任を持つ。
 - EN: The execution layer between deep tech and enterprise.
 
