@@ -245,12 +245,12 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
           </svg>
         </div>
 
-        <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-between" }}>
-          {/* タイトル */}
+        <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", height: "100%" }}>
+          {/* タイトル + 仕切り線 */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            style={{ paddingBottom: 0 }}
+            style={{ flexShrink: 0 }}
           >
             <div style={{
               fontFamily: FONTS.accent, fontSize: "clamp(44px,12vw,72px)",
@@ -265,13 +265,11 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
             }}>
               Strategy &amp; Execution Consulting
             </div>
+            <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "50px 0" }} />
           </motion.div>
 
-          {/* 仕切り線 */}
-          <div style={{ height: 1, background: "rgba(255,255,255,0.1)" }} />
-
           {/* ブロック切り替えエリア */}
-          <div style={{ position: "relative", minHeight: "30vh" }}>
+          <div style={{ position: "relative", flex: 1 }}>
             {rightBlocks.map((block, i) => (
               <motion.div
                 key={i}
@@ -635,7 +633,7 @@ function Philosophy() {
               </span>
               </div>
               <span style={{ fontFamily: FONTS.body, fontSize: "clamp(18px,2vw,28px)",
-                color: "rgba(255,255,255,0.4)", whiteSpace: "nowrap" }}>
+                color: "rgba(255,255,255,0.4)", whiteSpace: "nowrap", textAlign: "right" }}>
                 {item.ja}
               </span>
             </motion.div>
