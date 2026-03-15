@@ -383,61 +383,82 @@ function Philosophy() {
   ];
 
   return (
-    <section id="philosophy" style={{ background: COLORS.deepGreen, padding: "120px 32px", position: "relative", overflow: "hidden" }}>
-      <DeepGreenLight />
+    <section id="philosophy" style={{
+      background: "#091510",
+      minHeight: "100vh",
+      padding: "120px 32px",
+      position: "relative", overflow: "hidden",
+      display: "flex", alignItems: "center",
+    }}>
+      {/* K4-D グラデ */}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(105deg,#040908 0%,#0d2018 20%,#152f26 45%,#0d2018 75%,#040908 100%)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.3) 100%)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 100% 55% at 50% 50%, rgba(45,90,64,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
       <GridOverlay dark />
-      <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
+
+      <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1, width: "100%" }}>
         <FadeIn><SectionLabel dark>Philosophy</SectionLabel></FadeIn>
         <FadeIn delay={0.1}>
           <h2 style={{
             fontFamily: FONTS.display,
-            fontSize: "clamp(36px, 5vw, 72px)", color: COLORS.darkHL,
-            lineHeight: 1.25, marginBottom: 72,
+            fontSize: "clamp(28px, 4vw, 60px)", color: COLORS.darkHL,
+            lineHeight: 1.25, marginBottom: 64,
+            whiteSpace: "nowrap",
           }}>
-            前にしか、進まない。
+            キャズムを越え、非連続な成長を。
           </h2>
         </FadeIn>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {boarItems.map((item, i) => (
-            <FadeIn key={item.letter} delay={i * 0.08}>
-              <div style={{
-                display: "flex", alignItems: "center",
-                borderTop: i === 0 ? `1px solid rgba(255,255,255,0.1)` : "none",
-                borderBottom: `1px solid rgba(255,255,255,0.08)`,
-                padding: "8px 0",
-                gap: 0,
-              }}>
-                {/* 頭文字 */}
+
+        {/* B-2 Overlay BOAR */}
+        <div style={{ position: "relative" }}>
+          {/* ゴーストBOAR */}
+          <div style={{
+            position: "absolute", top: "50%", left: "50%",
+            transform: "translate(-50%,-50%)",
+            fontFamily: FONTS.accent, fontWeight: 900,
+            fontSize: "clamp(160px,26vw,340px)",
+            color: "rgba(255,255,255,0.035)",
+            letterSpacing: "-0.04em", lineHeight: 1,
+            whiteSpace: "nowrap", pointerEvents: "none", userSelect: "none",
+          }}>
+            BOAR
+          </div>
+          <div style={{ position: "relative", zIndex: 1 }}>
+            {boarItems.map((item, i) => (
+              <FadeIn key={item.letter} delay={i * 0.08}>
                 <div style={{
-                  fontFamily: FONTS.accent, fontWeight: 900,
-                  fontSize: "clamp(72px, 13vw, 180px)",
-                  color: COLORS.white, lineHeight: 1,
-                  minWidth: "1.1ch", flexShrink: 0,
-                  letterSpacing: "-0.02em",
+                  display: "flex", alignItems: "baseline",
+                  borderBottom: `1px solid rgba(255,255,255,0.07)`,
+                  padding: "16px 0",
                 }}>
-                  {item.letter}
-                </div>
-                {/* フレーズ + 訳 */}
-                <div style={{ paddingLeft: "0.18em", paddingBottom: "0.1em" }}>
-                  <div style={{
+                  <span style={{
+                    fontFamily: FONTS.accent, fontWeight: 900,
+                    fontSize: "clamp(48px, 8.5vw, 112px)",
+                    color: "#3DA860", lineHeight: 1,
+                    minWidth: "1.1ch", letterSpacing: "-0.02em",
+                  }}>
+                    {item.letter}
+                  </span>
+                  <span style={{
                     fontFamily: FONTS.accent, fontWeight: 700,
-                    fontSize: "clamp(18px, 2.8vw, 40px)",
-                    color: "rgba(255,255,255,0.82)",
-                    letterSpacing: "0.02em", lineHeight: 1.1,
+                    fontSize: "clamp(28px, 5vw, 64px)",
+                    color: "rgba(255,255,255,0.85)", lineHeight: 1,
+                    letterSpacing: "0.01em",
                   }}>
                     {item.rest}
-                  </div>
-                  <div style={{
-                    fontFamily: FONTS.body, fontSize: "clamp(11px, 1.2vw, 14px)",
-                    color: "rgba(255,255,255,0.32)", marginTop: 6,
-                    letterSpacing: "0.06em",
+                  </span>
+                  <span style={{
+                    fontFamily: FONTS.body,
+                    fontSize: "clamp(13px, 1.6vw, 20px)",
+                    color: "rgba(255,255,255,0.28)",
+                    marginLeft: "auto", paddingLeft: 28, whiteSpace: "nowrap",
                   }}>
                     {item.ja}
-                  </div>
+                  </span>
                 </div>
-              </div>
-            </FadeIn>
-          ))}
+              </FadeIn>
+            ))}
+          </div>
         </div>
       </div>
     </section>

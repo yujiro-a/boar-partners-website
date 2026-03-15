@@ -22,28 +22,28 @@ import CompareBoar from "../components/CompareBoar.jsx";
         background: rgba(2,9,8,0.97); backdrop-filter: blur(8px);
         border-bottom: 1px solid rgba(255,255,255,0.06);
         padding: 10px 24px;
-        display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+        display: flex; gap: 4px; align-items: center; flex-wrap: wrap;
       }
       .nav a {
         font-family: 'Big Shoulders Display', sans-serif;
-        font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+        font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
         text-transform: uppercase; text-decoration: none;
-        color: rgba(255,255,255,0.4); transition: color 0.2s;
-        padding: 4px 12px;
+        color: rgba(255,255,255,0.35); transition: color 0.2s;
+        padding: 4px 10px; border: 1px solid transparent;
       }
-      .nav a:hover { color: #fff; }
-      .nav .back { color: rgba(255,255,255,0.25); font-size: 11px; margin-right: 8px; }
+      .nav a:hover { color: #fff; border-color: rgba(255,255,255,0.12); }
+      .nav .back { color: rgba(255,255,255,0.2); font-size: 10px; margin-right: 12px; border: none; }
+      .nav .sep { color: rgba(255,255,255,0.08); font-size: 10px; padding: 0 4px; }
       body > div { margin-top: 44px; }
     </style>
   </head>
   <body>
     <nav class="nav">
       <a href="/" class="back">← Site</a>
-      <a href="#pa">A — Vertical</a>
-      <a href="#pb">B — Wall</a>
-      <a href="#pc">C — Asymmetric</a>
-      <a href="#pd">D — Minimal</a>
-      <a href="#pe">E — Interactive</a>
+      <span style="font-family:'Big Shoulders Display',sans-serif;font-size:10px;letter-spacing:.15em;color:rgba(255,255,255,.2);padding:0 6px">H:</span>
+      <a href="#h1">H1</a><a href="#h2">H2</a><a href="#h3">H3</a><a href="#h4">H4</a><a href="#h5">H5</a>
+      <span style="font-family:'Big Shoulders Display',sans-serif;font-size:10px;letter-spacing:.15em;color:rgba(255,255,255,.2);padding:0 6px;margin-left:8px">K4:</span>
+      <a href="#k4a">A</a><a href="#k4b">B</a><a href="#k4c">C</a><a href="#k4d">D</a><a href="#k4e">E</a>
     </nav>
     <div>
       <CompareBoar client:load />
