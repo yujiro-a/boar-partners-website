@@ -113,7 +113,7 @@ function Header() {
   const navItems = [
     { label: "Philosophy", href: "#philosophy" },
     { label: "Services",   href: "#services" },
-    { label: "About",      href: "#about" },
+    { label: "About",      href: "/about" },
   ];
 
   return (
@@ -1050,11 +1050,16 @@ function Footer() {
         display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 24 }}>
         <img src="/boar-logo.png" alt="BOAR Partners" style={{ height: 32, width: "auto", opacity: 0.5 }} />
         <nav style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-          {["Philosophy", "Services", "About", "Contact"].map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} style={{
+          {[
+            { label: "Philosophy", href: "#philosophy" },
+            { label: "Services",   href: "#services" },
+            { label: "About",      href: "/about" },
+            { label: "Contact",    href: "#contact" },
+          ].map((item) => (
+            <a key={item.label} href={item.href} style={{
               fontFamily: FONTS.accent, fontSize: 12, letterSpacing: "0.12em",
               textTransform: "uppercase", color: "rgba(255,255,255,0.6)", textDecoration: "none",
-            }}>{item}</a>
+            }}>{item.label}</a>
           ))}
         </nav>
       </div>
@@ -1078,7 +1083,6 @@ export default function App() {
       <Philosophy />
       <WhatWeAre />
       <Services />
-      <About />
       <Contact />
       <Footer />
     </div>
