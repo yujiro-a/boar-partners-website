@@ -616,8 +616,8 @@ function Philosophy() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.6, delay: i * 0.06, ease: "easeOut" }}
-              style={{ display: "grid", gridTemplateColumns: "1fr clamp(200px,28vw,380px)",
-                alignItems: "baseline", gap: "4vw",
+              style={{ display: "grid", gridTemplateColumns: "1fr auto",
+                alignItems: "baseline", gap: "clamp(12px,4vw,40px)",
                 borderBottom: "1px solid rgba(255,255,255,0.07)", padding: "14px 0" }}
             >
               <div style={{ display: "flex", alignItems: "baseline" }}>
@@ -632,8 +632,8 @@ function Philosophy() {
                 {item.rest}
               </span>
               </div>
-              <span style={{ fontFamily: FONTS.body, fontSize: "clamp(18px,2vw,28px)",
-                color: "rgba(255,255,255,0.4)", whiteSpace: "nowrap", textAlign: "right" }}>
+              <span style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.8vw,28px)",
+                color: "rgba(255,255,255,0.4)", textAlign: "right", whiteSpace: "nowrap" }}>
                 {item.ja}
               </span>
             </motion.div>
@@ -698,7 +698,7 @@ function WhatWeAre() {
                 display: "grid", gridTemplateColumns: "64px 1fr",
                 gap: "0 40px",
                 borderTop: "1px solid rgba(255,255,255,0.1)",
-                padding: "36px 0",
+                padding: "20px 0",
               }}
             >
               <div style={{
