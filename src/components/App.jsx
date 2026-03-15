@@ -773,7 +773,7 @@ function Services() {
       <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <SectionLabel color={COLORS.G200}>Services</SectionLabel>
         <TextReveal
-          lines={["技術の価値を 市場に届けきる"]}
+          lines={["技術の価値を市場に届ける"]}
           fontSize="clamp(28px,4vw,60px)"
           color={L.text}
           style={{ marginBottom: 32 }}
