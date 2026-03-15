@@ -1,5 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 
+const FONTS = {
+  display: "'Shippori Mincho B1', 'Noto Serif JP', Georgia, serif",  // 見出し（明朝体）
+  accent:  "'Cormorant Garamond', Georgia, serif",                    // 英語アクセント
+  body:    "'Noto Sans JP', sans-serif",             // 本文
+};
+
 const COLORS = {
   darkGreen: "#152f26",
   darkGreenLight: "#1e4035",
@@ -28,7 +34,7 @@ function useInView(options = {}) {
   return [ref, inView];
 }
 
-function FadeIn({ children, delay = 0, className = "" }) {
+function FadeIn({ children, delay = 0, className = "", style: extraStyle = {} }) {
   const [ref, inView] = useInView();
   return (
     <div
@@ -38,6 +44,7 @@ function FadeIn({ children, delay = 0, className = "" }) {
         opacity: inView ? 1 : 0,
         transform: inView ? "translateY(0)" : "translateY(32px)",
         transition: `opacity 0.8s ease ${delay}s, transform 0.8s ease ${delay}s`,
+        ...extraStyle,
       }}
     >
       {children}
@@ -76,10 +83,8 @@ function Header() {
         display: "flex", justifyContent: "space-between", alignItems: "center",
       }}>
         <div style={{
-          fontFamily: "'DM Serif Display', Georgia, serif",
-          fontSize: 22, color: COLORS.white, letterSpacing: "0.02em", fontWeight: 400,
         }}>
-          BOAR Partners
+          <img src="/boar-logo.png" alt="BOAR Partners" style={{ height: 48, width: "auto" }} />
         </div>
         {/* Desktop Nav */}
         <nav style={{ display: "flex", gap: 36, alignItems: "center" }}
@@ -89,7 +94,7 @@ function Header() {
             <a key={item.label} href={item.href} style={{
               color: "rgba(255,255,255,0.75)", textDecoration: "none",
               fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase",
-              fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 500,
+              fontFamily: FONTS.body, fontWeight: 500,
               transition: "color 0.3s",
             }}
               onMouseEnter={(e) => e.target.style.color = COLORS.white}
@@ -101,7 +106,7 @@ function Header() {
           <a href="#contact" style={{
             color: COLORS.white, textDecoration: "none",
             fontSize: 13, letterSpacing: "0.06em",
-            fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 600,
+            fontFamily: FONTS.body, fontWeight: 600,
             padding: "10px 24px", border: "1px solid rgba(255,255,255,0.4)",
             transition: "all 0.3s",
           }}
@@ -137,7 +142,7 @@ function Header() {
           {[...navItems, { label: "Contact", href: "#contact" }].map((item) => (
             <a key={item.label} href={item.href} onClick={() => setMenuOpen(false)} style={{
               color: COLORS.white, textDecoration: "none", fontSize: 16,
-              fontFamily: "'Noto Sans JP', sans-serif",
+              fontFamily: FONTS.body,
             }}>
               {item.label}
             </a>
@@ -163,28 +168,30 @@ function Hero() {
         backgroundSize: "48px 48px",
       }} />
 
-      <div style={{ position: "relative", zIndex: 1, maxWidth: 900, textAlign: "center" }}>
-        <FadeIn>
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1100, textAlign: "center" }}>
+        {/* Deep tech - 大きく薄く背景テキストとして */}
+        <FadeIn delay={0}>
           <div style={{
-            fontFamily: "'Noto Sans JP', sans-serif",
-            fontSize: "clamp(32px, 5vw, 60px)", color: COLORS.white,
-            lineHeight: 1.3, fontWeight: 700, letterSpacing: "0.02em", marginBottom: 16,
-          }}>
-            技術の可能性を、産業の未来へ。
-          </div>
-        </FadeIn>
-        <FadeIn delay={0.1}>
-          <div style={{
-            fontFamily: "'DM Serif Display', Georgia, serif",
-            fontSize: "clamp(14px, 1.8vw, 20px)", color: "rgba(255,255,255,0.4)",
-            letterSpacing: "0.12em", marginBottom: 40, textTransform: "uppercase",
+            fontFamily: FONTS.accent,
+            fontSize: "clamp(48px, 9vw, 120px)", color: "rgba(255,255,255,0.07)",
+            letterSpacing: "0.06em", lineHeight: 1, marginBottom: -20,
+            fontStyle: "italic", userSelect: "none",
           }}>
             Deep tech, for industry.
           </div>
         </FadeIn>
+        <FadeIn delay={0.15}>
+          <div style={{
+            fontFamily: FONTS.display,
+            fontSize: "clamp(52px, 8vw, 104px)", color: COLORS.white,
+            lineHeight: 1.15, fontWeight: 700, letterSpacing: "0.01em", marginBottom: 32,
+          }}>
+            技術の可能性を、<br />産業の未来へ
+          </div>
+        </FadeIn>
         <FadeIn delay={0.2}>
           <p style={{
-            fontFamily: "'Noto Sans JP', sans-serif", fontSize: "clamp(14px, 1.6vw, 16px)",
+            fontFamily: FONTS.body, fontSize: "clamp(14px, 1.6vw, 16px)",
             color: "rgba(255,255,255,0.6)", lineHeight: 2, maxWidth: 560,
             margin: "0 auto 48px", fontWeight: 400, letterSpacing: "0.04em",
           }}>
@@ -197,7 +204,7 @@ function Hero() {
             display: "inline-block", padding: "16px 40px",
             border: "1px solid rgba(255,255,255,0.5)", color: COLORS.white,
             textDecoration: "none", fontSize: 14, letterSpacing: "0.08em",
-            fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 500,
+            fontFamily: FONTS.body, fontWeight: 500,
             transition: "all 0.4s",
           }}
             onMouseEnter={(e) => { e.target.style.background = COLORS.white; e.target.style.color = COLORS.darkGreen; }}
@@ -238,7 +245,7 @@ function Vision() {
         <FadeIn>
           <div style={{
             fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase",
-            color: COLORS.silver, fontFamily: "'Noto Sans JP', sans-serif",
+            color: COLORS.silver, fontFamily: FONTS.body,
             fontWeight: 600, marginBottom: 24,
           }}>
             Vision
@@ -246,8 +253,8 @@ function Vision() {
         </FadeIn>
         <FadeIn delay={0.1}>
           <h2 style={{
-            fontFamily: "'DM Serif Display', Georgia, serif",
-            fontSize: "clamp(28px, 4vw, 52px)", color: COLORS.darkGreen,
+            fontFamily: FONTS.display,
+            fontSize: "clamp(34px, 4.5vw, 60px)", color: COLORS.darkGreen,
             lineHeight: 1.35, letterSpacing: "-0.01em", marginBottom: 24,
           }}>
             技術と産業の間に、<br />
@@ -256,7 +263,7 @@ function Vision() {
         </FadeIn>
         <FadeIn delay={0.15}>
           <p style={{
-            fontFamily: "'Noto Sans JP', sans-serif", fontSize: "clamp(14px, 1.6vw, 16px)",
+            fontFamily: FONTS.body, fontSize: "clamp(14px, 1.6vw, 16px)",
             color: COLORS.black, lineHeight: 2, opacity: 0.6,
             maxWidth: 640, marginBottom: 72,
           }}>
@@ -271,12 +278,12 @@ function Vision() {
           gap: 2, marginBottom: 80,
         }}>
           {walls.map((w, i) => (
-            <FadeIn key={w.num} delay={i * 0.1}>
+            <FadeIn key={w.num} delay={i * 0.1} style={{ height: "100%" }}>
               <div style={{
-                background: COLORS.darkGreen, padding: "40px 32px",
+                background: COLORS.darkGreen, padding: "40px 32px", height: "100%",
               }}>
                 <div style={{
-                  fontFamily: "'DM Serif Display', Georgia, serif",
+                  fontFamily: FONTS.display,
                   fontSize: 40, color: COLORS.white, opacity: 0.12,
                   lineHeight: 1, marginBottom: 20,
                 }}>
@@ -284,19 +291,19 @@ function Vision() {
                 </div>
                 <div style={{
                   fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.4)", fontFamily: "'Noto Sans JP', sans-serif",
+                  color: "rgba(255,255,255,0.4)", fontFamily: FONTS.body,
                   fontWeight: 600, marginBottom: 8,
                 }}>
                   Wall {w.num} — {w.sub}
                 </div>
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 18,
+                  fontFamily: FONTS.body, fontSize: 18,
                   color: COLORS.white, fontWeight: 700, marginBottom: 16, lineHeight: 1.4,
                 }}>
                   {w.title}
                 </div>
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 13,
+                  fontFamily: FONTS.body, fontSize: 13,
                   color: "rgba(255,255,255,0.55)", lineHeight: 1.9,
                 }}>
                   {w.desc}
@@ -313,7 +320,7 @@ function Vision() {
             paddingLeft: 32,
           }}>
             <p style={{
-              fontFamily: "'Noto Sans JP', sans-serif", fontSize: "clamp(15px, 1.8vw, 17px)",
+              fontFamily: FONTS.body, fontSize: "clamp(15px, 1.8vw, 17px)",
               color: COLORS.black, lineHeight: 2, opacity: 0.75, maxWidth: 680,
             }}>
               BOARは、その空白を埋める結節点として機能する。大企業とスタートアップの「対等な同盟」を設計・実行し、技術の社会実装からM&A・事業開発まで、フルサイクルを当事者として伴走する。
@@ -342,20 +349,20 @@ function Philosophy() {
         <FadeIn>
           <div style={{
             fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase",
-            color: COLORS.silver, fontFamily: "'Noto Sans JP', sans-serif",
+            color: COLORS.silver, fontFamily: FONTS.body,
             fontWeight: 600, marginBottom: 16,
           }}>
             Philosophy
           </div>
           <h2 style={{
-            fontFamily: "'DM Serif Display', Georgia, serif",
-            fontSize: "clamp(28px, 4vw, 44px)", color: COLORS.darkGreen,
+            fontFamily: FONTS.display,
+            fontSize: "clamp(32px, 4vw, 50px)", color: COLORS.darkGreen,
             lineHeight: 1.3, marginBottom: 20, letterSpacing: "-0.01em",
           }}>
             BOARの哲学
           </h2>
           <p style={{
-            fontFamily: "'Noto Sans JP', sans-serif", fontSize: 15, color: COLORS.black,
+            fontFamily: FONTS.body, fontSize: 15, color: COLORS.black,
             lineHeight: 1.9, maxWidth: 640, marginBottom: 64, opacity: 0.7,
           }}>
             BOARは4つのサービスではない。1つの連続したコミットメント。<br />
@@ -386,26 +393,26 @@ function Philosophy() {
                 }}
               >
                 <div style={{
-                  fontFamily: "'DM Serif Display', Georgia, serif",
+                  fontFamily: FONTS.display,
                   fontSize: 56, color: COLORS.darkGreen, lineHeight: 1, marginBottom: 16,
                   opacity: 0.15,
                 }}>
                   {item.letter}
                 </div>
                 <div style={{
-                  fontFamily: "'DM Serif Display', Georgia, serif",
+                  fontFamily: FONTS.display,
                   fontSize: 16, color: COLORS.darkGreen, marginBottom: 6,
                 }}>
                   {item.en}
                 </div>
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 14,
+                  fontFamily: FONTS.body, fontSize: 14,
                   color: COLORS.black, fontWeight: 600, marginBottom: 12,
                 }}>
                   {item.ja}
                 </div>
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 13,
+                  fontFamily: FONTS.body, fontSize: 13,
                   color: COLORS.black, opacity: 0.6, lineHeight: 1.7,
                 }}>
                   {item.desc}
@@ -437,20 +444,20 @@ function Positioning() {
         <FadeIn>
           <div style={{
             fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase",
-            color: "rgba(255,255,255,0.4)", fontFamily: "'Noto Sans JP', sans-serif",
+            color: "rgba(255,255,255,0.4)", fontFamily: FONTS.body,
             fontWeight: 600, marginBottom: 24,
           }}>
             Positioning
           </div>
           <h2 style={{
-            fontFamily: "'DM Serif Display', Georgia, serif",
-            fontSize: "clamp(26px, 3.5vw, 40px)", color: COLORS.white,
+            fontFamily: FONTS.display,
+            fontSize: "clamp(30px, 3.8vw, 48px)", color: COLORS.white,
             lineHeight: 1.3, marginBottom: 20,
           }}>
             「技術理解 × 戦略実行」の<br />空白地帯を埋める唯一の存在。
           </h2>
           <p style={{
-            fontFamily: "'Noto Sans JP', sans-serif", fontSize: "clamp(14px, 1.6vw, 15px)",
+            fontFamily: FONTS.body, fontSize: "clamp(14px, 1.6vw, 15px)",
             color: "rgba(255,255,255,0.5)", lineHeight: 1.9, maxWidth: 560, marginBottom: 64,
           }}>
             他のプレイヤーはディープテック特化の伴走支援を持たない。BOARは、ディープテックアライアンスを軸に、アライアンスとM&Aの2軸で支援する。
@@ -461,7 +468,7 @@ function Positioning() {
           <div style={{ overflowX: "auto" }}>
             <table style={{
               width: "100%", borderCollapse: "collapse",
-              fontFamily: "'Noto Sans JP', sans-serif",
+              fontFamily: FONTS.body,
             }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
@@ -482,7 +489,7 @@ function Positioning() {
                   }}>
                     <td style={{
                       padding: "18px 16px",
-                      fontFamily: c.highlight ? "'Noto Sans JP', sans-serif" : "'Noto Sans JP', sans-serif",
+                      fontFamily: c.highlight ? FONTS.body : FONTS.body,
                       fontSize: c.highlight ? 15 : 13,
                       fontWeight: c.highlight ? 700 : 400,
                       color: c.highlight ? COLORS.white : "rgba(255,255,255,0.55)",
@@ -537,20 +544,20 @@ function Services() {
         <FadeIn>
           <div style={{
             fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase",
-            color: COLORS.silver, fontFamily: "'Noto Sans JP', sans-serif",
+            color: COLORS.silver, fontFamily: FONTS.body,
             fontWeight: 600, marginBottom: 16,
           }}>
             Services
           </div>
           <h2 style={{
-            fontFamily: "'DM Serif Display', Georgia, serif",
-            fontSize: "clamp(26px, 3.5vw, 40px)", color: COLORS.darkGreen,
+            fontFamily: FONTS.display,
+            fontSize: "clamp(30px, 3.8vw, 48px)", color: COLORS.darkGreen,
             lineHeight: 1.3, marginBottom: 16,
           }}>
             2軸で、インオーガニック成長を一気通貫する。
           </h2>
           <p style={{
-            fontFamily: "'Noto Sans JP', sans-serif", fontSize: "clamp(13px, 1.5vw, 15px)",
+            fontFamily: FONTS.body, fontSize: "clamp(13px, 1.5vw, 15px)",
             color: COLORS.black, opacity: 0.55, lineHeight: 1.9, maxWidth: 560, marginBottom: 80,
           }}>
             まず1ヶ月のBootcampで課題を特定し、アライアンス軸・M&A軸の最適な経路を設計する。
@@ -567,22 +574,22 @@ function Services() {
             <div>
               <div style={{
                 fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase",
-                color: "rgba(255,255,255,0.4)", fontFamily: "'Noto Sans JP', sans-serif",
+                color: "rgba(255,255,255,0.4)", fontFamily: FONTS.body,
                 fontWeight: 600, marginBottom: 8,
               }}>Entry Point</div>
               <div style={{
-                fontFamily: "'DM Serif Display', Georgia, serif",
+                fontFamily: FONTS.display,
                 fontSize: 26, color: COLORS.white, marginBottom: 10,
               }}>Bootcamp</div>
               <div style={{
-                fontFamily: "'Noto Sans JP', sans-serif", fontSize: 13,
+                fontFamily: FONTS.body, fontSize: 13,
                 color: "rgba(255,255,255,0.6)", lineHeight: 1.8, maxWidth: 480,
               }}>
                 1ヶ月・100万円。課題に応じた4パターン（事業開発 / M&A戦略 / 経営企画 / ディープテック事業化）から最適なアプローチを設計し、どの軸で進むかを確定する。
               </div>
             </div>
             <div style={{
-              fontFamily: "'Noto Sans JP', sans-serif", fontSize: 13,
+              fontFamily: FONTS.body, fontSize: 13,
               color: "rgba(255,255,255,0.7)", fontWeight: 700, whiteSpace: "nowrap",
             }}>
               100万円（固定・前払い）
@@ -605,19 +612,19 @@ function Services() {
               }}>
                 <div style={{
                   fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase",
-                  color: "#3DA860", fontFamily: "'Noto Sans JP', sans-serif",
+                  color: "#3DA860", fontFamily: FONTS.body,
                   fontWeight: 700, marginBottom: 6,
                 }}>
                   Green Path — アライアンス軸
                 </div>
                 <div style={{
-                  fontFamily: "'DM Serif Display', Georgia, serif",
+                  fontFamily: FONTS.display,
                   fontSize: 20, color: COLORS.white, marginBottom: 8,
                 }}>
                   ディープテック事業化支援
                 </div>
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                  fontFamily: FONTS.body, fontSize: 12,
                   color: "rgba(255,255,255,0.5)", lineHeight: 1.7,
                 }}>
                   大企業とスタートアップの対等な同盟を設計・実行。技術シーズから事業化まで伴走。
@@ -639,23 +646,23 @@ function Services() {
                     <div>
                       <div style={{ display: "flex", gap: 10, alignItems: "baseline", marginBottom: 6 }}>
                         <div style={{
-                          fontFamily: "'Noto Sans JP', sans-serif", fontSize: 13,
+                          fontFamily: FONTS.body, fontSize: 13,
                           fontWeight: 700, color: COLORS.darkGreen,
                         }}>{s.label}</div>
                         <div style={{
-                          fontFamily: "'Noto Sans JP', sans-serif", fontSize: 11,
+                          fontFamily: FONTS.body, fontSize: 11,
                           color: COLORS.silver,
                         }}>{s.period}</div>
                       </div>
                       <div style={{
-                        fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                        fontFamily: FONTS.body, fontSize: 12,
                         color: COLORS.black, opacity: 0.55, lineHeight: 1.8,
                       }}>{s.desc}</div>
                     </div>
                   </div>
                 ))}
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                  fontFamily: FONTS.body, fontSize: 12,
                   color: COLORS.darkGreen, fontWeight: 700, marginTop: 20,
                 }}>
                   月額100万〜300万円（プロジェクト型）
@@ -673,19 +680,19 @@ function Services() {
               }}>
                 <div style={{
                   fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase",
-                  color: "#b8943a", fontFamily: "'Noto Sans JP', sans-serif",
+                  color: "#b8943a", fontFamily: FONTS.body,
                   fontWeight: 700, marginBottom: 6,
                 }}>
                   Gold Path — M&A軸
                 </div>
                 <div style={{
-                  fontFamily: "'DM Serif Display', Georgia, serif",
+                  fontFamily: FONTS.display,
                   fontSize: 20, color: COLORS.white, marginBottom: 8,
                 }}>
                   インオーガニック事業開発
                 </div>
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                  fontFamily: FONTS.body, fontSize: 12,
                   color: "rgba(255,255,255,0.5)", lineHeight: 1.7,
                 }}>
                   M&A仲介は成約で終わる。BOARは買収後の事業成長まで責任を持つ。
@@ -707,23 +714,23 @@ function Services() {
                     <div>
                       <div style={{ display: "flex", gap: 10, alignItems: "baseline", marginBottom: 6 }}>
                         <div style={{
-                          fontFamily: "'Noto Sans JP', sans-serif", fontSize: 13,
+                          fontFamily: FONTS.body, fontSize: 13,
                           fontWeight: 700, color: COLORS.darkGreen,
                         }}>{s.label}</div>
                         <div style={{
-                          fontFamily: "'Noto Sans JP', sans-serif", fontSize: 11,
+                          fontFamily: FONTS.body, fontSize: 11,
                           color: COLORS.silver,
                         }}>{s.period}</div>
                       </div>
                       <div style={{
-                        fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                        fontFamily: FONTS.body, fontSize: 12,
                         color: COLORS.black, opacity: 0.55, lineHeight: 1.8,
                       }}>{s.desc}</div>
                     </div>
                   </div>
                 ))}
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                  fontFamily: FONTS.body, fontSize: 12,
                   color: COLORS.darkGreen, fontWeight: 700, marginTop: 20,
                 }}>
                   リテイナー20万円/月 ＋ 成功報酬（レーマン方式）
@@ -743,22 +750,22 @@ function Services() {
             <div>
               <div style={{
                 fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase",
-                color: COLORS.silver, fontFamily: "'Noto Sans JP', sans-serif",
+                color: COLORS.silver, fontFamily: FONTS.body,
                 fontWeight: 600, marginBottom: 6,
               }}>Retainer — 継続支援</div>
               <div style={{
-                fontFamily: "'DM Serif Display', Georgia, serif",
+                fontFamily: FONTS.display,
                 fontSize: 20, color: COLORS.darkGreen, marginBottom: 8,
               }}>外部経営企画チーム</div>
               <div style={{
-                fontFamily: "'Noto Sans JP', sans-serif", fontSize: 13,
+                fontFamily: FONTS.body, fontSize: 13,
                 color: COLORS.black, opacity: 0.55, lineHeight: 1.8, maxWidth: 500,
               }}>
                 戦略議論・KPI設計・実行支援を月次で伴走。年商20〜100億円企業の約78%に専任の経営企画部門がない——BOARがその機能を担う。
               </div>
             </div>
             <div style={{
-              fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+              fontFamily: FONTS.body, fontSize: 12,
               color: COLORS.darkGreen, fontWeight: 700, whiteSpace: "nowrap",
             }}>
               月額50万〜150万円
@@ -795,14 +802,14 @@ function About() {
         <FadeIn>
           <div style={{
             fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase",
-            color: COLORS.silver, fontFamily: "'Noto Sans JP', sans-serif",
+            color: COLORS.silver, fontFamily: FONTS.body,
             fontWeight: 600, marginBottom: 16,
           }}>
             About
           </div>
           <h2 style={{
-            fontFamily: "'DM Serif Display', Georgia, serif",
-            fontSize: "clamp(26px, 3.5vw, 40px)", color: COLORS.darkGreen,
+            fontFamily: FONTS.display,
+            fontSize: "clamp(30px, 3.8vw, 48px)", color: COLORS.darkGreen,
             lineHeight: 1.3, marginBottom: 64,
           }}>
             会社概要
@@ -826,33 +833,33 @@ function About() {
                   marginBottom: 20,
                 }}>
                   <span style={{
-                    fontFamily: "'DM Serif Display', Georgia, serif",
+                    fontFamily: FONTS.display,
                     color: COLORS.white, fontSize: 22,
                   }}>
                     {m.name[0]}
                   </span>
                 </div>
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 18,
+                  fontFamily: FONTS.body, fontSize: 18,
                   color: COLORS.darkGreen, fontWeight: 700, marginBottom: 4,
                 }}>
                   {m.name}
                 </div>
                 <div style={{
-                  fontFamily: "'DM Serif Display', Georgia, serif", fontSize: 13,
+                  fontFamily: FONTS.display, fontSize: 13,
                   color: COLORS.silver, marginBottom: 4,
                 }}>
                   {m.nameEn}
                 </div>
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                  fontFamily: FONTS.body, fontSize: 12,
                   color: COLORS.darkGreen, fontWeight: 600, marginBottom: 16,
                   letterSpacing: "0.05em",
                 }}>
                   {m.role}
                 </div>
                 <p style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 13,
+                  fontFamily: FONTS.body, fontSize: 13,
                   color: COLORS.black, opacity: 0.6, lineHeight: 1.8,
                 }}>
                   {m.desc}
@@ -879,13 +886,13 @@ function About() {
                 borderBottom: `1px solid ${COLORS.lightGray}`,
               }}>
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 13,
+                  fontFamily: FONTS.body, fontSize: 13,
                   color: COLORS.black, fontWeight: 600, width: 140, flexShrink: 0,
                 }}>
                   {label}
                 </div>
                 <div style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 13,
+                  fontFamily: FONTS.body, fontSize: 13,
                   color: COLORS.black, opacity: 0.7,
                 }}>
                   {value}
@@ -914,7 +921,7 @@ function Contact() {
     border: `1px solid rgba(255,255,255,0.2)`,
     background: "rgba(255,255,255,0.05)",
     color: COLORS.white, fontSize: 14,
-    fontFamily: "'Noto Sans JP', sans-serif",
+    fontFamily: FONTS.body,
     outline: "none", transition: "border-color 0.3s",
     boxSizing: "border-box",
   };
@@ -927,20 +934,20 @@ function Contact() {
         <FadeIn>
           <div style={{
             fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase",
-            color: "rgba(255,255,255,0.4)", fontFamily: "'Noto Sans JP', sans-serif",
+            color: "rgba(255,255,255,0.4)", fontFamily: FONTS.body,
             fontWeight: 600, marginBottom: 16,
           }}>
             Contact
           </div>
           <h2 style={{
-            fontFamily: "'DM Serif Display', Georgia, serif",
-            fontSize: "clamp(26px, 3.5vw, 40px)", color: COLORS.white,
+            fontFamily: FONTS.display,
+            fontSize: "clamp(30px, 3.8vw, 48px)", color: COLORS.white,
             lineHeight: 1.3, marginBottom: 12,
           }}>
             まずは相談する
           </h2>
           <p style={{
-            fontFamily: "'Noto Sans JP', sans-serif", fontSize: 14,
+            fontFamily: FONTS.body, fontSize: 14,
             color: "rgba(255,255,255,0.5)", lineHeight: 1.8, marginBottom: 48,
           }}>
             Bootcampのご相談、事業開発のお悩み、技術の事業化について、何でもお気軽にどうぞ。
@@ -952,7 +959,7 @@ function Contact() {
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
               <div style={{ flex: "1 1 200px" }}>
                 <label style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                  fontFamily: FONTS.body, fontSize: 12,
                   color: "rgba(255,255,255,0.5)", marginBottom: 6, display: "block",
                 }}>会社名</label>
                 <input style={inputStyle} value={formData.company}
@@ -960,7 +967,7 @@ function Contact() {
               </div>
               <div style={{ flex: "1 1 200px" }}>
                 <label style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                  fontFamily: FONTS.body, fontSize: 12,
                   color: "rgba(255,255,255,0.5)", marginBottom: 6, display: "block",
                 }}>お名前 *</label>
                 <input style={inputStyle} value={formData.name}
@@ -970,7 +977,7 @@ function Contact() {
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
               <div style={{ flex: "1 1 200px" }}>
                 <label style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                  fontFamily: FONTS.body, fontSize: 12,
                   color: "rgba(255,255,255,0.5)", marginBottom: 6, display: "block",
                 }}>メールアドレス *</label>
                 <input style={inputStyle} type="email" value={formData.email}
@@ -978,7 +985,7 @@ function Contact() {
               </div>
               <div style={{ flex: "1 1 200px" }}>
                 <label style={{
-                  fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                  fontFamily: FONTS.body, fontSize: 12,
                   color: "rgba(255,255,255,0.5)", marginBottom: 6, display: "block",
                 }}>電話番号</label>
                 <input style={inputStyle} type="tel" value={formData.phone}
@@ -987,7 +994,7 @@ function Contact() {
             </div>
             <div>
               <label style={{
-                fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+                fontFamily: FONTS.body, fontSize: 12,
                 color: "rgba(255,255,255,0.5)", marginBottom: 6, display: "block",
               }}>ご相談内容 *</label>
               <textarea style={{ ...inputStyle, minHeight: 140, resize: "vertical" }}
@@ -997,7 +1004,7 @@ function Contact() {
             <button style={{
               padding: "16px 40px", background: COLORS.white,
               color: COLORS.darkGreen, border: "none", cursor: "pointer",
-              fontSize: 14, fontWeight: 600, fontFamily: "'Noto Sans JP', sans-serif",
+              fontSize: 14, fontWeight: 600, fontFamily: FONTS.body,
               letterSpacing: "0.06em", transition: "all 0.3s",
               alignSelf: "flex-start",
             }}
@@ -1026,15 +1033,13 @@ function Footer() {
         alignItems: "center", gap: 24,
       }}>
         <div style={{
-          fontFamily: "'DM Serif Display', Georgia, serif",
-          fontSize: 18, color: COLORS.white, opacity: 0.7,
         }}>
-          BOAR Partners
+          <img src="/boar-logo.png" alt="BOAR Partners" style={{ height: 28, width: "auto", opacity: 0.6 }} />
         </div>
         <nav style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
           {["Philosophy", "Services", "About", "Contact"].map((item) => (
             <a key={item} href={`#${item.toLowerCase()}`} style={{
-              fontFamily: "'Noto Sans JP', sans-serif", fontSize: 12,
+              fontFamily: FONTS.body, fontSize: 12,
               color: "rgba(255,255,255,0.4)", textDecoration: "none",
               letterSpacing: "0.06em",
             }}>
@@ -1048,7 +1053,7 @@ function Footer() {
         borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 24,
       }}>
         <div style={{
-          fontFamily: "'Noto Sans JP', sans-serif", fontSize: 11,
+          fontFamily: FONTS.body, fontSize: 11,
           color: "rgba(255,255,255,0.25)", letterSpacing: "0.04em",
         }}>
           © 2026 BOAR Partners, Inc. All rights reserved.
