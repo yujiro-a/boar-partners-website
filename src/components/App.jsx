@@ -376,10 +376,10 @@ function Vision() {
 // ─── PHILOSOPHY ───
 function Philosophy() {
   const boarItems = [
-    { letter: "B", en: "Build the Business", ja: "事業を構築する" },
-    { letter: "O", en: "Open Opportunities", ja: "機会を開く" },
-    { letter: "A", en: "Accelerate Growth", ja: "成長を加速する" },
-    { letter: "R", en: "Realize Value", ja: "価値を実現する" },
+    { letter: "B", rest: "uild the Business",  ja: "事業を構築する" },
+    { letter: "O", rest: "pen Opportunities",  ja: "機会を開く" },
+    { letter: "A", rest: "ccelerate Growth",   ja: "成長を加速する" },
+    { letter: "R", rest: "ealize Value",       ja: "価値を実現する" },
   ];
 
   return (
@@ -392,28 +392,49 @@ function Philosophy() {
           <h2 style={{
             fontFamily: FONTS.display,
             fontSize: "clamp(36px, 5vw, 72px)", color: COLORS.darkHL,
-            lineHeight: 1.25, marginBottom: 80,
+            lineHeight: 1.25, marginBottom: 72,
           }}>
             前にしか、進まない。
           </h2>
         </FadeIn>
-        {/* デスクトップ: 4列横並び / モバイル: B→O→A→R 縦一列で読める */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 2 }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           {boarItems.map((item, i) => (
-            <FadeIn key={item.letter} delay={i * 0.1}>
+            <FadeIn key={item.letter} delay={i * 0.08}>
               <div style={{
-                background: COLORS.darkCard, padding: "40px 32px",
-                borderTop: `2px solid rgba(255,255,255,0.18)`,
-                border: `1px solid ${COLORS.darkBorder}`,
-                transition: "background 0.3s", cursor: "default",
-                height: "100%",
-              }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = COLORS.darkCard; }}
-              >
-                <div style={{ fontFamily: FONTS.accent, fontSize: 80, color: COLORS.white, lineHeight: 1, marginBottom: 20, opacity: 0.07, fontWeight: 900 }}>{item.letter}</div>
-                <div style={{ fontFamily: FONTS.accent, fontSize: 15, color: "rgba(255,255,255,0.75)", marginBottom: 6, fontWeight: 700, letterSpacing: "0.04em" }}>{item.en}</div>
-                <div style={{ fontFamily: FONTS.body, fontSize: 14, color: COLORS.darkBody, fontWeight: 600 }}>{item.ja}</div>
+                display: "flex", alignItems: "center",
+                borderTop: i === 0 ? `1px solid rgba(255,255,255,0.1)` : "none",
+                borderBottom: `1px solid rgba(255,255,255,0.08)`,
+                padding: "8px 0",
+                gap: 0,
+              }}>
+                {/* 頭文字 */}
+                <div style={{
+                  fontFamily: FONTS.accent, fontWeight: 900,
+                  fontSize: "clamp(72px, 13vw, 180px)",
+                  color: COLORS.white, lineHeight: 1,
+                  minWidth: "1.1ch", flexShrink: 0,
+                  letterSpacing: "-0.02em",
+                }}>
+                  {item.letter}
+                </div>
+                {/* フレーズ + 訳 */}
+                <div style={{ paddingLeft: "0.18em", paddingBottom: "0.1em" }}>
+                  <div style={{
+                    fontFamily: FONTS.accent, fontWeight: 700,
+                    fontSize: "clamp(18px, 2.8vw, 40px)",
+                    color: "rgba(255,255,255,0.82)",
+                    letterSpacing: "0.02em", lineHeight: 1.1,
+                  }}>
+                    {item.rest}
+                  </div>
+                  <div style={{
+                    fontFamily: FONTS.body, fontSize: "clamp(11px, 1.2vw, 14px)",
+                    color: "rgba(255,255,255,0.32)", marginTop: 6,
+                    letterSpacing: "0.06em",
+                  }}>
+                    {item.ja}
+                  </div>
+                </div>
               </div>
             </FadeIn>
           ))}

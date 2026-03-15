@@ -1,0 +1,52 @@
+---
+import CompareBoar from "../components/CompareBoar.jsx";
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BOAR — Philosophy Pattern Compare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body { background: #020908; -webkit-font-smoothing: antialiased; }
+      .nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+        background: rgba(2,9,8,0.97); backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        padding: 10px 24px;
+        display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+      }
+      .nav a {
+        font-family: 'Big Shoulders Display', sans-serif;
+        font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+        text-transform: uppercase; text-decoration: none;
+        color: rgba(255,255,255,0.4); transition: color 0.2s;
+        padding: 4px 12px;
+      }
+      .nav a:hover { color: #fff; }
+      .nav .back { color: rgba(255,255,255,0.25); font-size: 11px; margin-right: 8px; }
+      body > div { margin-top: 44px; }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="/" class="back">← Site</a>
+      <a href="#pa">A — Vertical</a>
+      <a href="#pb">B — Wall</a>
+      <a href="#pc">C — Asymmetric</a>
+      <a href="#pd">D — Minimal</a>
+      <a href="#pe">E — Interactive</a>
+    </nav>
+    <div>
+      <CompareBoar client:load />
+    </div>
+  </body>
+</html>
