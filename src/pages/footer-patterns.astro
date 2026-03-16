@@ -4,183 +4,281 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Footer Patterns — BOAR Partners</title>
+  <title>Footer × Contact — 10 Patterns</title>
   <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{background:#060809;font-family:'Hiragino Sans W3',sans-serif;-webkit-font-smoothing:antialiased;}
     .acc{font-family:'Big Shoulders Display',sans-serif;}
     .dp{font-family:'Hiragino Sans W6',sans-serif;}
-
-    .page-header{background:#0d1a14;padding:24px 40px;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.08);}
-    .block{margin-top:24px;}
-    .block-label{background:#0a1208;padding:16px 40px;display:flex;align-items:center;gap:14px;border-top:3px solid var(--c);}
-    .verdict{background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.06);padding:14px 40px;display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:center;}
-    .contact-section{padding:72px 40px 80px;}
-    .inner{max-width:860px;margin:0 auto;}
+    .page-header{background:#0d1a14;padding:22px 40px;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.08);}
+    .block{margin-top:16px;}
+    .block-label{padding:14px 40px;display:flex;align-items:center;gap:12px;border-top:2px solid var(--c);}
+    .verdict{background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.05);padding:12px 40px;display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:center;}
+    /* Contact共通スタイル（ストーン） */
+    .contact-stone{padding:60px 40px 72px;}
+    .contact-inner{max-width:800px;margin:0 auto;}
+    /* Footerコンテンツ共通 */
+    .foot-inner{max-width:800px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;}
+    .foot-copy{max-width:800px;margin:0 auto;padding-top:16px;}
+    nav.fnav{display:flex;gap:20px;flex-wrap:wrap;}
+    nav.fnav a{font-family:'Big Shoulders Display',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;}
     @media(max-width:600px){
-      .page-header,.block-label,.verdict,.contact-section,.footer-a,.footer-b,.footer-c{padding-left:24px;padding-right:24px;}
+      .page-header,.block-label,.verdict,.contact-stone{padding-left:20px;padding-right:20px;}
     }
   </style>
 </head>
 <body>
 
-<!-- ページヘッダー -->
 <div class="page-header">
-  <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px;">Footer × Contact — Color Flow</div>
-  <div class="acc" style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px;">フッター境目 3パターン比較</div>
-  <div style="font-size:13px;color:rgba(255,255,255,0.35);">前提: Services以降はストーン系（<code style="color:#c8b49a;">#f0ece4 → #e8e2d8</code>）で統一。Contact末端からフッターへどう繋ぐかの3路線。</div>
+  <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:5px;">Contact → Footer — Color Study</div>
+  <div class="acc" style="font-size:19px;font-weight:900;color:#fff;margin-bottom:3px;">10パターン比較</div>
+  <div style="font-size:12px;color:rgba(255,255,255,0.3);">前提: Contact = ストーン系（<span style="color:#c8b49a;">#ede8df → #e8e2d8</span>）固定。フッターの処理バリエーション</div>
 </div>
 
 
-<!-- ================================================================ -->
-<!-- PATTERN A — フルダーク固定フッター（ハードカット）                    -->
-<!-- ================================================================ -->
-<div class="block" style="--c:#6aaa88;">
-  <div class="block-label">
-    <div class="acc" style="background:#1e3d2e;color:#6aaa88;border:1px solid #6aaa88;font-size:12px;font-weight:900;padding:3px 12px;letter-spacing:0.1em;">ROUTE A</div>
-    <div class="acc" style="color:#fff;font-size:17px;font-weight:900;">ハードカット — フルダーク固定フッター</div>
-    <div style="color:rgba(255,255,255,0.35);font-size:13px;">Contactストーン → フッター黒。境界線一本でスパッと切る</div>
+<!-- 01 現状（バグあり・参照用） -->
+<div class="block" style="--c:rgba(255,255,255,0.15);">
+  <div class="block-label" style="background:#111;border-top-color:rgba(255,255,255,0.15);">
+    <span class="acc" style="color:rgba(255,255,255,0.4);font-size:11px;font-weight:900;border:1px solid rgba(255,255,255,0.2);padding:2px 10px;">01</span>
+    <span class="acc" style="color:rgba(255,255,255,0.5);font-size:15px;font-weight:900;">現状（バグあり・参照）</span>
+    <span style="color:rgba(255,255,255,0.25);font-size:12px;">ミント→白→黒グラデ。白背景に白文字でナビ不可視</span>
   </div>
-
-  <!-- Contact（ストーン末端） -->
-  <div class="contact-section" style="background:linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%);">
-    <div class="inner">
-      <div class="acc" style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:16px;">Contact</div>
-      <div class="dp" style="font-size:clamp(28px,3.5vw,48px);font-weight:700;color:#1a1208;margin-bottom:20px;">ご相談・お問い合わせ</div>
-      <p style="font-size:14px;color:rgba(26,18,8,0.5);line-height:1.9;max-width:480px;margin-bottom:36px;">まずは話してみませんか。どのフェーズのご相談でも、お気軽にどうぞ。</p>
-      <div style="display:inline-block;padding:14px 40px;border:1px solid #2d5a40;color:#2d5a40;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;" class="acc">送信する</div>
+  <div class="contact-stone" style="background:linear-gradient(180deg,#6aaa88 0%,#f0f4f2 100%);">
+    <div class="contact-inner">
+      <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(9,12,14,0.38);font-weight:700;margin-bottom:12px;">Contact</div>
+      <div class="dp" style="font-size:36px;font-weight:700;color:#0d1a14;margin-bottom:16px;">ご相談・お問い合わせ</div>
     </div>
   </div>
-
-  <!-- Footer — 完全ダーク固定 -->
-  <footer style="background:#090c0e;padding:48px 40px 32px;">
-    <div class="inner" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;margin-bottom:28px;">
-      <img src="/boar-logo.png" alt="BOAR Partners" style="height:28px;opacity:0.5;"/>
-      <nav style="display:flex;gap:24px;flex-wrap:wrap;">
-        {["Philosophy","Services","About","Contact"].map(l => (
-          <a href="#" style="font-family:'Big Shoulders Display',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;">{l}</a>
-        ))}
-      </nav>
-    </div>
-    <div class="inner" style="border-top:1px solid rgba(255,255,255,0.07);padding-top:20px;">
-      <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.04em;">© 2026 BOAR Partners, Inc. All rights reserved.</div>
-    </div>
+  <footer style="background:linear-gradient(180deg,#f0f4f2 0%,#090c0e 65%);padding:40px 40px 28px;">
+    <div class="foot-inner"><img src="/boar-logo.png" style="height:26px;opacity:0.4;"/><nav class="fnav"><a href="#" style="color:rgba(255,255,255,0.5);">Philosophy</a><a href="#" style="color:rgba(255,255,255,0.5);">Services</a><a href="#" style="color:rgba(255,255,255,0.5);">Contact</a></nav></div>
+    <div class="foot-copy" style="border-top:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div></div>
   </footer>
-
-  <div class="verdict">
-    <div class="acc" style="color:#6aaa88;font-size:12px;font-weight:900;">Route A</div>
-    <div style="color:rgba(255,255,255,0.45);font-size:13px;">テキストが常に正しく見える。切り替わりが明快でスッキリ。ただしContactとフッターの間に「唐突感」が出やすい</div>
-  </div>
+  <div class="verdict"><span class="acc" style="color:rgba(255,255,255,0.3);font-size:11px;">01</span><span style="color:rgba(255,255,255,0.3);font-size:13px;">❌ 白地に白ナビ。バグ確定</span></div>
 </div>
 
 
-<!-- ================================================================ -->
-<!-- PATTERN B — ストーン継続フッター（明るいまま締める）                   -->
-<!-- ================================================================ -->
+<!-- 02 ストーン → 黒（ハードカット） -->
+<div class="block" style="--c:#6aaa88;">
+  <div class="block-label" style="background:#0a1208;">
+    <span class="acc" style="color:#6aaa88;font-size:11px;font-weight:900;border:1px solid #6aaa88;padding:2px 10px;">02</span>
+    <span class="acc" style="color:#fff;font-size:15px;font-weight:900;">ストーン → 黒（ハードカット）</span>
+    <span style="color:rgba(255,255,255,0.35);font-size:12px;">最もシンプルな解決策</span>
+  </div>
+  <div class="contact-stone" style="background:linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%);">
+    <div class="contact-inner">
+      <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:12px;">Contact</div>
+      <div class="dp" style="font-size:36px;font-weight:700;color:#1a1208;margin-bottom:16px;">ご相談・お問い合わせ</div>
+    </div>
+  </div>
+  <footer style="background:#090c0e;padding:40px 40px 28px;">
+    <div class="foot-inner"><img src="/boar-logo.png" style="height:26px;opacity:0.5;"/><nav class="fnav"><a href="#" style="color:rgba(255,255,255,0.5);">Philosophy</a><a href="#" style="color:rgba(255,255,255,0.5);">Services</a><a href="#" style="color:rgba(255,255,255,0.5);">Contact</a></nav></div>
+    <div class="foot-copy" style="border-top:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div></div>
+  </footer>
+  <div class="verdict"><span class="acc" style="color:#6aaa88;font-size:11px;">02</span><span style="color:rgba(255,255,255,0.4);font-size:13px;">バグ解消。清潔。境界がスパッとしすぎる印象はある</span></div>
+</div>
+
+
+<!-- 03 ストーン → 深緑（Route C / 黒経由グラデ） -->
+<div class="block" style="--c:#6aaa88;">
+  <div class="block-label" style="background:#0a1208;">
+    <span class="acc" style="color:#6aaa88;font-size:11px;font-weight:900;border:1px solid #6aaa88;padding:2px 10px;">03</span>
+    <span class="acc" style="color:#fff;font-size:15px;font-weight:900;">ストーン → 深緑（黒経由 ★ バグ修正版）</span>
+    <span style="color:rgba(255,255,255,0.35);font-size:12px;">石→黒→深緑。オリーブ回避</span>
+  </div>
+  <div class="contact-stone" style="background:linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%);">
+    <div class="contact-inner">
+      <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:12px;">Contact</div>
+      <div class="dp" style="font-size:36px;font-weight:700;color:#1a1208;margin-bottom:16px;">ご相談・お問い合わせ</div>
+    </div>
+  </div>
+  <footer style="background:linear-gradient(180deg,#e8e2d8 0%,#0c0b09 30%,#0d1a14 100%);padding:40px 40px 28px;">
+    <div class="foot-inner"><img src="/boar-logo.png" style="height:26px;opacity:0.5;"/><nav class="fnav"><a href="#" style="color:rgba(255,255,255,0.5);">Philosophy</a><a href="#" style="color:rgba(255,255,255,0.5);">Services</a><a href="#" style="color:rgba(255,255,255,0.5);">Contact</a></nav></div>
+    <div class="foot-copy" style="border-top:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div></div>
+  </footer>
+  <div class="verdict"><span class="acc" style="color:#6aaa88;font-size:11px;">03 ★</span><span style="color:rgba(255,255,255,0.6);font-size:13px;">黒を中間に挟むことでオリーブ色を回避。Hero深緑と対称。これが今のRoute C修正版</span></div>
+</div>
+
+
+<!-- 04 ストーン → ストーン（明るいまま / Route B） -->
 <div class="block" style="--c:#c4b8a4;">
-  <div class="block-label" style="border-top-color:#c4b8a4;">
-    <div class="acc" style="background:#221e18;color:#c4b8a4;border:1px solid #c4b8a4;font-size:12px;font-weight:900;padding:3px 12px;letter-spacing:0.1em;">ROUTE B</div>
-    <div class="acc" style="color:#fff;font-size:17px;font-weight:900;">ストーン継続 — 明るいまま締める</div>
-    <div style="color:rgba(255,255,255,0.35);font-size:13px;">後半ストーン統一の徹底版。フッターも明るいままシンプルに終わる</div>
+  <div class="block-label" style="background:#1c1814;border-top-color:#c4b8a4;">
+    <span class="acc" style="color:#c4b8a4;font-size:11px;font-weight:900;border:1px solid #c4b8a4;padding:2px 10px;">04</span>
+    <span class="acc" style="color:#fff;font-size:15px;font-weight:900;">ストーン → ストーンフッター（明るいまま）</span>
+    <span style="color:rgba(255,255,255,0.35);font-size:12px;">後半全体統一。静かに終わる</span>
   </div>
-
-  <!-- Contact -->
-  <div class="contact-section" style="background:linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%);">
-    <div class="inner">
-      <div class="acc" style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:16px;">Contact</div>
-      <div class="dp" style="font-size:clamp(28px,3.5vw,48px);font-weight:700;color:#1a1208;margin-bottom:20px;">ご相談・お問い合わせ</div>
-      <p style="font-size:14px;color:rgba(26,18,8,0.5);line-height:1.9;max-width:480px;margin-bottom:36px;">まずは話してみませんか。どのフェーズのご相談でも、お気軽にどうぞ。</p>
-      <div style="display:inline-block;padding:14px 40px;border:1px solid #2d5a40;color:#2d5a40;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;" class="acc">送信する</div>
+  <div class="contact-stone" style="background:linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%);">
+    <div class="contact-inner">
+      <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:12px;">Contact</div>
+      <div class="dp" style="font-size:36px;font-weight:700;color:#1a1208;margin-bottom:16px;">ご相談・お問い合わせ</div>
     </div>
   </div>
-
-  <!-- Footer — ストーン系で統一 -->
-  <footer style="background:#ddd6cc;padding:48px 40px 32px;">
-    <div class="inner" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;margin-bottom:28px;">
-      <img src="/boar-logo.png" alt="BOAR Partners" style="height:28px;opacity:0.35;filter:invert(1) sepia(1) saturate(0.3);"/>
-      <nav style="display:flex;gap:24px;flex-wrap:wrap;">
-        {["Philosophy","Services","About","Contact"].map(l => (
-          <a href="#" style="font-family:'Big Shoulders Display',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(26,18,8,0.45);text-decoration:none;">{l}</a>
-        ))}
-      </nav>
+  <footer style="background:#ddd6cc;padding:40px 40px 28px;">
+    <div class="foot-inner">
+      <img src="/boar-logo.png" style="height:26px;opacity:0.3;filter:brightness(0);"/>
+      <nav class="fnav"><a href="#" style="color:rgba(26,18,8,0.4);">Philosophy</a><a href="#" style="color:rgba(26,18,8,0.4);">Services</a><a href="#" style="color:rgba(26,18,8,0.4);">Contact</a></nav>
     </div>
-    <div class="inner" style="border-top:1px solid rgba(26,18,8,0.1);padding-top:20px;">
-      <div style="font-size:11px;color:rgba(26,18,8,0.35);letter-spacing:0.04em;">© 2026 BOAR Partners, Inc. All rights reserved.</div>
-    </div>
+    <div class="foot-copy" style="border-top:1px solid rgba(26,18,8,0.1);"><div style="font-size:11px;color:rgba(26,18,8,0.3);">© 2026 BOAR Partners, Inc.</div></div>
   </footer>
-
-  <div class="verdict">
-    <div class="acc" style="color:#c4b8a4;font-size:12px;font-weight:900;">Route B</div>
-    <div style="color:rgba(255,255,255,0.45);font-size:13px;">後半の統一感が最も高い。明るいまま静かに終わる。ロゴを暗色対応に差し替え必要</div>
-  </div>
+  <div class="verdict"><span class="acc" style="color:#c4b8a4;font-size:11px;">04</span><span style="color:rgba(255,255,255,0.4);font-size:13px;">軽やか・開放的な終わり方。ロゴを黒版に差し替え必要</span></div>
 </div>
 
 
-<!-- ================================================================ -->
-<!-- PATTERN C — ストーン→深緑フッター（ページの「余韻」を作る）          -->
-<!-- ================================================================ -->
+<!-- 05 ストーン → ストーン + 深緑ボーダーライン -->
 <div class="block" style="--c:#6aaa88;">
-  <div class="block-label" style="border-top-color:#6aaa88;">
-    <div class="acc" style="background:#1e3d2e;color:#6aaa88;border:1px solid #6aaa88;font-size:12px;font-weight:900;padding:3px 12px;letter-spacing:0.1em;">ROUTE C</div>
-    <div class="acc" style="color:#fff;font-size:17px;font-weight:900;">ストーン → 深緑フッター（対称・余韻）</div>
-    <div style="color:rgba(255,255,255,0.35);font-size:13px;">Heroと同じ深緑でページを閉じる。始まりと終わりが呼応する構造</div>
+  <div class="block-label" style="background:#0a1208;">
+    <span class="acc" style="color:#6aaa88;font-size:11px;font-weight:900;border:1px solid #6aaa88;padding:2px 10px;">05</span>
+    <span class="acc" style="color:#fff;font-size:15px;font-weight:900;">ストーン + 深緑ボーダーライン区切り</span>
+    <span style="color:rgba(255,255,255,0.35);font-size:12px;">明るいフッターに深緑の「区切り線」でブランドカラーを入れる</span>
   </div>
-
-  <!-- Contact -->
-  <div class="contact-section" style="background:linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%);">
-    <div class="inner">
-      <div class="acc" style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:16px;">Contact</div>
-      <div class="dp" style="font-size:clamp(28px,3.5vw,48px);font-weight:700;color:#1a1208;margin-bottom:20px;">ご相談・お問い合わせ</div>
-      <p style="font-size:14px;color:rgba(26,18,8,0.5);line-height:1.9;max-width:480px;margin-bottom:36px;">まずは話してみませんか。どのフェーズのご相談でも、お気軽にどうぞ。</p>
-      <div style="display:inline-block;padding:14px 40px;border:1px solid #2d5a40;color:#2d5a40;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;" class="acc">送信する</div>
+  <div class="contact-stone" style="background:linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%);">
+    <div class="contact-inner">
+      <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:12px;">Contact</div>
+      <div class="dp" style="font-size:36px;font-weight:700;color:#1a1208;margin-bottom:16px;">ご相談・お問い合わせ</div>
     </div>
   </div>
-
-  <!-- 橋渡しグラデーション帯 -->
-  <div style="height:80px;background:linear-gradient(180deg,#e8e2d8 0%,#152f26 100%);"></div>
-
-  <!-- Footer — 深緑 -->
-  <footer style="background:#0d1a14;padding:48px 40px 32px;">
-    <div class="inner" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;margin-bottom:28px;">
-      <img src="/boar-logo.png" alt="BOAR Partners" style="height:28px;opacity:0.55;"/>
-      <nav style="display:flex;gap:24px;flex-wrap:wrap;">
-        {["Philosophy","Services","About","Contact"].map(l => (
-          <a href="#" style="font-family:'Big Shoulders Display',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;">{l}</a>
-        ))}
-      </nav>
+  <div style="height:3px;background:linear-gradient(90deg,#152f26 0%,#6aaa88 50%,#152f26 100%);"></div>
+  <footer style="background:#e8e2d8;padding:40px 40px 28px;">
+    <div class="foot-inner">
+      <img src="/boar-logo.png" style="height:26px;opacity:0.3;filter:brightness(0);"/>
+      <nav class="fnav"><a href="#" style="color:rgba(26,18,8,0.4);">Philosophy</a><a href="#" style="color:rgba(26,18,8,0.4);">Services</a><a href="#" style="color:rgba(26,18,8,0.4);">Contact</a></nav>
     </div>
-    <div class="inner" style="border-top:1px solid rgba(255,255,255,0.07);padding-top:20px;">
-      <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.04em;">© 2026 BOAR Partners, Inc. All rights reserved.</div>
-    </div>
+    <div class="foot-copy" style="border-top:1px solid rgba(26,18,8,0.1);"><div style="font-size:11px;color:rgba(26,18,8,0.3);">© 2026 BOAR Partners, Inc.</div></div>
   </footer>
-
-  <div class="verdict">
-    <div class="acc" style="color:#6aaa88;font-size:12px;font-weight:900;">Route C ★</div>
-    <div style="color:rgba(255,255,255,0.6);font-size:13px;">Hero（深緑）→ ストーン明転 → 深緑フッターという対称構造。ページ全体に「括り」が生まれる。橋渡しグラデーション帯がバッファとして機能し唐突感ゼロ</div>
-  </div>
+  <div class="verdict"><span class="acc" style="color:#6aaa88;font-size:11px;">05</span><span style="color:rgba(255,255,255,0.4);font-size:13px;">明るいままだがブランドカラーで区切れる。軽すぎず重すぎず</span></div>
 </div>
 
 
-<!-- まとめ -->
-<div style="background:#0a1208;padding:48px 40px;margin-top:24px;">
-  <div style="max-width:860px;margin:0 auto;">
-    <div class="acc" style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#6aaa88;font-weight:700;margin-bottom:24px;">3路線まとめ</div>
-    <div style="display:flex;flex-direction:column;gap:0;">
-      <div style="display:grid;grid-template-columns:80px 140px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.06);align-items:start;">
-        <div class="acc" style="color:#6aaa88;font-size:13px;font-weight:900;">Route A</div>
-        <div style="color:rgba(255,255,255,0.5);font-size:13px;">ハードカット</div>
-        <div style="color:rgba(255,255,255,0.35);font-size:13px;">明快。現状バグは完全解消。やや唐突</div>
+<!-- 06 ストーン → アビス（極暗/深淵） -->
+<div class="block" style="--c:#4a8060;">
+  <div class="block-label" style="background:#0a1208;border-top-color:#4a8060;">
+    <span class="acc" style="color:#4a8060;font-size:11px;font-weight:900;border:1px solid #4a8060;padding:2px 10px;">06</span>
+    <span class="acc" style="color:#fff;font-size:15px;font-weight:900;">ストーン → アビス（深淵ダーク）</span>
+    <span style="color:rgba(255,255,255,0.35);font-size:12px;">BとCの中間。緑をほぼ消した超深暗フッター</span>
+  </div>
+  <div class="contact-stone" style="background:linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%);">
+    <div class="contact-inner">
+      <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:12px;">Contact</div>
+      <div class="dp" style="font-size:36px;font-weight:700;color:#1a1208;margin-bottom:16px;">ご相談・お問い合わせ</div>
+    </div>
+  </div>
+  <footer style="background:linear-gradient(180deg,#e8e2d8 0%,#080808 35%,#060608 100%);padding:40px 40px 28px;">
+    <div class="foot-inner"><img src="/boar-logo.png" style="height:26px;opacity:0.4;"/><nav class="fnav"><a href="#" style="color:rgba(255,255,255,0.45);">Philosophy</a><a href="#" style="color:rgba(255,255,255,0.45);">Services</a><a href="#" style="color:rgba(255,255,255,0.45);">Contact</a></nav></div>
+    <div class="foot-copy" style="border-top:1px solid rgba(255,255,255,0.05);"><div style="font-size:11px;color:rgba(255,255,255,0.2);">© 2026 BOAR Partners, Inc.</div></div>
+  </footer>
+  <div class="verdict"><span class="acc" style="color:#4a8060;font-size:11px;">06</span><span style="color:rgba(255,255,255,0.4);font-size:13px;">深淵感。緑みなし・完全暗。引き締め効果が強い。重厚な印象</span></div>
+</div>
+
+
+<!-- 07 ストーン → チャコール（ウォームダーク） -->
+<div class="block" style="--c:#a89888;">
+  <div class="block-label" style="background:#161210;border-top-color:#a89888;">
+    <span class="acc" style="color:#a89888;font-size:11px;font-weight:900;border:1px solid #a89888;padding:2px 10px;">07</span>
+    <span class="acc" style="color:#fff;font-size:15px;font-weight:900;">ストーン → チャコール（ウォームダーク）</span>
+    <span style="color:rgba(255,255,255,0.35);font-size:12px;">緑を使わず石の温度感を暗側へ延長</span>
+  </div>
+  <div class="contact-stone" style="background:linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%);">
+    <div class="contact-inner">
+      <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:12px;">Contact</div>
+      <div class="dp" style="font-size:36px;font-weight:700;color:#1a1208;margin-bottom:16px;">ご相談・お問い合わせ</div>
+    </div>
+  </div>
+  <footer style="background:linear-gradient(180deg,#e8e2d8 0%,#28211a 35%,#1c1610 100%);padding:40px 40px 28px;">
+    <div class="foot-inner"><img src="/boar-logo.png" style="height:26px;opacity:0.45;"/><nav class="fnav"><a href="#" style="color:rgba(255,255,255,0.45);">Philosophy</a><a href="#" style="color:rgba(255,255,255,0.45);">Services</a><a href="#" style="color:rgba(255,255,255,0.45);">Contact</a></nav></div>
+    <div class="foot-copy" style="border-top:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.22);">© 2026 BOAR Partners, Inc.</div></div>
+  </footer>
+  <div class="verdict"><span class="acc" style="color:#a89888;font-size:11px;">07</span><span style="color:rgba(255,255,255,0.4);font-size:13px;">石の暖色温度を継承したまま暗くなる。グリーンブランドから少し距離を置く印象</span></div>
+</div>
+
+
+<!-- 08 ストーン淡 → ストーン濃 → 深緑（長いグラデ） -->
+<div class="block" style="--c:#6aaa88;">
+  <div class="block-label" style="background:#0a1208;">
+    <span class="acc" style="color:#6aaa88;font-size:11px;font-weight:900;border:1px solid #6aaa88;padding:2px 10px;">08</span>
+    <span class="acc" style="color:#fff;font-size:15px;font-weight:900;">ストーン濃淡グラデ → 深緑（長尺遷移）</span>
+    <span style="color:rgba(255,255,255,0.35);font-size:12px;">Contact内でストーンを深くしておき、フッター黒経由を短くする</span>
+  </div>
+  <div class="contact-stone" style="background:linear-gradient(180deg,#ede8df 0%,#c8c0b0 100%);">
+    <div class="contact-inner">
+      <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:12px;">Contact</div>
+      <div class="dp" style="font-size:36px;font-weight:700;color:#1a1208;margin-bottom:16px;">ご相談・お問い合わせ</div>
+    </div>
+  </div>
+  <footer style="background:linear-gradient(180deg,#c8c0b0 0%,#0c0b09 25%,#0d1a14 100%);padding:40px 40px 28px;">
+    <div class="foot-inner"><img src="/boar-logo.png" style="height:26px;opacity:0.5;"/><nav class="fnav"><a href="#" style="color:rgba(255,255,255,0.5);">Philosophy</a><a href="#" style="color:rgba(255,255,255,0.5);">Services</a><a href="#" style="color:rgba(255,255,255,0.5);">Contact</a></nav></div>
+    <div class="foot-copy" style="border-top:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div></div>
+  </footer>
+  <div class="verdict"><span class="acc" style="color:#6aaa88;font-size:11px;">08</span><span style="color:rgba(255,255,255,0.4);font-size:13px;">Contactの末端を先に暗めのストーンにしておくと、フッターとの接続が自然になる</span></div>
+</div>
+
+
+<!-- 09 ストーン + グリーンアクセントフッター（明 + 緑） -->
+<div class="block" style="--c:#6aaa88;">
+  <div class="block-label" style="background:#0a1208;">
+    <span class="acc" style="color:#6aaa88;font-size:11px;font-weight:900;border:1px solid #6aaa88;padding:2px 10px;">09</span>
+    <span class="acc" style="color:#fff;font-size:15px;font-weight:900;">明るいフッター + 深緑ブロックアクセント</span>
+    <span style="color:rgba(255,255,255,0.35);font-size:12px;">上部ストーン + 底部に深緑帯。Bの変形版</span>
+  </div>
+  <div class="contact-stone" style="background:linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%);">
+    <div class="contact-inner">
+      <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:12px;">Contact</div>
+      <div class="dp" style="font-size:36px;font-weight:700;color:#1a1208;margin-bottom:16px;">ご相談・お問い合わせ</div>
+    </div>
+  </div>
+  <footer style="padding:0;">
+    <!-- 上: ストーン → ナビ -->
+    <div style="background:#e8e2d8;padding:36px 40px 28px;">
+      <div class="foot-inner">
+        <img src="/boar-logo.png" style="height:26px;opacity:0.3;filter:brightness(0);"/>
+        <nav class="fnav"><a href="#" style="color:rgba(26,18,8,0.4);">Philosophy</a><a href="#" style="color:rgba(26,18,8,0.4);">Services</a><a href="#" style="color:rgba(26,18,8,0.4);">Contact</a></nav>
       </div>
-      <div style="display:grid;grid-template-columns:80px 140px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.06);align-items:start;">
-        <div class="acc" style="color:#c4b8a4;font-size:13px;font-weight:900;">Route B</div>
-        <div style="color:rgba(255,255,255,0.5);font-size:13px;">明るいまま終了</div>
-        <div style="color:rgba(255,255,255,0.35);font-size:13px;">後半統一感◎。ロゴ差し替えが必要。重くない終わり方</div>
+    </div>
+    <!-- 下: 深緑帯 → コピーライト -->
+    <div style="background:#0d1a14;padding:16px 40px;">
+      <div style="max-width:800px;margin:0 auto;font-size:11px;color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div>
+    </div>
+  </footer>
+  <div class="verdict"><span class="acc" style="color:#6aaa88;font-size:11px;">09</span><span style="color:rgba(255,255,255,0.4);font-size:13px;">ナビは明るく読みやすく、コピーライトは深緑帯に格納。2層構造でグラデーション問題を回避</span></div>
+</div>
+
+
+<!-- 10 ストーン → ほぼ白 → 黒 （ブライト → フェードアウト） -->
+<div class="block" style="--c:#d4cfc6;">
+  <div class="block-label" style="background:#141412;border-top-color:#d4cfc6;">
+    <span class="acc" style="color:#d4cfc6;font-size:11px;font-weight:900;border:1px solid #d4cfc6;padding:2px 10px;">10</span>
+    <span class="acc" style="color:#fff;font-size:15px;font-weight:900;">ストーン → ほぼ白 → フェードアウトブラック</span>
+    <span style="color:rgba(255,255,255,0.35);font-size:12px;">一度ホワイトに「抜けて」から黒に沈む。映像的な余韻</span>
+  </div>
+  <div class="contact-stone" style="background:linear-gradient(180deg,#ede8df 0%,#f5f3ef 100%);">
+    <div class="contact-inner">
+      <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,18,8,0.38);font-weight:700;margin-bottom:12px;">Contact</div>
+      <div class="dp" style="font-size:36px;font-weight:700;color:#1a1208;margin-bottom:16px;">ご相談・お問い合わせ</div>
+    </div>
+  </div>
+  <footer style="background:linear-gradient(180deg,#f5f3ef 0%,#f8f7f4 15%,#0c0c0c 50%,#090c0e 100%);padding:40px 40px 28px;">
+    <div class="foot-inner"><img src="/boar-logo.png" style="height:26px;opacity:0.5;"/><nav class="fnav"><a href="#" style="color:rgba(255,255,255,0.5);">Philosophy</a><a href="#" style="color:rgba(255,255,255,0.5);">Services</a><a href="#" style="color:rgba(255,255,255,0.5);">Contact</a></nav></div>
+    <div class="foot-copy" style="border-top:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div></div>
+  </footer>
+  <div class="verdict"><span class="acc" style="color:#d4cfc6;font-size:11px;">10</span><span style="color:rgba(255,255,255,0.4);font-size:13px;">一瞬ホワイトに「抜ける」演出。映画のエンドクレジット感。ただし白地ナビ問題が再発する可能性あり（パディング要調整）</span></div>
+</div>
+
+
+<!-- サマリ -->
+<div style="background:#0a1208;padding:44px 40px;margin-top:16px;">
+  <div style="max-width:800px;margin:0 auto;">
+    <div class="acc" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6aaa88;font-weight:700;margin-bottom:20px;">絞り込みガイド</div>
+    <div style="display:flex;flex-direction:column;gap:0;font-size:13px;">
+      <div style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;">
+        <span class="acc" style="color:rgba(255,255,255,0.3);">03</span><span style="color:rgba(255,255,255,0.5);">ブランド格調 × Hero対称を最優先 → <strong style="color:#fff;">03を選ぶ</strong></span>
       </div>
-      <div style="display:grid;grid-template-columns:80px 140px 1fr;gap:16px;padding:16px 0;align-items:start;">
-        <div class="acc" style="color:#6aaa88;font-size:13px;font-weight:900;">Route C ★</div>
-        <div style="color:rgba(255,255,255,0.7);font-size:13px;">深緑で閉じる</div>
-        <div style="color:rgba(255,255,255,0.6);font-size:13px;">Hero深緑と対称。橋渡しグラデで自然に暗転。ロゴ問題なし。ページとして一番完結した印象</div>
+      <div style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;">
+        <span class="acc" style="color:rgba(255,255,255,0.3);">04</span><span style="color:rgba(255,255,255,0.5);">明るく開放的に終わりたい → <strong style="color:#fff;">04 or 05</strong></span>
+      </div>
+      <div style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;">
+        <span class="acc" style="color:rgba(255,255,255,0.3);">09</span><span style="color:rgba(255,255,255,0.5);">グラデーション問題を根本から回避 → <strong style="color:#fff;">09（2層構造）</strong></span>
+      </div>
+      <div style="padding:12px 0;display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;">
+        <span class="acc" style="color:rgba(255,255,255,0.3);">06</span><span style="color:rgba(255,255,255,0.5);">重厚・引き締め重視 → <strong style="color:#fff;">06（深淵）</strong></span>
       </div>
     </div>
   </div>

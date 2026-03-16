@@ -991,7 +991,7 @@ function Contact() {
 
   return (
     <section id="contact" style={{
-      background: "linear-gradient(180deg,#d0e8dd 0%,#f0f4f2 100%)",
+      background: "linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%)",
       padding: "calc(80px + 4vw) 32px 120px",
       position: "relative", overflow: "hidden",
     }}>
