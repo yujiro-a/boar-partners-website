@@ -6,7 +6,7 @@ import { FONTS, COLORS, FadeIn, TextReveal, SectionLabel, Header, Footer, useIsM
 function Origin() {
   /* TODO: 荒川さん確認・差し替え */
   const storyParagraphs = [
-    "商売が好きで、事業を動かすことに意義を感じる。——それぞれの現場で経験を重ねながら、私たちは同じ問いを持ち続けていました。",
+    "それぞれの現場で経験を重ねながら、私たちは同じ問いを持ち続けていました。",
     "「なぜ、技術は産業にならないのか」",
     "技術の価値を正しく評価し、事業として育て、最終的に統合するまでを一気通貫で担えるプロ集団をつくる。BOARは、その意志から生まれました。",
   ];
@@ -33,7 +33,7 @@ function Origin() {
             fontFamily: FONTS.accent, fontSize: "clamp(28px,4vw,52px)",
             color: COLORS.N500, fontWeight: 900, lineHeight: 1.1, marginBottom: 48,
           }}>
-            なぜ、BOARをつくったか。
+            BOARが生まれた背景。
           </h2>
         </FadeIn>
         <div style={{ maxWidth: "none", display: "flex", flexDirection: "column", gap: 28 }}>
@@ -74,8 +74,8 @@ function Team() {
       role: "共同創業者",
       name: "溝橋 正輝",
       nameEn: "Masaki Mizohashi",
-      photo: "/team/mizohashi_crop.png",
-      photoPos: "center 15%",
+      photo: "/team/mizohashi_cutout.png",
+      photoCutout: true,
       bio: "川崎重工業にてエンジニアとしてキャリアをスタートし、製造技術・品質管理の実務を経た後、野村證券にて資本市場・投資銀行業務に従事。現在はディープテック・スタートアップ支援に特化し、アカデミア発ベンチャーのエコシステムと深いネットワークを持つ。技術の目利きから事業化・資金調達まで一気通貫で動く。",
     },
   ];
@@ -117,22 +117,45 @@ function TeamMemberCard({ m }) {
       onMouseLeave={() => setHovered(false)}
     >
       {/* 画像 + オーバーレイ + 肩書き・名前 */}
-      <div style={{ overflow: "hidden", position: "relative", height: 420 }}>
+      <div style={{ overflow: "hidden", position: "relative", height: m.photoCutout ? 360 : 340, background: m.photoCutout ? "#c8c4bc" : "transparent" }}>
         {/* 背景画像 — S03フィルター + ホバーでズーム */}
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: `url(${m.photo})`,
-          backgroundSize: "cover",
-          backgroundPosition: m.photoPos,
-          filter: "grayscale(50%) brightness(0.78) saturate(0.6)",
-          transform: hovered ? "scale(1.04)" : "scale(1)",
-          transition: "transform 0.7s cubic-bezier(0.16,1,0.3,1)",
-        }} />
-        {/* グラデーションオーバーレイ */}
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(to top, rgba(9,12,14,0.92) 0%, rgba(9,12,14,0.35) 55%, rgba(9,12,14,0.10) 100%)",
-        }} />
+        {m.photoCutout ? (
+          <>
+            <div style={{ position: "absolute", inset: 0 }} />
+            <img
+              src={m.photo}
+              alt={m.name}
+              style={{
+                position: "absolute", inset: 0, width: "100%", height: "100%",
+                objectFit: "contain", objectPosition: "center bottom",
+                filter: "grayscale(75%) brightness(0.88) saturate(0.5)",
+                transform: hovered ? "scale(1.04)" : "scale(1)",
+                transition: "transform 0.7s cubic-bezier(0.16,1,0.3,1)",
+              }}
+            />
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "linear-gradient(to top, rgba(9,12,14,0.85) 0%, rgba(9,12,14,0.2) 50%, transparent 100%)",
+            }} />
+          </>
+        ) : (
+          <>
+            <div style={{
+              position: "absolute", inset: 0,
+              backgroundImage: `url(${m.photo})`,
+              backgroundSize: m.photoSize ?? "cover",
+              backgroundPosition: m.photoPos,
+              filter: "grayscale(75%) brightness(0.78) saturate(0.5)",
+              transform: hovered ? "scale(1.04)" : "scale(1)",
+              transition: "transform 0.7s cubic-bezier(0.16,1,0.3,1)",
+            }} />
+            {/* グラデーションオーバーレイ */}
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "linear-gradient(to top, rgba(9,12,14,0.92) 0%, rgba(9,12,14,0.35) 55%, rgba(9,12,14,0.10) 100%)",
+            }} />
+          </>
+        )}
         {/* H02 グリーンカーテン */}
         <div style={{
           position: "absolute", bottom: 0, left: 0, right: 0,
@@ -601,48 +624,25 @@ export default function AboutPage() {
       `}</style>
       <Header />
       <main>
-        {/* ヒーロー帯（現状維持）*/}
+        {/* ヒーロー */}
         <section style={{
-          background: `linear-gradient(160deg, ${COLORS.G100} 0%, ${COLORS.G050} 60%, ${COLORS.N100} 100%)`,
-          padding: "160px 8vw 100px",
+          background: "linear-gradient(180deg, #090c0e 0%, #0d1a14 100%)",
+          padding: "140px 8vw 80px",
           position: "relative", overflow: "hidden",
         }}>
-          <div style={{
-            position: "absolute", right: "-0.05em", top: "50%", transform: "translateY(-50%)",
-            fontFamily: FONTS.accent, fontWeight: 900, fontSize: "clamp(120px,20vw,240px)",
-            color: "rgba(255,255,255,0.03)", letterSpacing: "-0.04em", userSelect: "none", lineHeight: 1,
-          }}>
-            ABOUT
-          </div>
           <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              style={{
-                fontFamily: FONTS.accent, fontSize: "clamp(13px,1.1vw,16px)", letterSpacing: "0.22em",
-                textTransform: "uppercase", fontWeight: 700, marginBottom: 24, color: COLORS.G300,
-              }}
-            >
-              About Us
-            </motion.div>
-            <TextReveal
-              lines={["商売好きな事業開発のプロ集団"]}
-              fontSize="clamp(28px,4vw,64px)"
-              delay={0.1}
-              style={{ marginBottom: 32, whiteSpace: "nowrap" }}
-            />
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.4 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                fontFamily: FONTS.body, fontSize: "clamp(14px,1.1vw,17px)",
-                color: "rgba(255,255,255,0.55)", lineHeight: 1.9,
+                fontFamily: FONTS.accent, fontWeight: 900,
+                fontSize: "clamp(56px,9vw,120px)",
+                color: COLORS.N500, lineHeight: 1, letterSpacing: "-0.02em",
               }}
             >
-              商売が好きで、事業を動かす力がある。そういう人間が集まる場所として、BOARを立ち上げました。
-            </motion.p>
+              About.
+            </motion.div>
           </div>
         </section>
 

@@ -11,7 +11,7 @@ const FONTS = {
 
 const COLORS = {
   G050: "#0d1a14",
-  G100: "#152f26", G200: "#2d5a40", G300: "#6aaa88", G400: "#b0d4c0", G500: "#e0eeea",
+  G100: "#152f26", G200: "#2d5a40", G300: "#5a8c73", G400: "#b0d4c0", G500: "#e0eeea",
   G150: "#0a1a12",
   G250: "#4a8060",
   N100: "#090c0e", N200: "#47494a", N300: "#848686", N400: "#c2c2c3", N500: "#ffffff",
@@ -66,8 +66,8 @@ const SectionLabel = ({ children, color }) => (
     viewport={{ once: true, margin: "0px" }}
     transition={{ duration: 0.7 }}
     style={{
-      fontFamily: FONTS.accent, fontSize: "clamp(13px, 1.1vw, 16px)", letterSpacing: "0.22em",
-      textTransform: "uppercase", fontWeight: 700, marginBottom: 24,
+      fontFamily: FONTS.accent, fontSize: "clamp(28px, 3.5vw, 48px)", letterSpacing: "-0.01em",
+      textTransform: "uppercase", fontWeight: 900, marginBottom: 32,
       color: color || COLORS.G300,
     }}
   >
@@ -509,7 +509,7 @@ function Philosophy() {
   ];
 
   return (
-    <DiagSection id="philosophy" bg="linear-gradient(180deg,#090c0e 0%,#0d1a14 100%)">
+    <DiagSection id="philosophy" bg="radial-gradient(ellipse 70% 60% at 15% 40%, rgba(45,90,64,0.22) 0%, transparent 70%), linear-gradient(180deg,#090c0e 0%,#0d1a14 100%)">
       <GridOverlay />
       <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <SectionLabel>Philosophy</SectionLabel>
@@ -538,14 +538,6 @@ function Philosophy() {
             letterSpacing: "0.1em", lineHeight: 1,
             whiteSpace: "nowrap", pointerEvents: "none",
           }}>BOAR</div>
-
-          <FadeIn>
-            <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(13px, 1.1vw, 16px)", fontWeight: 700,
-              letterSpacing: "0.22em", textTransform: "uppercase",
-              color: COLORS.G300, marginBottom: 20 }}>
-              Our Business Stance
-            </div>
-          </FadeIn>
 
           {boarItems.map((item, i) => (
             <motion.div
@@ -636,11 +628,14 @@ function WhatWeAre() {
   return (
     // Philosophy(DiagSection)が marginBottom:"-4vw" で引き上げるため、
     // ヘッダー padding-top に +4vw 追加。下も Services が marginTop:"-4vw" で被るため +4vw。
-    <section id="what-we-do" style={{ position: "relative", overflow: "hidden", zIndex: 2 }}>
+    <section id="what-we-do" style={{ position: "relative", overflow: "hidden", zIndex: 2, background: "#0d1a14" }}>
+
+      {/* Philosophy / WWD 区切り線 */}
+      <div style={{ width: "100%", height: 1, background: "linear-gradient(to right, transparent 0%, rgba(106,170,136,0.25) 20%, rgba(106,170,136,0.25) 80%, transparent 100%)" }} />
 
       {/* セクションラベル + 見出し */}
       <div style={{
-        background: "#0d1a14",
+        background: "radial-gradient(ellipse 65% 70% at 85% 80%, rgba(45,90,64,0.18) 0%, transparent 65%), #0d1a14",
         padding: isMobile ? "calc(72px + 4vw) 6vw 32px" : "calc(80px + 4vw) 8vw 56px",
       }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
@@ -656,9 +651,9 @@ function WhatWeAre() {
                 {WWD_PILLARS.map((p, i) => (
                   <div key={p.en} style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
                     <span style={{
-                      fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.2em",
+                      fontFamily: FONTS.accent, fontSize: "clamp(13px,1.1vw,16px)", letterSpacing: "0.18em",
                       color: COLORS.G300, textTransform: "uppercase",
-                      minWidth: isMobile ? 80 : 100, flexShrink: 0,
+                      minWidth: isMobile ? 100 : 120, flexShrink: 0,
                     }}>{p.en}</span>
                     <span style={{
                       fontFamily: FONTS.body, fontSize: "clamp(13px,1.1vw,15px)",
@@ -689,12 +684,12 @@ function WhatWeAre() {
       </div>
 
       {/* 画像カラム — モバイル: 縦積み / デスクトップ: 3分割 */}
-      <div style={{ padding: isMobile ? "0 6vw 48px" : "0 8vw 80px", background: "#0d1a14" }}>
+      <div style={{ padding: isMobile ? "24px 6vw 24px" : "40px 8vw 40px", background: "transparent" }}>
       <div style={{
+        maxWidth: 1080, margin: "0 auto",
         display: "grid",
         gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
-        maxWidth: 1080, margin: "0 auto",
-        gap: isMobile ? 2 : 0,
+        gap: isMobile ? 2 : 4,
       }}>
         {WWD_PILLARS.map((p, i) => (
           <motion.a
@@ -728,16 +723,30 @@ function WhatWeAre() {
               }}
             />
 
-            {/* オーバーレイ — S03 */}
+            {/* オーバーレイ — 底面グラデーション */}
             <div style={{
               position: "absolute", inset: 0,
-              background: "linear-gradient(to top, rgba(9,12,14,0.90) 0%, rgba(9,12,14,0.48) 60%, rgba(9,12,14,0.12) 100%)",
+              background: "linear-gradient(to top, rgba(9,12,14,0.95) 0%, rgba(9,12,14,0.52) 55%, rgba(9,12,14,0.10) 100%)",
             }} />
 
-            {/* ビネット — S03: 周辺減光で中央を引き立てる */}
+            {/* 上辺ダーク — 天井から落ちる暗さで奥行き */}
             <div style={{
               position: "absolute", inset: 0,
-              background: "radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.65) 100%)",
+              background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 40%)",
+              pointerEvents: "none",
+            }} />
+
+            {/* ビネット — 周辺を強く絞り立体感を出す */}
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "radial-gradient(ellipse 70% 75% at center, transparent 15%, rgba(0,0,0,0.82) 100%)",
+              pointerEvents: "none",
+            }} />
+
+            {/* 左右エッジ暗化 — 側面を締めて奥行きを強調 */}
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 28%, transparent 72%, rgba(0,0,0,0.45) 100%)",
               pointerEvents: "none",
             }} />
 
@@ -852,13 +861,13 @@ function Services() {
         <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }} aria-hidden>
           {[90, 70, 50, 34, 18].map((r, i) => (
             <circle key={i} cx="88%" cy="30%" r={`${r}%`}
-              fill="none" stroke="#6aaa88" strokeWidth="0.7"
+              fill="none" stroke="#5a8c73" strokeWidth="0.7"
               strokeOpacity={0.13 - i * 0.02} />
           ))}
-          <circle cx="88%" cy="30%" r="2.5" fill="#6aaa88" fillOpacity="0.5" />
+          <circle cx="88%" cy="30%" r="2.5" fill="#5a8c73" fillOpacity="0.5" />
           {/* フラスコから滴る粒子 */}
-          <circle cx="30%" cy="75%" r="4" fill="#6aaa88" fillOpacity="0.06"/>
-          <circle cx="45%" cy="82%" r="2.5" fill="#6aaa88" fillOpacity="0.04"/>
+          <circle cx="30%" cy="75%" r="4" fill="#5a8c73" fillOpacity="0.06"/>
+          <circle cx="45%" cy="82%" r="2.5" fill="#5a8c73" fillOpacity="0.04"/>
         </svg>
       ),
       accentColor: COLORS.G400,

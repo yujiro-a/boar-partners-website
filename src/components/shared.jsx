@@ -15,7 +15,7 @@ export const FONTS = {
 
 export const COLORS = {
   G050: "#0d1a14",
-  G100: "#152f26", G200: "#2d5a40", G300: "#6aaa88", G400: "#b0d4c0", G500: "#e0eeea",
+  G100: "#152f26", G200: "#2d5a40", G300: "#5a8c73", G400: "#b0d4c0", G500: "#e0eeea",
   G150: "#0a1a12", G250: "#4a8060",
   N100: "#090c0e", N200: "#47494a", N300: "#848686", N400: "#c2c2c3", N500: "#ffffff",
   darkCard:   "rgba(255,255,255,0.04)",
@@ -24,7 +24,7 @@ export const COLORS = {
   darkBody:   "rgba(255,255,255,0.45)",
   // Phase カラー（コーポレートグリーンの濃淡で差別化）
   PHASE_DEFINE:  "#b0d4c0",  // G400 — 薄緑
-  PHASE_DRIVE:   "#6aaa88",  // G300 — 中緑
+  PHASE_DRIVE:   "#5a8c73",  // G300 — 中緑
   PHASE_DELIVER: "#2d5a40",  // G200 — 深緑
 };
 
@@ -99,7 +99,7 @@ export function TextReveal({ lines, delay = 0, fontSize, color, fontFamily, font
 }
 
 // ─── SectionLabel ────────────────────────────────────────
-export function SectionLabel({ children, color }) {
+export function SectionLabel({ children, color, large }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -107,8 +107,8 @@ export function SectionLabel({ children, color }) {
       viewport={{ once: true, margin: "0px" }}
       transition={{ duration: 0.7 }}
       style={{
-        fontFamily: FONTS.accent, fontSize: 24, letterSpacing: "0.22em",
-        textTransform: "uppercase", fontWeight: 700, marginBottom: 24,
+        fontFamily: FONTS.accent, fontSize: large ? 48 : 24, letterSpacing: "0.18em",
+        textTransform: "uppercase", fontWeight: 700, marginBottom: large ? 32 : 24,
         color: color || "rgba(255,255,255,0.25)",
       }}
     >

@@ -1,0 +1,39 @@
+---
+import ContactPage from "../components/ContactPage.jsx";
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact — BOAR Partners</title>
+    <meta name="description" content="BOAR Partnersへのご相談・お問い合わせ。M&A、事業開発、資金調達についてお気軽にご連絡ください。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html { scroll-behavior: smooth; }
+      body {
+        background: #ede8df;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      @media (max-width: 768px) {
+        .desktop-nav { display: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <ContactPage client:load />
+  </body>
+</html>

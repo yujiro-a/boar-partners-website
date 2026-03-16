@@ -1,0 +1,245 @@
+---
+---
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOAR — Footer Color Compare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #020908; -webkit-font-smoothing: antialiased; }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(2,9,8,0.97); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 8px 24px; display: flex; gap: 12px; align-items: center;
+    }
+    .nav a {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; text-decoration: none;
+      color: rgba(255,255,255,0.35); padding: 5px 12px;
+      border: 1px solid transparent; transition: color 0.2s;
+    }
+    .nav a:hover { color: #fff; border-color: rgba(255,255,255,0.12); }
+    .nav .back { color: rgba(255,255,255,0.2); font-size: 10px; border: none; }
+    .nav .sep { color: rgba(255,255,255,0.12); font-size: 10px; }
+    body > div { margin-top: 44px; }
+
+    /* ── 共通: Contact上部 (A/B共通) ── */
+    .contact-section {
+      background: linear-gradient(180deg, #2d5a40 0%, #5a9e72 100%);
+      padding: 80px 32px 100px;
+      position: relative; overflow: hidden;
+    }
+    .contact-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 1; }
+    .contact-label {
+      font-family: 'Big Shoulders Display', sans-serif; font-size: 12px;
+      letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700;
+      color: rgba(255,255,255,0.5); margin-bottom: 16px;
+    }
+    .contact-h2 {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: clamp(36px, 5vw, 60px); font-weight: 700;
+      color: #fff; line-height: 1.2; margin-bottom: 40px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      font-size: 11px; color: rgba(255,255,255,0.6);
+      display: block; margin-bottom: 6px; letter-spacing: 0.04em;
+    }
+    .form-input {
+      width: 100%; padding: 13px 16px;
+      border: 1px solid rgba(21,47,38,0.2);
+      background: rgba(255,255,255,0.5);
+      color: #152f26; font-size: 14px; outline: none;
+    }
+    .form-btn {
+      width: 100%; padding: 18px 0; margin-top: 8px;
+      background: #152f26; color: #fff; border: none; cursor: pointer;
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    }
+
+    /* ── Pattern A: G500 Mist ── */
+    .footer-a {
+      background: linear-gradient(180deg, #5a9e72 0%, #e0eeea 40%);
+      padding: 56px 32px 40px;
+    }
+    .footer-a .inner {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20;
+    }
+    .footer-a .logo { height: 28px; width: auto; opacity: 0.4; filter: invert(1) sepia(1) saturate(2) hue-rotate(100deg) brightness(0.3); }
+    .footer-a nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-a nav a {
+      font-family: 'Big Shoulders Display', sans-serif; font-size: 11px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(21,47,38,0.5); text-decoration: none;
+    }
+    .footer-a .copy {
+      max-width: 1080px; margin: 24px auto 0;
+      border-top: 1px solid rgba(21,47,38,0.12); padding-top: 20px;
+      font-size: 11px; color: rgba(21,47,38,0.35); letter-spacing: 0.04em;
+    }
+
+    /* ── Pattern B: Neutral Light Gray ── */
+    .footer-b {
+      background: linear-gradient(180deg, #5a9e72 0%, #f0f0f0 40%);
+      padding: 56px 32px 40px;
+    }
+    .footer-b .inner {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20;
+    }
+    .footer-b .logo { height: 28px; width: auto; opacity: 0.3; filter: brightness(0); }
+    .footer-b nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-b nav a {
+      font-family: 'Big Shoulders Display', sans-serif; font-size: 11px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(9,12,14,0.4); text-decoration: none;
+    }
+    .footer-b .copy {
+      max-width: 1080px; margin: 24px auto 0;
+      border-top: 1px solid rgba(9,12,14,0.1); padding-top: 20px;
+      font-size: 11px; color: rgba(9,12,14,0.3); letter-spacing: 0.04em;
+    }
+
+    /* ── Pattern C: White (純白) ── */
+    .footer-c {
+      background: linear-gradient(180deg, #5a9e72 0%, #ffffff 40%);
+      padding: 56px 32px 40px;
+    }
+    .footer-c .inner {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20;
+    }
+    .footer-c .logo { height: 28px; width: auto; opacity: 0.25; filter: brightness(0); }
+    .footer-c nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-c nav a {
+      font-family: 'Big Shoulders Display', sans-serif; font-size: 11px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(9,12,14,0.35); text-decoration: none;
+    }
+    .footer-c .copy {
+      max-width: 1080px; margin: 24px auto 0;
+      border-top: 1px solid rgba(9,12,14,0.08); padding-top: 20px;
+      font-size: 11px; color: rgba(9,12,14,0.25); letter-spacing: 0.04em;
+    }
+
+    .divider { border: none; border-top: 3px solid rgba(255,255,255,0.06); }
+
+    .label-tag {
+      position: absolute; top: 16px; left: 32px; z-index: 10;
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.18); text-transform: uppercase;
+    }
+    .label-tag span { color: rgba(255,255,255,0.5); margin-left: 8px; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="back">← Site</a>
+    <span class="sep">|</span>
+    <a href="#a">A: G500 Mist</a>
+    <a href="#b">B: Light Gray</a>
+    <a href="#c">C: White</a>
+  </nav>
+  <div>
+
+    <!-- Pattern A: G500 Mist -->
+    <div style="position:relative" id="a">
+      <div class="label-tag">A <span>G500 Mist — グリーン系で締める</span></div>
+      <div class="contact-section">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,255,255,0.1) 0%,transparent 60%);pointer-events:none"></div>
+        <div class="contact-inner">
+          <div class="contact-label">Contact</div>
+          <div class="contact-h2">まずは、話しましょう。</div>
+          <div class="form-group"><label class="form-label">会社名</label><input class="form-input" placeholder="株式会社〇〇" /></div>
+          <div class="form-group"><label class="form-label">お名前 *</label><input class="form-input" placeholder="山田 太郎" /></div>
+          <div class="form-group"><label class="form-label">メールアドレス *</label><input class="form-input" type="email" placeholder="example@company.co.jp" /></div>
+          <div class="form-group"><label class="form-label">ご相談内容 *</label><textarea class="form-input" style="min-height:100px;resize:vertical" placeholder="ご相談内容をお書きください"></textarea></div>
+          <button class="form-btn">送信する</button>
+        </div>
+      </div>
+      <div class="footer-a">
+        <div class="inner">
+          <img class="logo" src="/boar-logo.png" alt="BOAR Partners" />
+          <nav>
+            <a href="#">Philosophy</a>
+            <a href="#">Services</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+          </nav>
+        </div>
+        <div class="copy">© 2026 BOAR Partners, Inc. All rights reserved.</div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Pattern B: Neutral Light Gray -->
+    <div style="position:relative" id="b">
+      <div class="label-tag">B <span>Neutral Light Gray — ニュートラルで締める</span></div>
+      <div class="contact-section">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,255,255,0.1) 0%,transparent 60%);pointer-events:none"></div>
+        <div class="contact-inner">
+          <div class="contact-label">Contact</div>
+          <div class="contact-h2">まずは、話しましょう。</div>
+          <div class="form-group"><label class="form-label">会社名</label><input class="form-input" placeholder="株式会社〇〇" /></div>
+          <div class="form-group"><label class="form-label">お名前 *</label><input class="form-input" placeholder="山田 太郎" /></div>
+          <div class="form-group"><label class="form-label">メールアドレス *</label><input class="form-input" type="email" placeholder="example@company.co.jp" /></div>
+          <div class="form-group"><label class="form-label">ご相談内容 *</label><textarea class="form-input" style="min-height:100px;resize:vertical" placeholder="ご相談内容をお書きください"></textarea></div>
+          <button class="form-btn">送信する</button>
+        </div>
+      </div>
+      <div class="footer-b">
+        <div class="inner">
+          <img class="logo" src="/boar-logo.png" alt="BOAR Partners" />
+          <nav>
+            <a href="#">Philosophy</a>
+            <a href="#">Services</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+          </nav>
+        </div>
+        <div class="copy">© 2026 BOAR Partners, Inc. All rights reserved.</div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Pattern C: White -->
+    <div style="position:relative" id="c">
+      <div class="label-tag">C <span>White — 白で締める（最明）</span></div>
+      <div class="contact-section">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,255,255,0.1) 0%,transparent 60%);pointer-events:none"></div>
+        <div class="contact-inner">
+          <div class="contact-label">Contact</div>
+          <div class="contact-h2">まずは、話しましょう。</div>
+          <div class="form-group"><label class="form-label">会社名</label><input class="form-input" placeholder="株式会社〇〇" /></div>
+          <div class="form-group"><label class="form-label">お名前 *</label><input class="form-input" placeholder="山田 太郎" /></div>
+          <div class="form-group"><label class="form-label">メールアドレス *</label><input class="form-input" type="email" placeholder="example@company.co.jp" /></div>
+          <div class="form-group"><label class="form-label">ご相談内容 *</label><textarea class="form-input" style="min-height:100px;resize:vertical" placeholder="ご相談内容をお書きください"></textarea></div>
+          <button class="form-btn">送信する</button>
+        </div>
+      </div>
+      <div class="footer-c">
+        <div class="inner">
+          <img class="logo" src="/boar-logo.png" alt="BOAR Partners" />
+          <nav>
+            <a href="#">Philosophy</a>
+            <a href="#">Services</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+          </nav>
+        </div>
+        <div class="copy">© 2026 BOAR Partners, Inc. All rights reserved.</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

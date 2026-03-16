@@ -1,0 +1,189 @@
+---
+---
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOAR — Ghost Letter Spacing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #020908; -webkit-font-smoothing: antialiased; }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(2,9,8,0.97); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 10px 24px; display: flex; gap: 8px; align-items: center;
+    }
+    .nav a {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; text-decoration: none;
+      color: rgba(255,255,255,0.35); transition: color 0.2s;
+      padding: 4px 10px; border: 1px solid transparent;
+    }
+    .nav a:hover { color: #fff; border-color: rgba(255,255,255,0.12); }
+    .nav .back { color: rgba(255,255,255,0.2); font-size: 10px; border: none; }
+    .nav .sep { color: rgba(255,255,255,0.12); font-size: 10px; padding: 0 4px; }
+    body > div { margin-top: 44px; }
+
+    .pattern {
+      min-height: 100vh;
+      padding: 80px 32px 60px;
+      position: relative; overflow: hidden;
+      display: flex; align-items: center;
+      /* K4-D グラデ */
+      background: #091510;
+    }
+    .pattern::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(105deg,#040908 0%,#0d2018 20%,#152f26 45%,#0d2018 75%,#040908 100%);
+    }
+    .pattern::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.3) 100%);
+    }
+
+    .label {
+      position: absolute; top: 16px; left: 32px; z-index: 10;
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.18); text-transform: uppercase;
+    }
+    .label span { color: rgba(255,255,255,0.45); margin-left: 8px; }
+
+    .inner {
+      max-width: 1080px; margin: 0 auto; width: 100%;
+      position: relative; z-index: 5;
+    }
+
+    .ghost {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Big Shoulders Display', sans-serif; font-weight: 900;
+      font-size: clamp(160px, 26vw, 340px);
+      color: rgba(255,255,255,0.035);
+      line-height: 1; white-space: nowrap;
+      pointer-events: none; user-select: none;
+      z-index: 1;
+    }
+
+    .boar-list { position: relative; z-index: 2; width: 100%; }
+    .boar-row {
+      display: flex; align-items: baseline;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 14px 0;
+    }
+    .boar-initial {
+      font-family: 'Big Shoulders Display', sans-serif; font-weight: 900;
+      font-size: clamp(48px, 8.5vw, 112px);
+      color: #3DA860; line-height: 1;
+      min-width: 1.1ch; letter-spacing: -0.02em;
+    }
+    .boar-rest {
+      font-family: 'Big Shoulders Display', sans-serif; font-weight: 700;
+      font-size: clamp(28px, 5vw, 64px);
+      color: rgba(255,255,255,0.85); line-height: 1;
+      letter-spacing: 0.01em;
+    }
+    .boar-ja {
+      font-family: 'Hiragino Sans W3', sans-serif;
+      font-size: clamp(13px, 1.6vw, 20px);
+      color: rgba(255,255,255,0.28);
+      margin-left: auto; padding-left: 28px; white-space: nowrap;
+    }
+
+    .divider {
+      border: none; border-top: 3px solid rgba(255,255,255,0.07);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="back">← Site</a>
+    <span class="sep">|</span>
+    <a href="#p1">A (-0.04)</a>
+    <a href="#p2">B (0)</a>
+    <a href="#p3">C (0.1)</a>
+    <a href="#p4">D (0.2)</a>
+    <a href="#p5">E (0.35)</a>
+  </nav>
+  <div>
+
+    <!-- P1: 現在 -0.04em -->
+    <div class="pattern" id="p1">
+      <div class="label">A <span>letter-spacing: -0.04em（現在）</span></div>
+      <div class="inner">
+        <div class="ghost" style="letter-spacing:-0.04em">BOAR</div>
+        <div class="boar-list">
+          <div class="boar-row"><span class="boar-initial">B</span><span class="boar-rest">uild the Business</span><span class="boar-ja">事業を構築する</span></div>
+          <div class="boar-row"><span class="boar-initial">O</span><span class="boar-rest">pen Opportunities</span><span class="boar-ja">機会を開く</span></div>
+          <div class="boar-row"><span class="boar-initial">A</span><span class="boar-rest">ccelerate Growth</span><span class="boar-ja">成長を加速する</span></div>
+          <div class="boar-row" style="border-bottom:none"><span class="boar-initial">R</span><span class="boar-rest">ealize Value</span><span class="boar-ja">価値を実現する</span></div>
+        </div>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- P2: 0em -->
+    <div class="pattern" id="p2">
+      <div class="label">B <span>letter-spacing: 0em</span></div>
+      <div class="inner">
+        <div class="ghost" style="letter-spacing:0em">BOAR</div>
+        <div class="boar-list">
+          <div class="boar-row"><span class="boar-initial">B</span><span class="boar-rest">uild the Business</span><span class="boar-ja">事業を構築する</span></div>
+          <div class="boar-row"><span class="boar-initial">O</span><span class="boar-rest">pen Opportunities</span><span class="boar-ja">機会を開く</span></div>
+          <div class="boar-row"><span class="boar-initial">A</span><span class="boar-rest">ccelerate Growth</span><span class="boar-ja">成長を加速する</span></div>
+          <div class="boar-row" style="border-bottom:none"><span class="boar-initial">R</span><span class="boar-rest">ealize Value</span><span class="boar-ja">価値を実現する</span></div>
+        </div>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- P3: 0.1em -->
+    <div class="pattern" id="p3">
+      <div class="label">C <span>letter-spacing: 0.1em</span></div>
+      <div class="inner">
+        <div class="ghost" style="letter-spacing:0.1em">BOAR</div>
+        <div class="boar-list">
+          <div class="boar-row"><span class="boar-initial">B</span><span class="boar-rest">uild the Business</span><span class="boar-ja">事業を構築する</span></div>
+          <div class="boar-row"><span class="boar-initial">O</span><span class="boar-rest">pen Opportunities</span><span class="boar-ja">機会を開く</span></div>
+          <div class="boar-row"><span class="boar-initial">A</span><span class="boar-rest">ccelerate Growth</span><span class="boar-ja">成長を加速する</span></div>
+          <div class="boar-row" style="border-bottom:none"><span class="boar-initial">R</span><span class="boar-rest">ealize Value</span><span class="boar-ja">価値を実現する</span></div>
+        </div>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- P4: 0.2em -->
+    <div class="pattern" id="p4">
+      <div class="label">D <span>letter-spacing: 0.2em</span></div>
+      <div class="inner">
+        <div class="ghost" style="letter-spacing:0.2em">BOAR</div>
+        <div class="boar-list">
+          <div class="boar-row"><span class="boar-initial">B</span><span class="boar-rest">uild the Business</span><span class="boar-ja">事業を構築する</span></div>
+          <div class="boar-row"><span class="boar-initial">O</span><span class="boar-rest">pen Opportunities</span><span class="boar-ja">機会を開く</span></div>
+          <div class="boar-row"><span class="boar-initial">A</span><span class="boar-rest">ccelerate Growth</span><span class="boar-ja">成長を加速する</span></div>
+          <div class="boar-row" style="border-bottom:none"><span class="boar-initial">R</span><span class="boar-rest">ealize Value</span><span class="boar-ja">価値を実現する</span></div>
+        </div>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- P5: 0.35em -->
+    <div class="pattern" id="p5">
+      <div class="label">E <span>letter-spacing: 0.35em</span></div>
+      <div class="inner">
+        <div class="ghost" style="letter-spacing:0.35em">BOAR</div>
+        <div class="boar-list">
+          <div class="boar-row"><span class="boar-initial">B</span><span class="boar-rest">uild the Business</span><span class="boar-ja">事業を構築する</span></div>
+          <div class="boar-row"><span class="boar-initial">O</span><span class="boar-rest">pen Opportunities</span><span class="boar-ja">機会を開く</span></div>
+          <div class="boar-row"><span class="boar-initial">A</span><span class="boar-rest">ccelerate Growth</span><span class="boar-ja">成長を加速する</span></div>
+          <div class="boar-row" style="border-bottom:none"><span class="boar-initial">R</span><span class="boar-rest">ealize Value</span><span class="boar-ja">価値を実現する</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

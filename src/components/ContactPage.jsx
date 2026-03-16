@@ -1,106 +1,98 @@
-import { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { FONTS, COLORS, Header, Footer, FadeIn, TextReveal, SectionLabel } from "./shared.jsx";
-
-// ─── CONTACT FORM ───
-function ContactForm() {
-  const [formData, setFormData] = useState({ company: "", name: "", email: "", message: "" });
-  const handleChange = (field) => (e) => setFormData({ ...formData, [field]: e.target.value });
-
-  const L = {
-    text: "#0d1a14", body: "rgba(9,12,14,0.55)",
-    accent: "#2d5a40", label: "rgba(9,12,14,0.35)",
-    border: "rgba(9,12,14,0.15)",
-  };
-
-  const inputStyle = {
-    width: "100%", padding: "16px 18px",
-    border: `1px solid ${L.border}`,
-    background: "rgba(9,12,14,0.06)",
-    color: L.text, fontSize: 15, fontFamily: FONTS.body,
-    outline: "none", transition: "border-color 0.3s", boxSizing: "border-box",
-  };
-
-  return (
-    <div style={{
-      minHeight: "100vh",
-      background: "linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%)",
-      padding: "calc(120px + 4vw) 32px 120px",
-    }}>
-      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "0 80px" }}>
-          {/* 左: 見出し・説明 */}
-          <div>
-            <SectionLabel color={COLORS.G200}>Contact</SectionLabel>
-            <TextReveal
-              lines={["ご相談・", "お問い合わせ"]}
-              fontSize="clamp(32px,4.5vw,64px)"
-              color={L.text}
-              style={{ marginBottom: 40 }}
-            />
-            <FadeIn delay={0.2}>
-              <p style={{ fontFamily: FONTS.body, fontSize: 15, color: L.body, lineHeight: 1.9 }}>
-                事業のこと、戦略のこと、なんでも。
-                まずは話しましょう。
-              </p>
-            </FadeIn>
-          </div>
-
-          {/* 右: フォーム */}
-          <FadeIn delay={0.3} style={{ paddingTop: 8 }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              {[
-                { label: "会社名", field: "company", placeholder: "株式会社〇〇" },
-                { label: "お名前 *", field: "name", placeholder: "山田 太郎" },
-                { label: "メールアドレス *", field: "email", placeholder: "example@company.co.jp", type: "email" },
-              ].map(({ label, field, placeholder, type }) => (
-                <div key={field}>
-                  <label style={{ fontFamily: FONTS.body, fontSize: 12, color: L.label,
-                    marginBottom: 8, display: "block", letterSpacing: "0.05em" }}>{label}</label>
-                  <input style={inputStyle} type={type || "text"}
-                    value={formData[field]} onChange={handleChange(field)} placeholder={placeholder} />
-                </div>
-              ))}
-              <div>
-                <label style={{ fontFamily: FONTS.body, fontSize: 12, color: L.label,
-                  marginBottom: 8, display: "block", letterSpacing: "0.05em" }}>ご相談内容 *</label>
-                <textarea style={{ ...inputStyle, minHeight: 160, resize: "vertical" }}
-                  value={formData.message} onChange={handleChange("message")}
-                  placeholder="ご相談内容をお書きください" />
-              </div>
-              <button style={{
-                width: "100%", padding: "20px 0",
-                background: L.accent, color: "#ffffff", border: "none", cursor: "pointer",
-                fontFamily: FONTS.accent, fontSize: 16, fontWeight: 700,
-                letterSpacing: "0.14em", textTransform: "uppercase", transition: "all 0.3s",
-              }}
-                onMouseEnter={(e) => { e.target.style.background = COLORS.N100; }}
-                onMouseLeave={(e) => { e.target.style.background = L.accent; }}
-              >送信する</button>
-            </div>
-          </FadeIn>
-        </div>
-      </div>
-    </div>
-  );
-}
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { FONTS, COLORS, Header, Footer } from "./shared.jsx";
 
 export default function ContactPage() {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const set = (f) => (e) => setForm({ ...form, [f]: e.target.value });
+
+  const inputStyle = {
+    width: "100%", padding: "14px 0",
+    border: "none", borderBottom: "1px solid rgba(9,12,14,0.18)",
+    background: "transparent", color: "#0d1a14",
+    fontSize: 15, fontFamily: FONTS.body,
+    outline: "none", transition: "border-color 0.3s",
+    boxSizing: "border-box",
+  };
+
   return (
     <div style={{ overflowX: "clip" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: block !important; }
-        }
-        @media (min-width: 769px) {
-          .mobile-menu-btn { display: none !important; }
-        }
+        @media (max-width: 768px) { .desktop-nav { display: none !important; } .mobile-menu-btn { display: block !important; } }
+        @media (min-width: 769px) { .mobile-menu-btn { display: none !important; } }
+        input::placeholder, textarea::placeholder { color: rgba(9,12,14,0.28); }
+        input:focus, textarea:focus { border-bottom-color: ${COLORS.G200} !important; }
       `}</style>
       <Header />
-      <ContactForm />
+
+      {/* ── Dark hero ── */}
+      <section style={{
+        background: "linear-gradient(180deg, #090c0e 0%, #0d1a14 100%)",
+        padding: "140px 8vw 120px",
+        clipPath: "polygon(0 0, 100% 0, 100% 88%, 0 100%)",
+        marginBottom: "-6vw",
+        position: "relative", zIndex: 1,
+      }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            fontFamily: FONTS.accent, fontWeight: 900,
+            fontSize: "clamp(64px,11vw,160px)",
+            color: "#ffffff", lineHeight: 1, letterSpacing: "-0.02em",
+          }}
+        >
+          Contact.
+        </motion.div>
+      </section>
+
+      {/* ── Stone form ── */}
+      <section style={{
+        background: "linear-gradient(180deg, #ede8df 0%, #e8e2d8 100%)",
+        padding: "calc(6vw + 80px) 8vw 120px",
+      }}>
+        <div style={{ maxWidth: 560, margin: "0 auto" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            style={{ display: "flex", flexDirection: "column", gap: 32 }}
+          >
+            {[
+              { label: "お名前 *", field: "name", placeholder: "山田 太郎" },
+              { label: "メールアドレス *", field: "email", placeholder: "example@company.co.jp", type: "email" },
+            ].map(({ label, field, placeholder, type }) => (
+              <div key={field}>
+                <div style={{ fontFamily: FONTS.body, fontSize: 11, color: "rgba(9,12,14,0.4)", letterSpacing: "0.08em", marginBottom: 8 }}>{label}</div>
+                <input style={inputStyle} type={type || "text"} value={form[field]} onChange={set(field)} placeholder={placeholder} />
+              </div>
+            ))}
+            <div>
+              <div style={{ fontFamily: FONTS.body, fontSize: 11, color: "rgba(9,12,14,0.4)", letterSpacing: "0.08em", marginBottom: 8 }}>ご相談内容 *</div>
+              <textarea
+                style={{ ...inputStyle, minHeight: 140, resize: "none", borderBottom: "1px solid rgba(9,12,14,0.18)" }}
+                value={form.message} onChange={set("message")}
+                placeholder="ご相談内容をお書きください"
+              />
+            </div>
+            <button
+              style={{
+                padding: "18px 0", background: COLORS.G200, color: "#fff", border: "none",
+                cursor: "pointer", fontFamily: FONTS.accent, fontSize: 14, fontWeight: 700,
+                letterSpacing: "0.18em", textTransform: "uppercase", transition: "background 0.3s",
+              }}
+              onMouseEnter={(e) => { e.target.style.background = COLORS.G100; }}
+              onMouseLeave={(e) => { e.target.style.background = COLORS.G200; }}
+            >
+              Send →
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );

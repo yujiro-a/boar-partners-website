@@ -1,0 +1,382 @@
+---
+---
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOAR — Section Flow Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #020908; -webkit-font-smoothing: antialiased; font-family: 'Hiragino Sans W3', sans-serif; }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(2,9,8,0.97); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 8px 24px; display: flex; gap: 4px; align-items: center; flex-wrap: wrap;
+    }
+    .nav a {
+      font-family: 'Big Shoulders Display', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+      color: rgba(255,255,255,0.3); padding: 4px 8px; border: 1px solid transparent;
+    }
+    .nav a:hover { color: #fff; border-color: rgba(255,255,255,0.1); }
+    .nav .back { color: rgba(255,255,255,0.18); font-size: 10px; border: none; margin-right: 8px; }
+    .nav .grp { font-family: 'Big Shoulders Display', sans-serif; font-size: 10px; letter-spacing: .14em; color: rgba(255,255,255,.18); padding: 0 4px; margin-left: 4px; }
+    body > div { margin-top: 40px; }
+
+    /* ── Section block ── */
+    .sec {
+      padding: 72px 48px; position: relative;
+      display: flex; flex-direction: column; justify-content: center;
+      min-height: 260px;
+    }
+    .sec-label {
+      font-family: 'Big Shoulders Display', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 14px;
+    }
+    .sec-title { font-family: 'Big Shoulders Display', sans-serif; font-size: clamp(28px,4vw,52px); font-weight: 900; line-height: 1.1; margin-bottom: 12px; }
+    .sec-body { font-size: 14px; line-height: 1.8; max-width: 560px; }
+    .sec-tag {
+      position: absolute; top: 20px; right: 24px;
+      font-family: 'Big Shoulders Display', sans-serif; font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; opacity: .25;
+    }
+
+    /* ── Pattern label ── */
+    .pattern-label {
+      padding: 20px 48px; border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-family: 'Big Shoulders Display', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.22);
+      background: #020908;
+    }
+    .pattern-label span { color: rgba(255,255,255,0.5); margin-left: 10px; font-size: 13px; }
+
+    hr.div { border: none; border-top: 4px solid rgba(255,255,255,0.04); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="back">← Site</a>
+    <span class="grp">A:</span>
+    <a href="#a1">1</a><a href="#a2">2</a><a href="#a3">3</a><a href="#a4">4</a><a href="#a5">5</a>
+    <span class="grp">B:</span>
+    <a href="#b1">6</a><a href="#b2">7</a><a href="#b3">8</a><a href="#b4">9</a><a href="#b5">10</a>
+  </nav>
+  <div>
+
+    <!-- ═══════════════════════════════════════ A系 ═══ -->
+
+    <!-- A-1: stone帯（現状） -->
+    <div id="a1">
+      <div class="pattern-label">A-1 <span>Stone帯を挟む（現状に近い）</span></div>
+      <div class="sec" style="background:linear-gradient(160deg,#152f26,#090c0e); min-height:320px">
+        <div class="sec-tag" style="color:#fff">Hero</div>
+        <div class="sec-label" style="color:rgba(255,255,255,.3)">BOAR Partners</div>
+        <div class="sec-title" style="color:#fff">Deep tech,<br/>for industry</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.4)">Strategy & Execution Consulting</div>
+      </div>
+      <div class="sec" style="background:#091510">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Philosophy</div>
+        <div class="sec-label" style="color:rgba(255,255,255,.25)">Philosophy</div>
+        <div class="sec-title" style="color:#fff">限界を突破する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.45)">B / O / A / R — ビジネススタンス</div>
+      </div>
+      <div class="sec" style="background:#e0eeea">
+        <div class="sec-tag" style="color:#152f26">What We Do</div>
+        <div class="sec-label" style="color:rgba(21,47,38,.3)">What We Do</div>
+        <div class="sec-title" style="color:#152f26">大企業の技術転換を<br/>支援する。</div>
+        <div class="sec-body" style="color:rgba(21,47,38,.6)">Stone背景でライト感を出す</div>
+      </div>
+      <div class="sec" style="background:#152f26">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Services</div>
+        <div class="sec-label" style="color:rgba(255,255,255,.25)">Services</div>
+        <div class="sec-title" style="color:#fff">Forward R&D<br/>Forward Buyout</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.45)">2軸のサービス</div>
+      </div>
+      <div class="sec" style="background:#e0eeea">
+        <div class="sec-tag" style="color:#152f26">About</div>
+        <div class="sec-title" style="color:#152f26">実行する者が、伴走する。</div>
+      </div>
+      <div class="sec" style="background:#152f26">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Contact</div>
+        <div class="sec-title" style="color:#fff">まずは、話しましょう。</div>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- A-2: 1px ライン区切り -->
+    <div id="a2">
+      <div class="pattern-label">A-2 <span>細い横ライン（1px）でセクション区切り</span></div>
+      <div class="sec" style="background:linear-gradient(160deg,#152f26,#090c0e); min-height:320px">
+        <div class="sec-tag" style="color:#fff">Hero</div>
+        <div class="sec-title" style="color:#fff">Deep tech,<br/>for industry</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.4)">Strategy & Execution Consulting</div>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.12)"></div>
+      <div class="sec" style="background:#091510">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Philosophy</div>
+        <div class="sec-title" style="color:#fff">限界を突破する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.45)">B / O / A / R — ビジネススタンス</div>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.12)"></div>
+      <div class="sec" style="background:#0d2018">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">What We Do</div>
+        <div class="sec-title" style="color:#fff">大企業の技術転換を<br/>支援する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.45)">ラインだけで区切り、全体はdark統一</div>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.12)"></div>
+      <div class="sec" style="background:#152f26">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Services</div>
+        <div class="sec-title" style="color:#fff">Forward R&D<br/>Forward Buyout</div>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.12)"></div>
+      <div class="sec" style="background:#0d2018">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">About</div>
+        <div class="sec-title" style="color:#fff">実行する者が、伴走する。</div>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.12)"></div>
+      <div class="sec" style="background:#090c0e">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Contact</div>
+        <div class="sec-title" style="color:#fff">まずは、話しましょう。</div>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- A-3: Green accent ライン -->
+    <div id="a3">
+      <div class="pattern-label">A-3 <span>緑のアクセントライン（左縦ライン）で区切り</span></div>
+      <div class="sec" style="background:linear-gradient(160deg,#152f26,#090c0e); min-height:320px">
+        <div class="sec-tag" style="color:#fff">Hero</div>
+        <div class="sec-title" style="color:#fff">Deep tech,<br/>for industry</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.4)">Strategy & Execution Consulting</div>
+      </div>
+      <div style="height:3px; background:linear-gradient(90deg, #2d5a40, transparent)"></div>
+      <div class="sec" style="background:#091510">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Philosophy</div>
+        <div class="sec-title" style="color:#fff">限界を突破する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.45)">B / O / A / R</div>
+      </div>
+      <div style="height:3px; background:linear-gradient(90deg, #2d5a40, transparent)"></div>
+      <div class="sec" style="background:#0d2018">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">What We Do</div>
+        <div class="sec-title" style="color:#fff">大企業の技術転換を<br/>支援する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.45)">緑グラデーションラインで区切り</div>
+      </div>
+      <div style="height:3px; background:linear-gradient(90deg, #2d5a40, transparent)"></div>
+      <div class="sec" style="background:#152f26">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Services</div>
+        <div class="sec-title" style="color:#fff">Forward R&D<br/>Forward Buyout</div>
+      </div>
+      <div style="height:3px; background:linear-gradient(90deg, #2d5a40, transparent)"></div>
+      <div class="sec" style="background:#090c0e">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">About / Contact</div>
+        <div class="sec-title" style="color:#fff">実行する者が、伴走する。</div>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- A-4: セクション番号帯 -->
+    <div id="a4">
+      <div class="pattern-label">A-4 <span>セクション番号の帯を挟む</span></div>
+      <div class="sec" style="background:linear-gradient(160deg,#152f26,#090c0e); min-height:320px">
+        <div class="sec-tag" style="color:#fff">Hero</div>
+        <div class="sec-title" style="color:#fff">Deep tech,<br/>for industry</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.4)">Strategy & Execution Consulting</div>
+      </div>
+      <div style="padding:12px 48px; background:#152f26; display:flex; align-items:center; gap:16px">
+        <span style="font-family:'Big Shoulders Display',sans-serif; font-size:11px; letter-spacing:.2em; color:rgba(255,255,255,.3); text-transform:uppercase">01 — Philosophy</span>
+      </div>
+      <div class="sec" style="background:#091510">
+        <div class="sec-title" style="color:#fff">限界を突破する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.45)">B / O / A / R</div>
+      </div>
+      <div style="padding:12px 48px; background:#152f26; display:flex; align-items:center; gap:16px">
+        <span style="font-family:'Big Shoulders Display',sans-serif; font-size:11px; letter-spacing:.2em; color:rgba(255,255,255,.3); text-transform:uppercase">02 — What We Do</span>
+      </div>
+      <div class="sec" style="background:#0d2018">
+        <div class="sec-title" style="color:#fff">大企業の技術転換を<br/>支援する。</div>
+      </div>
+      <div style="padding:12px 48px; background:#152f26; display:flex; align-items:center; gap:16px">
+        <span style="font-family:'Big Shoulders Display',sans-serif; font-size:11px; letter-spacing:.2em; color:rgba(255,255,255,.3); text-transform:uppercase">03 — Services</span>
+      </div>
+      <div class="sec" style="background:#091510">
+        <div class="sec-title" style="color:#fff">Forward R&D<br/>Forward Buyout</div>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- A-5: 白グラデーションフェード帯 -->
+    <div id="a5">
+      <div class="pattern-label">A-5 <span>ストーン薄帯（細め・控えめ）</span></div>
+      <div class="sec" style="background:linear-gradient(160deg,#152f26,#090c0e); min-height:320px">
+        <div class="sec-tag" style="color:#fff">Hero</div>
+        <div class="sec-title" style="color:#fff">Deep tech,<br/>for industry</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.4)">Strategy & Execution Consulting</div>
+      </div>
+      <div style="height:40px; background:linear-gradient(180deg,#090c0e,#e0eeea)"></div>
+      <div class="sec" style="background:#e0eeea; min-height:100px; padding:24px 48px">
+        <span style="font-family:'Big Shoulders Display',sans-serif; font-size:11px; letter-spacing:.2em; color:rgba(21,47,38,.35); text-transform:uppercase">Philosophy</span>
+      </div>
+      <div style="height:40px; background:linear-gradient(180deg,#e0eeea,#091510)"></div>
+      <div class="sec" style="background:#091510">
+        <div class="sec-title" style="color:#fff">限界を突破する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.45)">B / O / A / R</div>
+      </div>
+      <div style="height:40px; background:linear-gradient(180deg,#091510,#e0eeea)"></div>
+      <div class="sec" style="background:#e0eeea; min-height:100px; padding:24px 48px">
+        <span style="font-family:'Big Shoulders Display',sans-serif; font-size:11px; letter-spacing:.2em; color:rgba(21,47,38,.35); text-transform:uppercase">What We Do</span>
+      </div>
+      <div style="height:40px; background:linear-gradient(180deg,#e0eeea,#152f26)"></div>
+      <div class="sec" style="background:#152f26">
+        <div class="sec-title" style="color:#fff">大企業の技術転換を支援する。</div>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- ═══════════════════════════════════════ B系 ═══ -->
+
+    <!-- B-1: 全部 #090c0e 統一 -->
+    <div id="b1">
+      <div class="pattern-label">B-1 <span>全セクション #090c0e 統一（最もミニマル）</span></div>
+      <div class="sec" style="background:#090c0e; min-height:320px; border-bottom:1px solid rgba(255,255,255,.06)">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Hero</div>
+        <div class="sec-title" style="color:#fff">Deep tech,<br/>for industry</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.35)">Strategy & Execution Consulting</div>
+      </div>
+      <div class="sec" style="background:#090c0e; border-bottom:1px solid rgba(255,255,255,.06)">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Philosophy</div>
+        <div class="sec-title" style="color:#fff">限界を突破する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.4)">B / O / A / R</div>
+      </div>
+      <div class="sec" style="background:#090c0e; border-bottom:1px solid rgba(255,255,255,.06)">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">What We Do</div>
+        <div class="sec-title" style="color:#fff">大企業の技術転換を<br/>支援する。</div>
+      </div>
+      <div class="sec" style="background:#090c0e; border-bottom:1px solid rgba(255,255,255,.06)">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Services</div>
+        <div class="sec-title" style="color:#fff">Forward R&D<br/>Forward Buyout</div>
+      </div>
+      <div class="sec" style="background:#090c0e; border-bottom:1px solid rgba(255,255,255,.06)">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">About / Contact</div>
+        <div class="sec-title" style="color:#fff">実行する者が、伴走する。</div>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- B-2: 暗→緑→暗 グラデーション -->
+    <div id="b2">
+      <div class="pattern-label">B-2 <span>#090c0e → #152f26 → #091510 微変化グラデ</span></div>
+      <div class="sec" style="background:linear-gradient(160deg,#152f26,#090c0e); min-height:320px">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Hero</div>
+        <div class="sec-title" style="color:#fff">Deep tech,<br/>for industry</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.4)">Strategy & Execution Consulting</div>
+      </div>
+      <div class="sec" style="background:#0a1a14">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Philosophy</div>
+        <div class="sec-title" style="color:#fff">限界を突破する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.45)">少し緑が強くなる</div>
+      </div>
+      <div class="sec" style="background:#152f26">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">What We Do</div>
+        <div class="sec-title" style="color:#fff">大企業の技術転換を<br/>支援する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.5)">緑が最も濃い</div>
+      </div>
+      <div class="sec" style="background:#0d1f18">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Services</div>
+        <div class="sec-title" style="color:#fff">Forward R&D<br/>Forward Buyout</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.45)">緑が落ち着く</div>
+      </div>
+      <div class="sec" style="background:#090c0e">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">About / Contact</div>
+        <div class="sec-title" style="color:#fff">黒に収束していく</div>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- B-3: 中央が最も明るい -->
+    <div id="b3">
+      <div class="pattern-label">B-3 <span>中央（What We Do）が最も明るく、前後が暗くなる</span></div>
+      <div class="sec" style="background:#090c0e; min-height:320px">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Hero</div>
+        <div class="sec-title" style="color:#fff">Deep tech,<br/>for industry</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.35)">Strategy & Execution Consulting</div>
+      </div>
+      <div class="sec" style="background:#0d1f18">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Philosophy</div>
+        <div class="sec-title" style="color:#fff">限界を突破する。</div>
+      </div>
+      <div class="sec" style="background:#152f26">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">What We Do ← 最も明るい</div>
+        <div class="sec-title" style="color:#fff">大企業の技術転換を<br/>支援する。</div>
+      </div>
+      <div class="sec" style="background:#0d1f18">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Services</div>
+        <div class="sec-title" style="color:#fff">Forward R&D<br/>Forward Buyout</div>
+      </div>
+      <div class="sec" style="background:#090c0e">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">About / Contact</div>
+        <div class="sec-title" style="color:#fff">実行する者が、伴走する。</div>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- B-4: 暗から徐々に緑へ（山なり） -->
+    <div id="b4">
+      <div class="pattern-label">B-4 <span>下に向かって緑が深まる（黒→深緑への推移）</span></div>
+      <div class="sec" style="background:#090c0e; min-height:320px">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Hero</div>
+        <div class="sec-title" style="color:#fff">Deep tech,<br/>for industry</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.35)">Strategy & Execution Consulting</div>
+      </div>
+      <div class="sec" style="background:#0a1510">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Philosophy</div>
+        <div class="sec-title" style="color:#fff">限界を突破する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.4)">黒からじわっと緑へ</div>
+      </div>
+      <div class="sec" style="background:#0f2318">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">What We Do</div>
+        <div class="sec-title" style="color:#fff">大企業の技術転換を<br/>支援する。</div>
+      </div>
+      <div class="sec" style="background:#152f26">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Services ← 深緑の頂点</div>
+        <div class="sec-title" style="color:#fff">Forward R&D<br/>Forward Buyout</div>
+      </div>
+      <div class="sec" style="background:#0d2018">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">About / Contact</div>
+        <div class="sec-title" style="color:#fff">実行する者が、伴走する。</div>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- B-5: 全dark + 左縦ラインのみで区分 -->
+    <div id="b5">
+      <div class="pattern-label">B-5 <span>全dark統一 + 左縦グリーンラインでセクション識別</span></div>
+      <div class="sec" style="background:#090c0e; min-height:320px">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Hero</div>
+        <div class="sec-title" style="color:#fff">Deep tech,<br/>for industry</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.35)">Strategy & Execution Consulting</div>
+      </div>
+      <div class="sec" style="background:#090c0e; border-left: 3px solid #2d5a40; padding-left:45px">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Philosophy</div>
+        <div class="sec-title" style="color:#fff">限界を突破する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.4)">左に緑ラインだけ</div>
+      </div>
+      <div class="sec" style="background:#090c0e; border-left: 3px solid #6aaa88; padding-left:45px">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">What We Do</div>
+        <div class="sec-title" style="color:#fff">大企業の技術転換を<br/>支援する。</div>
+        <div class="sec-body" style="color:rgba(255,255,255,.4)">緑が少し明るくなる</div>
+      </div>
+      <div class="sec" style="background:#090c0e; border-left: 3px solid #2d5a40; padding-left:45px">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">Services</div>
+        <div class="sec-title" style="color:#fff">Forward R&D<br/>Forward Buyout</div>
+      </div>
+      <div class="sec" style="background:#090c0e">
+        <div class="sec-tag" style="color:rgba(255,255,255,.2)">About / Contact</div>
+        <div class="sec-title" style="color:#fff">実行する者が、伴走する。</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

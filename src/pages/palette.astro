@@ -1,0 +1,360 @@
+---
+---
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOAR Partners — Brand Color Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #090c0e; color: #fff;
+      font-family: 'Hiragino Sans W3', 'Hiragino Kaku Gothic ProN', sans-serif;
+    }
+    .page { max-width: 960px; margin: 0 auto; padding: 72px 48px 120px; }
+
+    a.back {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,255,255,.2); text-decoration: none;
+      display: inline-block; margin-bottom: 64px;
+    }
+    a.back:hover { color: rgba(255,255,255,.6); }
+
+    /* ── Cover ── */
+    .cover { margin-bottom: 96px; padding-bottom: 64px; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .cover-eyebrow {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 11px; letter-spacing: .24em; text-transform: uppercase;
+      color: rgba(255,255,255,.22); margin-bottom: 20px;
+    }
+    .cover-title {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: clamp(40px, 6vw, 72px); font-weight: 900;
+      line-height: 1; letter-spacing: -.01em; color: #fff;
+      margin-bottom: 20px;
+    }
+    .cover-sub {
+      font-size: 13px; color: rgba(255,255,255,.3); letter-spacing: .04em; line-height: 1.8;
+    }
+
+    /* ── Section ── */
+    .section { margin-bottom: 80px; }
+    .section-header { margin-bottom: 24px; }
+    .section-num {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 11px; letter-spacing: .18em; color: rgba(255,255,255,.2);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 20px; font-weight: 700; letter-spacing: .04em; color: rgba(255,255,255,.75);
+    }
+    .section-desc { font-size: 12px; color: rgba(255,255,255,.28); margin-top: 6px; line-height: 1.7; }
+
+    hr.div { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 72px 0; }
+
+    /* ── Brand 3 Colors ── */
+    .brand-colors { display: flex; gap: 2px; }
+    .brand-chip { flex: 1; }
+    .brand-chip-color { height: 120px; }
+    .brand-chip-info { padding: 16px 0 0; }
+    .brand-chip-role {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+      color: rgba(255,255,255,.28); margin-bottom: 6px;
+    }
+    .brand-chip-name { font-size: 14px; font-weight: 600; color: rgba(255,255,255,.75); margin-bottom: 4px; }
+    .brand-chip-hex { font-size: 12px; color: rgba(255,255,255,.35); letter-spacing: .06em; }
+
+    /* ── Scale ── */
+    .scale { display: flex; gap: 2px; }
+    .scale-swatch {
+      flex: 1; min-width: 0;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 14px 14px 12px; height: 100px;
+    }
+    .scale-step {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 10px; letter-spacing: .1em; margin-bottom: 4px; font-weight: 700;
+    }
+    .scale-name { font-size: 11px; font-weight: 600; margin-bottom: 3px; }
+    .scale-hex  { font-size: 10px; letter-spacing: .04em; opacity: .55; }
+
+    /* ── Combinations ── */
+    .combos { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2px; }
+    .combo { padding: 32px 28px; }
+    .combo-tag {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+      margin-bottom: 14px; opacity: .4;
+    }
+    .combo-heading { font-size: 18px; font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
+    .combo-body { font-size: 12px; line-height: 1.8; opacity: .55; }
+    .combo-btn {
+      display: inline-block; margin-top: 18px;
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+      padding: 7px 16px; font-weight: 700;
+    }
+
+    /* ── Rules ── */
+    .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .rule-col-title {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .rule-item { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+    .rule-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .rule-text { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,.55); }
+
+    @media (max-width: 600px) {
+      .page { padding: 48px 24px 80px; }
+      .brand-colors { flex-wrap: wrap; }
+      .brand-chip { flex: 1 1 40%; }
+      .rules { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <a href="/" class="back">← Back to Site</a>
+
+  <!-- Cover -->
+  <div class="cover">
+    <div class="cover-eyebrow">Brand Identity System</div>
+    <div class="cover-title">BOAR Partners<br/>Color Guide</div>
+    <div class="cover-sub">
+      Version 1.0 &nbsp;·&nbsp; 2026-03-15 &nbsp;·&nbsp; For Internal Use
+    </div>
+  </div>
+
+  <!-- Section 1: Brand Colors -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div class="section-title">Brand Colors</div>
+      <div class="section-desc">ブランドを構成する3つの基準色。すべての配色はこの3色を起点とする。</div>
+    </div>
+    <div class="brand-colors">
+      <div class="brand-chip">
+        <div class="brand-chip-color" style="background:#152f26"></div>
+        <div class="brand-chip-info">
+          <div class="brand-chip-role">Main Color</div>
+          <div class="brand-chip-name">Deep Green</div>
+          <div class="brand-chip-hex">#152f26</div>
+        </div>
+      </div>
+      <div class="brand-chip">
+        <div class="brand-chip-color" style="background:#090c0e; border:1px solid rgba(255,255,255,.1)"></div>
+        <div class="brand-chip-info">
+          <div class="brand-chip-role">Sub Color</div>
+          <div class="brand-chip-name">Onyx Black</div>
+          <div class="brand-chip-hex">#090c0e</div>
+        </div>
+      </div>
+      <div class="brand-chip">
+        <div class="brand-chip-color" style="background:#bbbbbb"></div>
+        <div class="brand-chip-info">
+          <div class="brand-chip-role">Accent Color</div>
+          <div class="brand-chip-name">Silver Gray</div>
+          <div class="brand-chip-hex">#bbbbbb</div>
+        </div>
+      </div>
+      <div class="brand-chip">
+        <div class="brand-chip-color" style="background:#ffffff; border:1px solid rgba(255,255,255,.1)"></div>
+        <div class="brand-chip-info">
+          <div class="brand-chip-role">Base</div>
+          <div class="brand-chip-name">White</div>
+          <div class="brand-chip-hex">#ffffff</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div" />
+
+  <!-- Section 2: Green Scale -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div class="section-title">Main Green Scale</div>
+      <div class="section-desc">Deep Green（#152f26）を起点に白方向へ5段階展開。背景・テキスト・ボーダーに使い分ける。</div>
+    </div>
+    <div class="scale">
+      <div class="scale-swatch" style="background:#152f26">
+        <div class="scale-step" style="color:rgba(255,255,255,.35)">G-100</div>
+        <div class="scale-name" style="color:rgba(255,255,255,.7)">Forest</div>
+        <div class="scale-hex"  style="color:rgba(255,255,255,.4)">#152f26</div>
+      </div>
+      <div class="scale-swatch" style="background:#2d5a40">
+        <div class="scale-step" style="color:rgba(255,255,255,.4)">G-200</div>
+        <div class="scale-name" style="color:rgba(255,255,255,.8)">Moss</div>
+        <div class="scale-hex"  style="color:rgba(255,255,255,.45)">#2d5a40</div>
+      </div>
+      <div class="scale-swatch" style="background:#6aaa88">
+        <div class="scale-step" style="color:rgba(255,255,255,.5)">G-300</div>
+        <div class="scale-name" style="color:#fff">Fern</div>
+        <div class="scale-hex"  style="color:rgba(255,255,255,.65)">#6aaa88</div>
+      </div>
+      <div class="scale-swatch" style="background:#b0d4c0">
+        <div class="scale-step" style="color:rgba(21,47,38,.35)">G-400</div>
+        <div class="scale-name" style="color:#152f26">Sage</div>
+        <div class="scale-hex"  style="color:rgba(21,47,38,.45)">#b0d4c0</div>
+      </div>
+      <div class="scale-swatch" style="background:#e0eeea">
+        <div class="scale-step" style="color:rgba(21,47,38,.3)">G-500</div>
+        <div class="scale-name" style="color:#152f26">Mist</div>
+        <div class="scale-hex"  style="color:rgba(21,47,38,.4)">#e0eeea</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Neutral Scale -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-title">Neutral Gray Scale</div>
+      <div class="section-desc">Onyx Black（#090c0e）から White（#ffffff）へ5段階展開。テキスト・ボーダー・背景の階調に使う。</div>
+    </div>
+    <div class="scale">
+      <div class="scale-swatch" style="background:#090c0e; border:1px solid rgba(255,255,255,.07)">
+        <div class="scale-step" style="color:rgba(255,255,255,.3)">N-100</div>
+        <div class="scale-name" style="color:rgba(255,255,255,.5)">Onyx</div>
+        <div class="scale-hex"  style="color:rgba(255,255,255,.28)">#090c0e</div>
+      </div>
+      <div class="scale-swatch" style="background:#47494a">
+        <div class="scale-step" style="color:rgba(255,255,255,.4)">N-200</div>
+        <div class="scale-name" style="color:rgba(255,255,255,.75)">Graphite</div>
+        <div class="scale-hex"  style="color:rgba(255,255,255,.45)">#47494a</div>
+      </div>
+      <div class="scale-swatch" style="background:#848686">
+        <div class="scale-step" style="color:rgba(255,255,255,.5)">N-300</div>
+        <div class="scale-name" style="color:#fff">Slate</div>
+        <div class="scale-hex"  style="color:rgba(255,255,255,.65)">#848686</div>
+      </div>
+      <div class="scale-swatch" style="background:#c2c2c3">
+        <div class="scale-step" style="color:rgba(9,12,14,.3)">N-400</div>
+        <div class="scale-name" style="color:#090c0e">Silver</div>
+        <div class="scale-hex"  style="color:rgba(9,12,14,.4)">#c2c2c3</div>
+      </div>
+      <div class="scale-swatch" style="background:#ffffff; border:1px solid rgba(255,255,255,.1)">
+        <div class="scale-step" style="color:rgba(9,12,14,.3)">N-500</div>
+        <div class="scale-name" style="color:#090c0e">White</div>
+        <div class="scale-hex"  style="color:rgba(9,12,14,.4)">#ffffff</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div" />
+
+  <!-- Section 4: Combinations -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div class="section-title">Color Combinations</div>
+      <div class="section-desc">資料・スライドで使う推奨の組み合わせパターン。</div>
+    </div>
+    <div class="combos">
+
+      <div class="combo" style="background:#090c0e; border:1px solid rgba(255,255,255,.07)">
+        <div class="combo-tag" style="color:#bbbbbb">Dark — 主要背景</div>
+        <div class="combo-heading" style="color:#ffffff">BOAR Partners</div>
+        <div class="combo-body" style="color:#bbbbbb">N-100背景 × N-500テキスト。<br/>最も使用頻度が高いベース。</div>
+        <span class="combo-btn" style="background:#152f26; color:#fff">G-100 Button</span>
+      </div>
+
+      <div class="combo" style="background:#152f26">
+        <div class="combo-tag" style="color:rgba(255,255,255,.4)">Green — 強調背景</div>
+        <div class="combo-heading" style="color:#ffffff">メインカラー使用</div>
+        <div class="combo-body" style="color:rgba(255,255,255,.55)">G-100背景 × 白テキスト。<br/>セクション見出しや表紙に。</div>
+        <span class="combo-btn" style="background:#6aaa88; color:#152f26">G-300 Accent</span>
+      </div>
+
+      <div class="combo" style="background:#e0eeea">
+        <div class="combo-tag" style="color:rgba(21,47,38,.35)">Light — ライト資料</div>
+        <div class="combo-heading" style="color:#152f26">ドキュメント向け</div>
+        <div class="combo-body" style="color:rgba(21,47,38,.55)">G-500背景 × G-100テキスト。<br/>Word・Excel 等の本文背景に。</div>
+        <span class="combo-btn" style="background:#152f26; color:#fff">G-100 Button</span>
+      </div>
+
+      <div class="combo" style="background:#47494a">
+        <div class="combo-tag" style="color:rgba(255,255,255,.35)">Neutral — グレー系</div>
+        <div class="combo-heading" style="color:#ffffff">モノトーン展開</div>
+        <div class="combo-body" style="color:rgba(255,255,255,.5)">N-200背景 × N-400テキスト。<br/>緑を使わずグレー軸で統一。</div>
+        <span class="combo-btn" style="background:#c2c2c3; color:#090c0e">N-400 Label</span>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div" />
+
+  <!-- Section 5: Rules -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div class="section-title">Usage Rules</div>
+      <div class="section-desc">ブランドカラーの使用ルール。一貫性を保つための基本方針。</div>
+    </div>
+    <div class="rules">
+      <div>
+        <div class="rule-col-title" style="color:#6aaa88">✓ DO</div>
+        <div class="rule-item">
+          <div class="rule-dot" style="background:#6aaa88"></div>
+          <div class="rule-text">メインカラー（#152f26）を背景・強調要素のベースとして使う</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-dot" style="background:#6aaa88"></div>
+          <div class="rule-text">グリーンスケール内の隣接色でグラデーションを作る（G-100↔G-200など）</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-dot" style="background:#6aaa88"></div>
+          <div class="rule-text">テキストは白（#ffffff）または N-400（#c2c2c3）を使い読みやすさを確保する</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-dot" style="background:#6aaa88"></div>
+          <div class="rule-text">アクセントカラー（#bbbbbb）は細いボーダー・補足テキストに限定する</div>
+        </div>
+      </div>
+      <div>
+        <div class="rule-col-title" style="color:rgba(255,100,80,.7)">✗ DON'T</div>
+        <div class="rule-item">
+          <div class="rule-dot" style="background:rgba(255,100,80,.6)"></div>
+          <div class="rule-text">パレット外の緑（例: #3DA860）をブランドカラーとして使わない</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-dot" style="background:rgba(255,100,80,.6)"></div>
+          <div class="rule-text">スケールの飛び越し使用（G-100と G-400の組み合わせ等）は避ける</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-dot" style="background:rgba(255,100,80,.6)"></div>
+          <div class="rule-text">明度差の低い組み合わせ（G-300 on G-200 等）はテキストに使わない</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-dot" style="background:rgba(255,100,80,.6)"></div>
+          <div class="rule-text">ブランドカラー以外の有彩色（赤・青・黄等）を主要要素に使わない</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div" />
+
+  <!-- Footer -->
+  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+    <div style="font-family:'Big Shoulders Display',sans-serif; font-size:14px; font-weight:700; letter-spacing:.08em; color:rgba(255,255,255,.2)">
+      BOAR Partners, Inc.
+    </div>
+    <div style="font-size:11px; color:rgba(255,255,255,.15); letter-spacing:.06em;">
+      Brand Color Guide v1.0 &nbsp;·&nbsp; Confidential
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

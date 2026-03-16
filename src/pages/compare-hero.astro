@@ -1,0 +1,232 @@
+---
+---
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOAR — Hero Subtitle Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #020908; -webkit-font-smoothing: antialiased; }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(2,9,8,0.97); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 8px 24px; display: flex; gap: 4px; align-items: center; flex-wrap: wrap;
+    }
+    .nav a {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      color: rgba(255,255,255,0.3); padding: 4px 8px;
+      border: 1px solid transparent; transition: color 0.2s;
+    }
+    .nav a:hover { color: #fff; border-color: rgba(255,255,255,0.1); }
+    .nav .back { color: rgba(255,255,255,0.18); font-size: 10px; border: none; margin-right: 8px; }
+    .nav .grp {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 10px; letter-spacing: .14em; color: rgba(255,255,255,.18);
+      padding: 0 6px; margin-left: 6px;
+    }
+    body > div { margin-top: 40px; }
+
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #152f26 0%, #090c0e 100%);
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      position: relative; overflow: hidden; padding: 40px 32px;
+    }
+
+    /* grid */
+    .hero-grid {
+      position: absolute; inset: -100px 0 0 0; overflow: hidden; pointer-events: none;
+    }
+    .hero-grid svg { width: 100%; height: calc(100% + 100px); opacity: 0.06; animation: gridDrift 8s linear infinite; }
+
+    /* fade right-bottom */
+    .hero-fade { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 80% at 100% 100%, rgba(9,12,14,0.95) 0%, transparent 60%); pointer-events: none; }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 1200px; text-align: center; }
+
+    .hero-title {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: clamp(64px, 11vw, 160px); font-weight: 900;
+      color: #fff; letter-spacing: 0.04em; line-height: 1.05;
+      margin-bottom: 32px;
+    }
+
+    .hero-sub {
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: clamp(16px, 2.2vw, 26px); font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6); margin-bottom: 56px;
+    }
+
+    .hero-btn {
+      display: inline-block; padding: 18px 48px;
+      border: 1px solid rgba(255,255,255,0.5); color: #fff;
+      text-decoration: none;
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700;
+    }
+
+    .label {
+      position: absolute; top: 16px; left: 32px; z-index: 10;
+      font-family: 'Big Shoulders Display', sans-serif;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.15); text-transform: uppercase;
+    }
+    .label span { color: rgba(255,255,255,0.4); margin-left: 8px; font-size: 11px; }
+
+    hr.div { border: none; border-top: 3px solid rgba(255,255,255,0.06); }
+
+    @keyframes gridDrift {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-100px); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="back">← Site</a>
+    <span class="grp">A系:</span>
+    <a href="#a1">1</a><a href="#a2">2</a><a href="#a3">3</a><a href="#a4">4</a><a href="#a5">5</a>
+    <span class="grp">B系:</span>
+    <a href="#b1">6</a><a href="#b2">7</a><a href="#b3">8</a><a href="#b4">9</a><a href="#b5">10</a>
+  </nav>
+  <div>
+
+    <!-- A1 -->
+    <div class="hero" id="a1">
+      <div class="label">A-1 <span>A Deep Tech Consulting Firm</span></div>
+      <div class="hero-grid"><svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="g1" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#g1)"/></svg></div>
+      <div class="hero-fade"></div>
+      <div class="hero-inner">
+        <div class="hero-title">Deep tech,<br/>for industry</div>
+        <div class="hero-sub">A Deep Tech Consulting Firm</div>
+        <a href="#" class="hero-btn">Get in touch</a>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- A2 -->
+    <div class="hero" id="a2">
+      <div class="label">A-2 <span>Deep Tech Consulting</span></div>
+      <div class="hero-grid"><svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="g2" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#g2)"/></svg></div>
+      <div class="hero-fade"></div>
+      <div class="hero-inner">
+        <div class="hero-title">Deep tech,<br/>for industry</div>
+        <div class="hero-sub">Deep Tech Consulting</div>
+        <a href="#" class="hero-btn">Get in touch</a>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- A3 -->
+    <div class="hero" id="a3">
+      <div class="label">A-3 <span>Deep Tech & Industry Consulting</span></div>
+      <div class="hero-grid"><svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="g3" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#g3)"/></svg></div>
+      <div class="hero-fade"></div>
+      <div class="hero-inner">
+        <div class="hero-title">Deep tech,<br/>for industry</div>
+        <div class="hero-sub">Deep Tech & Industry Consulting</div>
+        <a href="#" class="hero-btn">Get in touch</a>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- A4 -->
+    <div class="hero" id="a4">
+      <div class="label">A-4 <span>Technology Commercialization Consulting</span></div>
+      <div class="hero-grid"><svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="g4" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#g4)"/></svg></div>
+      <div class="hero-fade"></div>
+      <div class="hero-inner">
+        <div class="hero-title">Deep tech,<br/>for industry</div>
+        <div class="hero-sub">Technology Commercialization Consulting</div>
+        <a href="#" class="hero-btn">Get in touch</a>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- A5 -->
+    <div class="hero" id="a5">
+      <div class="label">A-5 <span>Inorganic Growth Consulting for Deep Tech</span></div>
+      <div class="hero-grid"><svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="g5" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#g5)"/></svg></div>
+      <div class="hero-fade"></div>
+      <div class="hero-inner">
+        <div class="hero-title">Deep tech,<br/>for industry</div>
+        <div class="hero-sub">Inorganic Growth Consulting for Deep Tech</div>
+        <a href="#" class="hero-btn">Get in touch</a>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- B1 -->
+    <div class="hero" id="b1">
+      <div class="label">B-1 <span>Strategy & Execution Consulting</span></div>
+      <div class="hero-grid"><svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="g6" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#g6)"/></svg></div>
+      <div class="hero-fade"></div>
+      <div class="hero-inner">
+        <div class="hero-title">Deep tech,<br/>for industry</div>
+        <div class="hero-sub">Strategy & Execution Consulting</div>
+        <a href="#" class="hero-btn">Get in touch</a>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- B2 -->
+    <div class="hero" id="b2">
+      <div class="label">B-2 <span>Deep Tech Strategy & Execution</span></div>
+      <div class="hero-grid"><svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="g7" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#g7)"/></svg></div>
+      <div class="hero-fade"></div>
+      <div class="hero-inner">
+        <div class="hero-title">Deep tech,<br/>for industry</div>
+        <div class="hero-sub">Deep Tech Strategy & Execution</div>
+        <a href="#" class="hero-btn">Get in touch</a>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- B3 -->
+    <div class="hero" id="b3">
+      <div class="label">B-3 <span>From Strategy to Execution</span></div>
+      <div class="hero-grid"><svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="g8" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#g8)"/></svg></div>
+      <div class="hero-fade"></div>
+      <div class="hero-inner">
+        <div class="hero-title">Deep tech,<br/>for industry</div>
+        <div class="hero-sub">From Strategy to Execution</div>
+        <a href="#" class="hero-btn">Get in touch</a>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- B4 -->
+    <div class="hero" id="b4">
+      <div class="label">B-4 <span>Advisory & Execution — Deep Tech × Industry</span></div>
+      <div class="hero-grid"><svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="g9" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#g9)"/></svg></div>
+      <div class="hero-fade"></div>
+      <div class="hero-inner">
+        <div class="hero-title">Deep tech,<br/>for industry</div>
+        <div class="hero-sub">Advisory & Execution — Deep Tech × Industry</div>
+        <a href="#" class="hero-btn">Get in touch</a>
+      </div>
+    </div>
+    <hr class="div" />
+
+    <!-- B5 -->
+    <div class="hero" id="b5">
+      <div class="label">B-5 <span>Strategy. Execution. Deep Tech.</span></div>
+      <div class="hero-grid"><svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="g10" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#g10)"/></svg></div>
+      <div class="hero-fade"></div>
+      <div class="hero-inner">
+        <div class="hero-title">Deep tech,<br/>for industry</div>
+        <div class="hero-sub">Strategy. Execution. Deep Tech.</div>
+        <a href="#" class="hero-btn">Get in touch</a>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
