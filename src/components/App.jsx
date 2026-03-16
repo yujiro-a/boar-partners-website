@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { Briefcase, BookOpen, Cpu, FlaskConical, TrendingUp } from "lucide-react";
-import { Header, Footer } from "./shared.jsx";
+import { Header, Footer, useIsMobile } from "./shared.jsx";
 
 const FONTS = {
   display: "'Hiragino Sans W6', 'Hiragino Kaku Gothic ProN', sans-serif",
@@ -631,6 +631,7 @@ const WWD_PILLARS = [
 
 function WhatWeAre() {
   const [hovered, setHovered] = useState(null);
+  const isMobile = useIsMobile();
 
   return (
     // Philosophy(DiagSection)が marginBottom:"-4vw" で引き上げるため、
@@ -640,36 +641,43 @@ function WhatWeAre() {
       {/* セクションラベル + 見出し */}
       <div style={{
         background: "#0d1a14",
-        padding: "calc(80px + 4vw) 8vw calc(56px)",
+        padding: isMobile ? "calc(72px + 4vw) 6vw 32px" : "calc(80px + 4vw) 8vw 56px",
       }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
           <div>
             <SectionLabel>What We Do</SectionLabel>
             <TextReveal
               lines={["三つの力が、一体化して動く。"]}
-              fontSize="clamp(24px,3.2vw,48px)"
+              fontSize={isMobile ? "clamp(22px,6vw,32px)" : "clamp(24px,3.2vw,48px)"}
             />
           </div>
-          <FadeIn delay={0.2}>
-            <a href="/about" style={{
-              fontFamily: FONTS.accent, fontSize: 12, fontWeight: 700,
-              letterSpacing: "0.15em", textTransform: "uppercase",
-              color: "rgba(255,255,255,0.35)", textDecoration: "none",
-              borderBottom: "1px solid rgba(255,255,255,0.15)", paddingBottom: 2,
-              transition: "color 0.3s, border-color 0.3s", whiteSpace: "nowrap",
-            }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.N500; e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.35)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
-            >
-              About Us →
-            </a>
-          </FadeIn>
+          {!isMobile && (
+            <FadeIn delay={0.2}>
+              <a href="/about" style={{
+                fontFamily: FONTS.accent, fontSize: 12, fontWeight: 700,
+                letterSpacing: "0.15em", textTransform: "uppercase",
+                color: "rgba(255,255,255,0.35)", textDecoration: "none",
+                borderBottom: "1px solid rgba(255,255,255,0.15)", paddingBottom: 2,
+                transition: "color 0.3s, border-color 0.3s", whiteSpace: "nowrap",
+              }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.N500; e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.35)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
+              >
+                About Us →
+              </a>
+            </FadeIn>
+          )}
         </div>
       </div>
 
-      {/* 3分割フルハイト画像カラム */}
-      <div style={{ padding: "0 8vw 80px", background: "#0d1a14" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", minHeight: "56vh", maxWidth: 1080, margin: "0 auto" }}>
+      {/* 画像カラム — モバイル: 縦積み / デスクトップ: 3分割 */}
+      <div style={{ padding: isMobile ? "0 6vw 48px" : "0 8vw 80px", background: "#0d1a14" }}>
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
+        maxWidth: 1080, margin: "0 auto",
+        gap: isMobile ? 2 : 0,
+      }}>
         {WWD_PILLARS.map((p, i) => (
           <motion.div
             key={p.en}
@@ -683,7 +691,7 @@ function WhatWeAre() {
               position: "relative",
               overflow: "hidden",
               cursor: "default",
-              minHeight: "60vh",
+              minHeight: isMobile ? "62vw" : "60vh",
             }}
           >
             {/* 背景画像（ズームアニメーション付き） — S03: grayscale50%+輝度78%+彩度60% */}
@@ -735,9 +743,12 @@ function WhatWeAre() {
               }}
             />
 
-            {/* 縦区切り線 */}
+            {/* 区切り線 — デスクトップ: 縦 / モバイル: 横（上辺） */}
             {i > 0 && (
-              <div style={{
+              <div style={isMobile ? {
+                position: "absolute", top: 0, left: 0, right: 0, height: 1,
+                background: "rgba(255,255,255,0.1)",
+              } : {
                 position: "absolute", top: 0, left: 0, bottom: 0, width: 1,
                 background: "rgba(255,255,255,0.1)",
               }} />
@@ -748,7 +759,7 @@ function WhatWeAre() {
               position: "absolute", inset: 0,
               display: "flex", flexDirection: "column",
               justifyContent: "flex-end",
-              padding: "40px 36px 56px",
+              padding: isMobile ? "28px 24px 36px" : "40px 36px 56px",
             }}>
               {/* 番号 */}
               <div style={{
@@ -934,7 +945,7 @@ function Services() {
             </div>
 
             {/* 2枚のカード */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "16px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "16px", justifyContent: "center" }}>
               {services.map((s, i) => (
                 <motion.a
                   key={s.label}
@@ -1177,7 +1188,7 @@ function ContactCTA() {
       style={{
         display: "block", textDecoration: "none",
         background: "#090c0e",
-        padding: "120px 8vw",
+        padding: "72px 8vw",
         borderTop: `1px solid ${hovered ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.06)"}`,
         transition: "border-color 0.4s",
         cursor: "pointer",
