@@ -22,10 +22,10 @@ export const COLORS = {
   darkBorder: "rgba(255,255,255,0.09)",
   darkHL:     "rgba(255,255,255,0.92)",
   darkBody:   "rgba(255,255,255,0.45)",
-  // Phase カラー
-  PHASE_DEFINE:  "#3B82F6",
-  PHASE_DRIVE:   "#8B5CF6",
-  PHASE_DELIVER: "#10B981",
+  // Phase カラー（コーポレートグリーンの濃淡で差別化）
+  PHASE_DEFINE:  "#b0d4c0",  // G400 — 薄緑
+  PHASE_DRIVE:   "#6aaa88",  // G300 — 中緑
+  PHASE_DELIVER: "#2d5a40",  // G200 — 深緑
 };
 
 // ─── フック ─────────────────────────────────────────────
@@ -119,15 +119,18 @@ export function SectionLabel({ children, color }) {
 
 // ─── Header（統一版）────────────────────────────────────
 const NAV_ITEMS = [
-  { label: "Philosophy", href: "/#philosophy" },
-  { label: "Services",   href: "/services" },
-  { label: "About",      href: "/about" },
+  { label: "Top",      href: "/" },
+  { label: "About",    href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Releases", href: "/releases" },
+  { label: "Contact",  href: "/contact" },
 ];
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentPath, setCurrentPath] = useState("/");
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setCurrentPath(window.location.pathname);
@@ -142,12 +145,15 @@ export function Header() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
+  // 画面幅が広くなったらメニューを閉じる
+  useEffect(() => {
+    if (!isMobile) setMenuOpen(false);
+  }, [isMobile]);
+
   const isActive = (href) => {
     const path = href.split("#")[0].replace(/\/$/, "") || "/";
     return path !== "/" && currentPath.startsWith(path);
   };
-
-  const isContactPage = currentPath === "/contact";
 
   return (
     <>
@@ -159,72 +165,65 @@ export function Header() {
         borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "none",
       }}>
         <div style={{
-          maxWidth: 1280, margin: "0 auto", padding: "15px 32px 10px",
+          maxWidth: 1280, margin: "0 auto",
+          padding: isMobile ? "12px 20px" : "15px 32px 10px",
           display: "flex", justifyContent: "space-between", alignItems: "center",
         }}>
           <a href="/" style={{ display: "inline-block" }}>
-            <img src="/boar-logo.png?v=2" alt="BOAR Partners" style={{ height: 48, width: "auto" }} />
+            <img src="/boar-logo.png?v=2" alt="BOAR Partners" style={{ height: isMobile ? 36 : 48, width: "auto" }} />
           </a>
 
-          {/* デスクトップナビ */}
-          <nav style={{ display: "flex", gap: 36, alignItems: "center" }} className="desktop-nav">
-            {NAV_ITEMS.map((item) => {
-              const active = isActive(item.href);
-              return (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  style={{
-                    color: active ? COLORS.N500 : "rgba(255,255,255,0.6)",
-                    textDecoration: "none",
-                    fontFamily: FONTS.accent, fontSize: 15, letterSpacing: "0.12em",
-                    textTransform: "uppercase", fontWeight: 700,
-                    borderBottom: active ? `1px solid ${COLORS.G300}` : "none",
-                    paddingBottom: 2, transition: "color 0.3s",
-                  }}
-                  onMouseEnter={(e) => e.target.style.color = COLORS.N500}
-                  onMouseLeave={(e) => e.target.style.color = active ? COLORS.N500 : "rgba(255,255,255,0.6)"}
-                >
-                  {item.label}
-                </a>
-              );
-            })}
-            {isContactPage ? (
-              <span style={{
-                color: COLORS.N500, fontFamily: FONTS.accent, fontSize: 15,
-                letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700,
-                padding: "10px 24px", border: "1px solid rgba(255,255,255,0.6)",
-                cursor: "default",
-              }}>
-                Contact
-              </span>
-            ) : (
-              <a href="/contact" style={{
-                color: COLORS.N500, textDecoration: "none",
-                fontFamily: FONTS.accent, fontSize: 15, letterSpacing: "0.1em",
-                textTransform: "uppercase", fontWeight: 700,
-                padding: "10px 24px", border: "1px solid rgba(255,255,255,0.4)",
-                transition: "all 0.3s",
-              }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.N500; e.currentTarget.style.color = COLORS.G100; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = COLORS.N500; }}
-              >
-                Contact
-              </a>
-            )}
-          </nav>
+          {/* デスクトップナビ（768px以上のみ表示） */}
+          {!isMobile && (
+            <nav style={{ display: "flex", gap: 36, alignItems: "center" }}>
+              {NAV_ITEMS.map((item) => {
+                const active = isActive(item.href);
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    style={{
+                      color: active ? COLORS.N500 : "rgba(255,255,255,0.6)",
+                      textDecoration: "none",
+                      fontFamily: FONTS.accent, fontSize: 15, letterSpacing: "0.12em",
+                      textTransform: "uppercase", fontWeight: 700,
+                      borderBottom: active ? `1px solid ${COLORS.G300}` : "none",
+                      paddingBottom: 2, transition: "color 0.3s",
+                    }}
+                    onMouseEnter={(e) => e.target.style.color = COLORS.N500}
+                    onMouseLeave={(e) => e.target.style.color = active ? COLORS.N500 : "rgba(255,255,255,0.6)"}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
+            </nav>
+          )}
 
-          {/* モバイルハンバーガー */}
-          <button
-            className="mobile-menu-btn"
-            onClick={() => setMenuOpen(true)}
-            aria-label="メニューを開く"
-            style={{ display: "none", background: "none", border: "none", cursor: "pointer", padding: 8 }}
-          >
-            <div style={{ width: 24, height: 2, background: COLORS.N500, marginBottom: 6 }} />
-            <div style={{ width: 24, height: 2, background: COLORS.N500, marginBottom: 6 }} />
-            <div style={{ width: 24, height: 2, background: COLORS.N500 }} />
-          </button>
+          {/* ハンバーガーボタン（モバイルのみ） */}
+          {isMobile && (
+            <button
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label="メニューを開く"
+              style={{ background: "none", border: "none", cursor: "pointer", padding: 8, display: "flex", flexDirection: "column", gap: 5 }}
+            >
+              <motion.div
+                animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 7 : 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ width: 24, height: 2, background: COLORS.N500, transformOrigin: "center" }}
+              />
+              <motion.div
+                animate={{ opacity: menuOpen ? 0 : 1, scaleX: menuOpen ? 0 : 1 }}
+                transition={{ duration: 0.2 }}
+                style={{ width: 24, height: 2, background: COLORS.N500 }}
+              />
+              <motion.div
+                animate={{ rotate: menuOpen ? -45 : 0, y: menuOpen ? -7 : 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ width: 24, height: 2, background: COLORS.N500, transformOrigin: "center" }}
+              />
+            </button>
+          )}
         </div>
       </header>
 
@@ -232,51 +231,38 @@ export function Header() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: "fixed", inset: 0, zIndex: 200,
-              background: "rgba(9,12,14,0.97)", backdropFilter: "blur(12px)",
+              background: "#090c0e",
               display: "flex", flexDirection: "column",
               justifyContent: "center", alignItems: "flex-start",
               padding: "0 10vw",
             }}
           >
-            {/* 閉じるボタン */}
-            <button
-              onClick={() => setMenuOpen(false)}
-              aria-label="メニューを閉じる"
-              style={{
-                position: "absolute", top: 24, right: 24,
-                background: "none", border: "none", cursor: "pointer",
-                color: COLORS.N500, padding: 8,
-              }}
-            >
-              <X size={28} />
-            </button>
-
             {/* ナビリンク */}
-            <nav style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {[...NAV_ITEMS, { label: "Contact", href: "/contact" }].map((item, i) => {
+            <nav style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {NAV_ITEMS.map((item, i) => {
                 const active = isActive(item.href);
                 return (
                   <motion.a
                     key={item.label}
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: 24 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.4, delay: 0.1 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
                     style={{
                       fontFamily: FONTS.accent,
-                      fontSize: "clamp(36px,9vw,60px)",
-                      fontWeight: 900, letterSpacing: "0.04em",
+                      fontSize: "clamp(40px,12vw,64px)",
+                      fontWeight: 900, letterSpacing: "0.02em",
                       textTransform: "uppercase",
                       color: active ? COLORS.G300 : COLORS.N500,
                       textDecoration: "none",
-                      lineHeight: 1.2,
+                      lineHeight: 1.15,
                     }}
                   >
                     {item.label}
@@ -284,6 +270,21 @@ export function Header() {
                 );
               })}
             </nav>
+
+            {/* ボトムライン */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              style={{
+                position: "absolute", bottom: 40, left: "10vw",
+                fontFamily: FONTS.accent, fontSize: 11,
+                letterSpacing: "0.2em", color: "rgba(255,255,255,0.2)",
+                textTransform: "uppercase",
+              }}
+            >
+              BOAR Partners
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -303,12 +304,7 @@ export function Footer() {
           <img src="/boar-logo.png" alt="BOAR Partners" style={{ height: 32, width: "auto", opacity: 0.5 }} />
         </a>
         <nav style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-          {[
-            { label: "Philosophy", href: "/#philosophy" },
-            { label: "Services",   href: "/services" },
-            { label: "About",      href: "/about" },
-            { label: "Contact",    href: "/contact" },
-          ].map((item) => (
+          {NAV_ITEMS.map((item) => (
             <a key={item.label} href={item.href} style={{
               fontFamily: FONTS.accent, fontSize: 12, letterSpacing: "0.12em",
               textTransform: "uppercase", color: "rgba(255,255,255,0.6)", textDecoration: "none",
