@@ -515,7 +515,7 @@ function Philosophy() {
         <SectionLabel>Philosophy</SectionLabel>
         <TextReveal
           lines={["限界を突破する"]}
-          fontSize="clamp(28px,4vw,60px)"
+          fontSize="clamp(24px,3.2vw,48px)"
           style={{ marginBottom: 32 }}
         />
         <FadeIn delay={0.15}>
@@ -607,7 +607,7 @@ const WWD_PILLARS = [
     num: "01",
     en: "EXECUTE",
     title: "事業開発のプロ集団",
-    one: "戦略だけ、渡さない。",
+    one: "戦略立案から実行まで、チームとして並走します。",
     img: "/what-we-do-01.jpg",
     fallback: "linear-gradient(160deg,#152f26 0%,#0d1a14 100%)",
   },
@@ -615,7 +615,7 @@ const WWD_PILLARS = [
     num: "02",
     en: "BRIDGE",
     title: "アカデミアとの深い連携",
-    one: "研究室の言語で、話せる。",
+    one: "研究室の言語で語り、技術の価値を市場につなげます。",
     img: "/what-we-do-02.jpg",
     fallback: "linear-gradient(160deg,#1e3a2a 0%,#0d1a14 100%)",
   },
@@ -623,7 +623,7 @@ const WWD_PILLARS = [
     num: "03",
     en: "ACCELERATE",
     title: "AIが一員として動く",
-    one: "AIが本当に、働く。",
+    one: "AIをチームに組み込み、意思決定のサイクルを加速します。",
     img: "/what-we-do-03.jpg",
     fallback: "linear-gradient(160deg,#0a1a12 0%,#152f26 100%)",
   },
@@ -647,7 +647,7 @@ function WhatWeAre() {
           <div>
             <SectionLabel>What We Do</SectionLabel>
             <TextReveal
-              lines={["技術の価値を証明する。"]}
+              lines={["技術の価値を証明する"]}
               fontSize={isMobile ? "clamp(22px,6vw,32px)" : "clamp(24px,3.2vw,48px)"}
             />
           </div>
@@ -901,8 +901,8 @@ function Services() {
       <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <SectionLabel color={COLORS.G200}>Services</SectionLabel>
         <TextReveal
-          lines={["非連続な成長を支援する。"]}
-          fontSize="clamp(28px,4vw,60px)"
+          lines={["非連続な成長を支援する"]}
+          fontSize="clamp(24px,3.2vw,48px)"
           color={L.text}
           style={{ marginBottom: 32 }}
         />
@@ -1048,7 +1048,7 @@ function About() {
         <SectionLabel color={COLORS.G200}>About</SectionLabel>
         <TextReveal
           lines={["チームについて"]}
-          fontSize="clamp(28px,4vw,60px)"
+          fontSize="clamp(24px,3.2vw,48px)"
           color={L.text}
           style={{ marginBottom: 48 }}
         />
