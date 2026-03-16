@@ -649,7 +649,25 @@ function WhatWeAre() {
             <TextReveal
               lines={["技術の価値を証明する"]}
               fontSize={isMobile ? "clamp(22px,6vw,32px)" : "clamp(24px,3.2vw,48px)"}
+              style={{ marginBottom: 28 }}
             />
+            <FadeIn delay={0.2}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {WWD_PILLARS.map((p, i) => (
+                  <div key={p.en} style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
+                    <span style={{
+                      fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.2em",
+                      color: COLORS.G300, textTransform: "uppercase",
+                      minWidth: isMobile ? 80 : 100, flexShrink: 0,
+                    }}>{p.en}</span>
+                    <span style={{
+                      fontFamily: FONTS.body, fontSize: "clamp(13px,1.1vw,15px)",
+                      color: "rgba(255,255,255,0.5)", lineHeight: 1.6,
+                    }}>{p.one}</span>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
           </div>
           {!isMobile && (
             <FadeIn delay={0.2}>
@@ -802,19 +820,6 @@ function WhatWeAre() {
                 {p.title}
               </div>
 
-              {/* 断言文 */}
-              <motion.div
-                animate={{ opacity: hovered === i ? 1 : 0.6 }}
-                transition={{ duration: 0.35 }}
-                style={{
-                  fontFamily: FONTS.body,
-                  fontSize: "clamp(13px,1.1vw,15px)",
-                  color: COLORS.G300,
-                  lineHeight: 1.7,
-                }}
-              >
-                {p.one}
-              </motion.div>
             </div>
           </motion.a>
         ))}
