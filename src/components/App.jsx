@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { Briefcase, BookOpen, Cpu, FlaskConical, TrendingUp } from "lucide-react";
+import { Header, Footer } from "./shared.jsx";
 
 const FONTS = {
   display: "'Hiragino Sans W6', 'Hiragino Kaku Gothic ProN', sans-serif",
@@ -101,77 +102,6 @@ const GridOverlay = () => (
   </svg>
 );
 
-// ─── HEADER ───
-function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const navItems = [
-    { label: "Philosophy", href: "#philosophy" },
-    { label: "Services",   href: "#services" },
-    { label: "About",      href: "/about" },
-  ];
-
-  return (
-    <header style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled ? "rgba(9,12,14,0.97)" : "transparent",
-      backdropFilter: scrolled ? "blur(8px)" : "none",
-      transition: "all 0.4s ease",
-      borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "none",
-    }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "15px 32px 10px",
-        display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <img src="/boar-logo.png?v=2" alt="BOAR Partners" style={{ height: 48, width: "auto" }} />
-        <nav style={{ display: "flex", gap: 36, alignItems: "center" }} className="desktop-nav">
-          {navItems.map((item) => (
-            <a key={item.label} href={item.href} style={{
-              color: "rgba(255,255,255,0.75)", textDecoration: "none",
-              fontFamily: FONTS.accent, fontSize: 15, letterSpacing: "0.12em",
-              textTransform: "uppercase", fontWeight: 700, transition: "color 0.3s",
-            }}
-              onMouseEnter={(e) => e.target.style.color = COLORS.N500}
-              onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.75)"}
-            >{item.label}</a>
-          ))}
-          <a href="/contact" style={{
-            color: COLORS.N500, textDecoration: "none",
-            fontFamily: FONTS.accent, fontSize: 15, letterSpacing: "0.1em",
-            textTransform: "uppercase", fontWeight: 700,
-            padding: "10px 24px", border: "1px solid rgba(255,255,255,0.4)",
-            transition: "all 0.3s",
-          }}
-            onMouseEnter={(e) => { e.target.style.background = COLORS.N500; e.target.style.color = COLORS.G100; }}
-            onMouseLeave={(e) => { e.target.style.background = "transparent"; e.target.style.color = COLORS.N500; }}
-          >Contact</a>
-        </nav>
-        <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)} style={{
-          display: "none", background: "none", border: "none", cursor: "pointer", padding: 8,
-        }}>
-          <div style={{ width: 24, height: 2, background: COLORS.N500, marginBottom: 6, transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translate(4px,4px)" : "none" }} />
-          <div style={{ width: 24, height: 2, background: COLORS.N500, marginBottom: 6, opacity: menuOpen ? 0 : 1, transition: "all 0.3s" }} />
-          <div style={{ width: 24, height: 2, background: COLORS.N500, transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translate(4px,-4px)" : "none" }} />
-        </button>
-      </div>
-      {menuOpen && (
-        <div style={{ background: COLORS.N100, padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20 }}>
-          {[...navItems, { label: "Contact", href: "/contact" }].map((item) => (
-            <a key={item.label} href={item.href} onClick={() => setMenuOpen(false)} style={{
-              color: COLORS.N500, textDecoration: "none",
-              fontFamily: FONTS.accent, fontSize: 18, letterSpacing: "0.1em", textTransform: "uppercase",
-            }}>{item.label}</a>
-          ))}
-        </div>
-      )}
-    </header>
-  );
-}
-
 // ─── TYPEWRITER ───
 function TypewriterText({ text, loop = false }) {
   const flat = text.replace(/\n/g, " ");
@@ -192,7 +122,6 @@ function TypewriterText({ text, loop = false }) {
   const nodes = [];
   chars.forEach((ch, i) => {
     if (ch === "\n") {
-      if (gi === pos && !done) nodes.push(<span key={`c${i}`}>{cursor}</span>);
       nodes.push(<br key={i} />);
       return;
     }
@@ -671,123 +600,287 @@ function Philosophy() {
 }
 
 // ─── WHAT WE DO ───
+// 画像は /public/what-we-do-*.jpg に配置（Shutterstockから取得）
+// 01: business team in action / 02: researcher laboratory / 03: AI neural network abstract
+const WWD_PILLARS = [
+  {
+    num: "01",
+    en: "EXECUTE",
+    title: "事業開発のプロ集団",
+    one: "戦略だけ、渡さない。",
+    img: "/what-we-do-01.jpg",
+    fallback: "linear-gradient(160deg,#152f26 0%,#0d1a14 100%)",
+  },
+  {
+    num: "02",
+    en: "BRIDGE",
+    title: "アカデミアとの深い連携",
+    one: "研究室の言語で、話せる。",
+    img: "/what-we-do-02.jpg",
+    fallback: "linear-gradient(160deg,#1e3a2a 0%,#0d1a14 100%)",
+  },
+  {
+    num: "03",
+    en: "ACCELERATE",
+    title: "AIが一員として動く",
+    one: "AIが本当に、働く。",
+    img: "/what-we-do-03.jpg",
+    fallback: "linear-gradient(160deg,#0a1a12 0%,#152f26 100%)",
+  },
+];
+
 function WhatWeAre() {
-  const points = [
-    {
-      label: "事業開発のプロ集団",
-      desc: "事業開発のプロが、戦略設計から実行まで一気通貫で動きます。紹介や橋渡しではなく、チームとして並走します。",
-      icon: <Briefcase size={28} color={COLORS.G300} />,
-    },
-    {
-      label: "アカデミアとの深い連携",
-      desc: "東京大学をはじめとする研究室と連携し、アカデミア発ベンチャーや研究者とのネットワークを持ちます。技術の目利きから社会実装まで、研究現場と並走します。",
-      icon: <BookOpen size={28} color={COLORS.G300} />,
-    },
-    {
-      label: "AIが一員として動く",
-      desc: "AIエージェントがチームの一員として動くことで、仮説検証と意思決定のサイクルが格段に速くなります。人の判断をAIの実行速度で補完します。",
-      icon: <Cpu size={28} color={COLORS.G300} />,
-    },
-  ];
+  const [hovered, setHovered] = useState(null);
 
   return (
-    <DiagSection id="what-we-do" bg="linear-gradient(180deg,#0d1a14 0%,#152f26 100%)">
-      <GridOverlay />
-      <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <SectionLabel>What We Do</SectionLabel>
-        <TextReveal
-          lines={["非連続な成長を実現する"]}
-          fontSize="clamp(28px,4vw,60px)"
-          style={{ marginBottom: 32 }}
-        />
-        <FadeIn delay={0.1}>
-          <p style={{ fontFamily: FONTS.body, fontSize: "clamp(15px,1.8vw,19px)",
-            color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 1080, marginBottom: 64 }}>
-            事業開発のプロフェッショナル、アカデミアとのネットワーク、AIの実行速度——<br />
-            三つの力を一体化させ、非連続な成長を共に実現します。
-          </p>
-        </FadeIn>
-        <div>
-          {points.map((p, i) => (
-            <motion.div
-              key={p.label}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "0px" }}
-              transition={{ duration: 0.85, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                display: "grid", gridTemplateColumns: "48px 1fr",
-                gap: "0 40px",
-                borderTop: "1px solid rgba(255,255,255,0.1)",
-                padding: "24px 0",
-                alignItems: "flex-start",
-              }}
+    // Philosophy(DiagSection)が marginBottom:"-4vw" で引き上げるため、
+    // ヘッダー padding-top に +4vw 追加。下も Services が marginTop:"-4vw" で被るため +4vw。
+    <section id="what-we-do" style={{ position: "relative", overflow: "hidden", zIndex: 2 }}>
+
+      {/* セクションラベル + 見出し */}
+      <div style={{
+        background: "#0d1a14",
+        padding: "calc(80px + 4vw) 8vw calc(56px)",
+      }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div>
+            <SectionLabel>What We Do</SectionLabel>
+            <TextReveal
+              lines={["三つの力が、一体化して動く。"]}
+              fontSize="clamp(24px,3.2vw,48px)"
+            />
+          </div>
+          <FadeIn delay={0.2}>
+            <a href="/about" style={{
+              fontFamily: FONTS.accent, fontSize: 12, fontWeight: 700,
+              letterSpacing: "0.15em", textTransform: "uppercase",
+              color: "rgba(255,255,255,0.35)", textDecoration: "none",
+              borderBottom: "1px solid rgba(255,255,255,0.15)", paddingBottom: 2,
+              transition: "color 0.3s, border-color 0.3s", whiteSpace: "nowrap",
+            }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.N500; e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.35)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
             >
-              <div style={{ paddingTop: 2 }}>
-                {p.icon}
-              </div>
-              <div>
-                <div style={{
-                  fontSize: "clamp(20px,2.2vw,28px)", fontWeight: 700,
-                  color: COLORS.darkHL, marginBottom: 12, fontFamily: FONTS.display,
-                }}>
-                  {p.label}
-                </div>
-                <p style={{
-                  fontSize: 15, color: COLORS.darkBody, lineHeight: 1.9,
-                  fontFamily: FONTS.body, margin: 0,
-                }}>
-                  {p.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }} />
+              About Us →
+            </a>
+          </FadeIn>
         </div>
-        <FadeIn delay={0.2}>
-          <a href="#contact" style={{
-            display: "inline-flex", alignItems: "center", gap: 10,
-            fontFamily: FONTS.accent, fontSize: 13, fontWeight: 700,
-            letterSpacing: "0.15em", textTransform: "uppercase",
-            color: "rgba(255,255,255,0.5)", textDecoration: "none",
-            borderBottom: "1px solid rgba(255,255,255,0.2)", paddingBottom: 2,
-            transition: "color 0.3s, border-color 0.3s", marginTop: 40,
-          }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.N500; e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; }}
-          >
-            チームを見る
-            <span style={{ fontSize: 16 }}>→</span>
-          </a>
-        </FadeIn>
       </div>
-    </DiagSection>
+
+      {/* 3分割フルハイト画像カラム */}
+      <div style={{ padding: "0 8vw 80px", background: "#0d1a14" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", minHeight: "56vh", maxWidth: 1080, margin: "0 auto" }}>
+        {WWD_PILLARS.map((p, i) => (
+          <motion.div
+            key={p.en}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.0, delay: i * 0.15 }}
+            onMouseEnter={() => setHovered(i)}
+            onMouseLeave={() => setHovered(null)}
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              cursor: "default",
+              minHeight: "60vh",
+            }}
+          >
+            {/* 背景画像（ズームアニメーション付き） — S03: grayscale50%+輝度78%+彩度60% */}
+            <motion.div
+              animate={{ scale: hovered === i ? 1.04 : 1 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                position: "absolute", inset: 0,
+                backgroundImage: `url(${p.img}), ${p.fallback}`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                filter: "grayscale(50%) brightness(0.78) saturate(0.6)",
+              }}
+            />
+
+            {/* オーバーレイ — S03 */}
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "linear-gradient(to top, rgba(9,12,14,0.90) 0%, rgba(9,12,14,0.48) 60%, rgba(9,12,14,0.12) 100%)",
+            }} />
+
+            {/* ビネット — S03: 周辺減光で中央を引き立てる */}
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.65) 100%)",
+              pointerEvents: "none",
+            }} />
+
+            {/* H02グリーンカーテン（ホバー時に下から立ち上がる） */}
+            <motion.div
+              animate={{ height: hovered === i ? "55%" : "0%" }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                position: "absolute", bottom: 0, left: 0, right: 0,
+                background: "linear-gradient(to top, rgba(109,184,139,0.16) 0%, rgba(109,184,139,0.04) 70%, transparent 100%)",
+                pointerEvents: "none",
+              }}
+            />
+
+            {/* 下ライン（ホバー時に左から展開） */}
+            <motion.div
+              animate={{ scaleX: hovered === i ? 1 : 0 }}
+              transition={{ duration: 0.4 }}
+              style={{
+                position: "absolute", bottom: 0, left: 0, right: 0,
+                height: 2,
+                background: "#6db88b",
+                transformOrigin: "left",
+              }}
+            />
+
+            {/* 縦区切り線 */}
+            {i > 0 && (
+              <div style={{
+                position: "absolute", top: 0, left: 0, bottom: 0, width: 1,
+                background: "rgba(255,255,255,0.1)",
+              }} />
+            )}
+
+            {/* テキストコンテンツ（下揃え） */}
+            <div style={{
+              position: "absolute", inset: 0,
+              display: "flex", flexDirection: "column",
+              justifyContent: "flex-end",
+              padding: "40px 36px 56px",
+            }}>
+              {/* 番号 */}
+              <div style={{
+                fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.25em",
+                color: "rgba(255,255,255,0.35)", marginBottom: 16,
+              }}>
+                {p.num}
+              </div>
+
+              {/* 英語大文字 */}
+              <motion.div
+                animate={{ y: hovered === i ? -4 : 0 }}
+                transition={{ duration: 0.4 }}
+                style={{
+                  fontFamily: FONTS.accent,
+                  fontSize: "clamp(32px,4vw,60px)",
+                  fontWeight: 900,
+                  color: hovered === i ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.08)",
+                  lineHeight: 0.9,
+                  letterSpacing: "-0.01em",
+                  marginBottom: 16,
+                  transition: "color 0.4s",
+                }}
+              >
+                {p.en}
+              </motion.div>
+
+              {/* 日本語タイトル */}
+              <div style={{
+                fontFamily: FONTS.display,
+                fontSize: "clamp(16px,1.6vw,22px)",
+                fontWeight: 700,
+                color: COLORS.N500,
+                marginBottom: 10,
+                lineHeight: 1.4,
+              }}>
+                {p.title}
+              </div>
+
+              {/* 断言文 */}
+              <motion.div
+                animate={{ opacity: hovered === i ? 1 : 0.6 }}
+                transition={{ duration: 0.35 }}
+                style={{
+                  fontFamily: FONTS.body,
+                  fontSize: "clamp(13px,1.1vw,15px)",
+                  color: COLORS.G300,
+                  lineHeight: 1.7,
+                }}
+              >
+                {p.one}
+              </motion.div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+      </div>
+
+    </section>
   );
 }
 
 // ─── SERVICES ───
 function Services() {
-  const L = {
-    text: "#0d1a14", body: "rgba(9,12,14,0.58)",
-    accent: "#2d5a40", card: "rgba(9,12,14,0.04)", border: "rgba(9,12,14,0.1)",
-  };
-
   const services = [
     {
+      num: "01",
       label: "Forward R&D",
       sub: "価値の発見・証明",
       framework: "Define → Drive → Deliver",
       desc: "課題の発見・定義から入り、ディープテックと共創して社会実装まで走ります。既製の技術を購買するのではなく、研究開発段階から課題ごと一緒に解きます。",
-      icon: <FlaskConical size={32} color={COLORS.G200} />,
+      // I02: フラスコ（ラインスタイル）
+      icon: (
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke={COLORS.G300} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M13 4h10M15 4v10L7 28h22L21 14V4"/>
+          <circle cx="12" cy="24" r="1.5" fill={COLORS.G300} opacity="0.6"/>
+          <circle cx="20" cy="26" r="1" fill={COLORS.G300} opacity="0.4"/>
+        </svg>
+      ),
+      bg: "linear-gradient(140deg, #1a3825 0%, #2d5a40 50%, #152f26 100%)",
+      decoration: (
+        <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }} aria-hidden>
+          {[90, 70, 50, 34, 18].map((r, i) => (
+            <circle key={i} cx="88%" cy="30%" r={`${r}%`}
+              fill="none" stroke="#6aaa88" strokeWidth="0.7"
+              strokeOpacity={0.13 - i * 0.02} />
+          ))}
+          <circle cx="88%" cy="30%" r="2.5" fill="#6aaa88" fillOpacity="0.5" />
+          {/* フラスコから滴る粒子 */}
+          <circle cx="30%" cy="75%" r="4" fill="#6aaa88" fillOpacity="0.06"/>
+          <circle cx="45%" cy="82%" r="2.5" fill="#6aaa88" fillOpacity="0.04"/>
+        </svg>
+      ),
+      accentColor: COLORS.G400,
+      borderHover: COLORS.G400,
     },
     {
+      num: "02",
       label: "Forward Buyout",
       sub: "価値の統合",
-      framework: "バリュエーション → ストラクチャー → PMI → マネタイズ",
+      framework: "Valuation → Structure → PMI → Monetize",
       desc: "共創の延長線上にあるM&AやExitを設計・実行します。技術を深く理解しているからこそ、社会実装のポテンシャルを正しく評価したストラクチャーを組めます。",
-      icon: <TrendingUp size={32} color={COLORS.G200} />,
+      // I02: 上昇矢印（ラインスタイル）
+      icon: (
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke={COLORS.G300} strokeWidth="1.2" strokeLinecap="round">
+          <polyline points="4,26 12,16 20,20 32,8"/>
+          <polyline points="24,8 32,8 32,16"/>
+        </svg>
+      ),
+      bg: "linear-gradient(140deg, #0d1a14 0%, #152f26 50%, #090c0e 100%)",
+      decoration: (
+        <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }} aria-hidden>
+          <defs>
+            <pattern id="svc-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#svc-grid)" />
+          {/* 上昇トレンドライン（大きく、右上に） */}
+          <polyline points="0%,85% 25%,65% 50%,70% 80%,28% 100%,15%"
+            fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          {/* 矢印ヘッド */}
+          <polyline points="88%,10% 100%,15% 92%,25%"
+            fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      ),
+      accentColor: COLORS.G300,
+      borderHover: COLORS.G300,
     },
   ];
+
+  const L = { text: "#0d1a14", body: "rgba(9,12,14,0.55)", accent: "#2d5a40", line: "rgba(9,12,14,0.12)" };
 
   return (
     <DiagSection id="services" bg="linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%)">
@@ -808,70 +901,100 @@ function Services() {
           </p>
         </FadeIn>
 
-        {/* Value Forward ヘッダー（横線付き） */}
+        {/* ── Value Forward 親ボックス（B04: アウトライン） ── */}
         <FadeIn delay={0.15}>
-          <div style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 48 }}>
-            <div style={{
-              fontFamily: FONTS.accent, fontSize: "clamp(13px,1.1vw,16px)",
-              fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase",
-              color: L.accent, whiteSpace: "nowrap",
-            }}>
-              Value Forward
+          <div style={{
+            position: "relative",
+            background: "transparent",
+            padding: "36px 40px 40px",
+            marginBottom: 56,
+          }}>
+            {/* BX06: コーナーブラケット */}
+            {[["top","left"],["top","right"],["bottom","left"],["bottom","right"]].map(([v,h]) => (
+              <div key={`${v}${h}`} style={{
+                position: "absolute", [v]: 0, [h]: 0, width: 24, height: 24,
+                borderTop: v === "top" ? "2px solid rgba(9,26,20,0.28)" : "none",
+                borderBottom: v === "bottom" ? "2px solid rgba(9,26,20,0.28)" : "none",
+                borderLeft: h === "left" ? "2px solid rgba(9,26,20,0.28)" : "none",
+                borderRight: h === "right" ? "2px solid rgba(9,26,20,0.28)" : "none",
+              }} />
+            ))}
+            {/* 親ヘッダー */}
+            <div style={{ display: "flex", alignItems: "center", marginBottom: 28 }}>
+              <div style={{
+                fontFamily: FONTS.accent, fontSize: "clamp(20px,2.2vw,28px)",
+                fontWeight: 900, letterSpacing: "0.06em", textTransform: "uppercase",
+                color: "#0d1a14",
+              }}>Value Forward</div>
+              <div style={{ flex: 1, height: 1, background: "rgba(9,26,20,0.12)", margin: "0 20px" }} />
+              <div style={{
+                fontFamily: FONTS.body, fontSize: 13,
+                color: COLORS.G200, letterSpacing: "0.04em",
+              }}>技術の価値を、市場に届けきる。</div>
             </div>
-            <div style={{ flex: 1, height: 1, background: "rgba(9,12,14,0.12)" }} />
+
+            {/* 2枚のカード */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "16px" }}>
+              {services.map((s, i) => (
+                <motion.a
+                  key={s.label}
+                  href="/services"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "0px" }}
+                  transition={{ duration: 0.85, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -2 }}
+                  style={{
+                    position: "relative", overflow: "hidden",
+                    padding: "32px 32px 28px",
+                    background: s.bg,
+                    border: "1px solid rgba(255,255,255,0.07)",
+                    cursor: "pointer", textDecoration: "none",
+                    display: "block",
+                    transition: "border-color 0.35s",
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = s.borderHover; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; }}
+                >
+                  {s.decoration}
+                  <div style={{ position: "relative", zIndex: 1 }}>
+                    {/* アイコン */}
+                    <div style={{ marginBottom: 24 }}>{s.icon}</div>
+                    {/* 番号 */}
+                    <div style={{
+                      fontFamily: FONTS.accent, fontSize: 10, fontWeight: 700,
+                      letterSpacing: "0.2em", color: s.accentColor,
+                      marginBottom: 10, opacity: 0.6,
+                    }}>{s.num}</div>
+                    {/* サービス名 */}
+                    <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(24px,2.5vw,36px)",
+                      fontWeight: 900, color: COLORS.darkHL, lineHeight: 1.05, marginBottom: 8 }}>
+                      {s.label}
+                    </div>
+                    {/* フレームワーク */}
+                    <div style={{ fontSize: 11, color: s.accentColor, letterSpacing: "0.08em",
+                      marginBottom: 20, fontFamily: FONTS.body }}>
+                      {s.framework}
+                    </div>
+                    {/* 説明 */}
+                    <p style={{ fontSize: 14, color: COLORS.darkBody, lineHeight: 1.95, fontFamily: FONTS.body, margin: "0 0 24px" }}>
+                      {s.desc}
+                    </p>
+                    {/* 詳しく見る */}
+                    <div style={{
+                      display: "inline-flex", alignItems: "center", gap: 6,
+                      fontFamily: FONTS.accent, fontSize: 11, fontWeight: 700,
+                      letterSpacing: "0.15em", textTransform: "uppercase",
+                      color: s.accentColor,
+                    }}>
+                      詳しく見る <span style={{ fontSize: 14 }}>→</span>
+                    </div>
+                  </div>
+                </motion.a>
+              ))}
+            </div>
           </div>
         </FadeIn>
-
-        {/* 2枚のカード */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "24px", marginBottom: 56 }}>
-          {services.map((s, i) => (
-            <motion.a
-              key={s.label}
-              href="/services"
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "0px" }}
-              transition={{ duration: 0.85, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -2 }}
-              style={{
-                padding: "32px 36px",
-                background: L.card,
-                border: `1px solid ${L.border}`,
-                cursor: "pointer", textDecoration: "none",
-                display: "block",
-                transition: "border-color 0.3s",
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = L.accent; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = L.border; }}
-            >
-              {/* アイコン */}
-              <div style={{ marginBottom: 20 }}>{s.icon}</div>
-              {/* サービス名 */}
-              <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(28px,3vw,42px)",
-                fontWeight: 900, color: L.text, lineHeight: 1.1, marginBottom: 8 }}>
-                {s.label}
-              </div>
-              {/* フレームワーク */}
-              <div style={{ fontSize: 12, color: L.accent, letterSpacing: "0.08em",
-                marginBottom: 20, fontFamily: FONTS.body }}>
-                {s.framework}
-              </div>
-              {/* 説明 */}
-              <p style={{ fontSize: 15, color: L.body, lineHeight: 1.9, fontFamily: FONTS.body, margin: "0 0 24px" }}>
-                {s.desc}
-              </p>
-              {/* 詳しく見る */}
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: 6,
-                fontFamily: FONTS.accent, fontSize: 12, fontWeight: 700,
-                letterSpacing: "0.15em", textTransform: "uppercase",
-                color: L.accent,
-              }}>
-                詳しく見る <span style={{ fontSize: 14 }}>→</span>
-              </div>
-            </motion.a>
-          ))}
-        </div>
       </div>
     </DiagSection>
   );
@@ -995,85 +1118,92 @@ function About() {
   );
 }
 
-// ─── CONTACT ───
-function ContactCTA() {
-  const L = { text: "#0d1a14", accent: "#2d5a40" };
+// ─── RELEASES PREVIEW ───
+const RELEASES_PREVIEW = [
+  { id: 1, type: "news",   typeLabel: "ニュース", date: "2026-03", title: "BOAR Partners、始動。" },
+  { id: 2, type: "case",   typeLabel: "実績",     date: "2026-03", title: "commissure × 製造業 — 事業開発・M&A支援" },
+  { id: 3, type: "column", typeLabel: "コラム",   date: "2026-03", title: "なぜ、日本の技術は産業にならないのか" },
+];
+const BADGE = {
+  news:   { bg: COLORS.G200,   color: "#fff" },
+  case:   { bg: "#8B5CF6",     color: "#fff" },
+  column: { bg: "rgba(9,12,14,0.1)", color: "rgba(9,12,14,0.6)" },
+};
+function ReleasesPreview() {
   return (
-    <section id="contact" style={{
-      background: "#e8e2d8",
-      padding: "calc(80px + 4vw) 32px calc(80px + 4vw)",
-      textAlign: "center",
-    }}>
-      <div style={{ maxWidth: 640, margin: "0 auto" }}>
-        <SectionLabel color={COLORS.G200}>Contact</SectionLabel>
-        <TextReveal
-          lines={["まずは、話しましょう。"]}
-          fontSize="clamp(24px,3.5vw,52px)"
-          color={L.text}
-          style={{ marginBottom: 32 }}
-        />
-        <FadeIn delay={0.2}>
-          <p style={{
-            fontFamily: FONTS.body, fontSize: 15,
-            color: "rgba(9,12,14,0.5)", lineHeight: 1.9, marginBottom: 48,
-          }}>
-            M&A・事業開発・資金調達のご相談は<br />
-            フォームよりお気軽にどうぞ。
-          </p>
-          <a href="/contact" style={{
-            display: "inline-flex", alignItems: "center", gap: 12,
-            fontFamily: FONTS.accent, fontSize: 14, fontWeight: 700,
-            letterSpacing: "0.16em", textTransform: "uppercase",
-            color: "#ffffff", textDecoration: "none",
-            background: L.accent,
-            padding: "20px 48px",
-            transition: "all 0.3s",
-          }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.N100; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = L.accent; }}
-          >
-            お問い合わせ
-            <span style={{ fontSize: 18 }}>→</span>
-          </a>
-        </FadeIn>
+    <section style={{ padding: "80px 8vw", background: "linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%)" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+        {/* ヘッダ行 */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 40 }}>
+          <span style={{ fontFamily: FONTS.accent, fontSize: "clamp(28px,3.5vw,48px)", fontWeight: 900, color: "#0d1a14", letterSpacing: "-0.01em" }}>Releases.</span>
+          <a href="/releases" style={{ fontFamily: FONTS.body, fontSize: 13, color: COLORS.G200, textDecoration: "none", letterSpacing: "0.05em" }}>すべて見る →</a>
+        </div>
+        {/* リスト */}
+        {RELEASES_PREVIEW.map((item, i) => {
+          const b = BADGE[item.type];
+          return (
+            <a key={item.id} href="/releases" style={{ textDecoration: "none", display: "block" }}>
+              <div style={{
+                display: "grid", gridTemplateColumns: "100px 1fr auto",
+                gap: "0 32px", alignItems: "center", padding: "24px 0",
+                borderTop: i === 0 ? "1px solid rgba(9,12,14,0.15)" : "none",
+                borderBottom: "1px solid rgba(9,12,14,0.15)",
+              }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <span style={{ fontFamily: FONTS.body, fontSize: 11, color: "rgba(9,12,14,0.35)" }}>{item.date}</span>
+                  <span style={{ fontFamily: FONTS.body, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", padding: "2px 8px", background: b.bg, color: b.color, display: "inline-block", width: "fit-content" }}>{item.typeLabel}</span>
+                </div>
+                <span style={{ fontFamily: FONTS.display, fontSize: "clamp(14px,1.4vw,17px)", fontWeight: 700, color: "#0d1a14", lineHeight: 1.4 }}>{item.title}</span>
+                <span style={{ fontFamily: FONTS.body, fontSize: 14, color: "rgba(9,12,14,0.25)" }}>→</span>
+              </div>
+            </a>
+          );
+        })}
       </div>
     </section>
   );
 }
 
-// ─── FOOTER ───
-function Footer() {
+// ─── CONTACT ───
+function ContactCTA() {
+  const [hovered, setHovered] = useState(false);
+  const G = COLORS.G300;
   return (
-    <>
-      {/* Pattern 05: 深緑ボーダーライン区切り */}
-      <div style={{ height: 3, background: "linear-gradient(90deg,#152f26 0%,#6aaa88 50%,#152f26 100%)" }} />
-      <footer style={{ background: "#e8e2d8", padding: "48px 32px 32px" }}>
-        <div style={{ maxWidth: 1080, margin: "0 auto",
-          display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 24 }}>
-          <img src="/boar-logo.png" alt="BOAR Partners" style={{ height: 32, width: "auto", filter: "brightness(0)", opacity: 0.4 }} />
-          <nav style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-            {[
-              { label: "Philosophy", href: "#philosophy" },
-              { label: "Services",   href: "#services" },
-              { label: "About",      href: "/about" },
-              { label: "Contact",    href: "#contact" },
-            ].map((item) => (
-              <a key={item.label} href={item.href} style={{
-                fontFamily: FONTS.accent, fontSize: 12, letterSpacing: "0.12em",
-                textTransform: "uppercase", color: "rgba(26,18,8,0.45)", textDecoration: "none",
-              }}>{item.label}</a>
-            ))}
-          </nav>
+    <a
+      id="contact"
+      href="/contact"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "block", textDecoration: "none",
+        background: "#090c0e",
+        padding: "120px 8vw",
+        borderTop: `1px solid ${hovered ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.06)"}`,
+        transition: "border-color 0.4s",
+        cursor: "pointer",
+      }}
+    >
+      <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+        <div style={{
+          fontFamily: FONTS.accent, fontSize: "clamp(48px,9vw,120px)",
+          fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em",
+          color: hovered ? G : "white",
+          transition: "color 0.4s",
+        }}>
+          Contact.
         </div>
-        <div style={{ maxWidth: 1080, margin: "32px auto 0",
-          borderTop: "1px solid rgba(26,18,8,0.08)", paddingTop: 24 }}>
-          <div style={{ fontFamily: FONTS.body, fontSize: 11,
-            color: "rgba(26,18,8,0.3)", letterSpacing: "0.04em" }}>
-            © 2026 BOAR Partners, Inc. All rights reserved.
-          </div>
+        <div style={{
+          fontFamily: FONTS.accent, fontSize: 13, fontWeight: 700,
+          letterSpacing: "0.2em", textTransform: "uppercase",
+          color: G, display: "flex", alignItems: "center", gap: 16,
+          opacity: hovered ? 1 : 0, transition: "opacity 0.4s",
+          paddingBottom: 8,
+        }}>
+          <span style={{ width: 48, height: 1, background: G, display: "inline-block" }} />
+          Form
         </div>
-      </footer>
-    </>
+      </div>
+    </a>
   );
 }
 
@@ -1086,6 +1216,7 @@ export default function App() {
       <Philosophy />
       <WhatWeAre />
       <Services />
+      <ReleasesPreview />
       <ContactCTA />
       <Footer />
     </div>
