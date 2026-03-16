@@ -30,7 +30,7 @@ function TextReveal({ lines, delay = 0, fontSize, color = COLORS.darkHL, fontFam
           <motion.div
             initial={{ y: "105%", opacity: 0 }}
             animate={isInView ? { y: 0, opacity: 1 } : {}}
-            transition={{ duration: 0.85, delay: delay + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.95, delay: delay + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
             style={{ fontFamily: fontFamily || FONTS.display, fontSize, color, fontWeight }}
           >
             {line}
@@ -45,10 +45,10 @@ function TextReveal({ lines, delay = 0, fontSize, color = COLORS.darkHL, fontFam
 function FadeIn({ children, delay = 0, style: extra = {} }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-30px" }}
-      transition={{ duration: 0.7, delay, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px" }}
+      transition={{ duration: 1.0, delay, ease: [0.16, 1, 0.3, 1] }}
       style={extra}
     >
       {children}
@@ -59,10 +59,10 @@ function FadeIn({ children, delay = 0, style: extra = {} }) {
 // ─── SectionLabel ───
 const SectionLabel = ({ children, color }) => (
   <motion.div
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.6 }}
+    initial={{ opacity: 0, y: 12 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "0px" }}
+    transition={{ duration: 0.7 }}
     style={{
       fontFamily: FONTS.accent, fontSize: "clamp(13px, 1.1vw, 16px)", letterSpacing: "0.22em",
       textTransform: "uppercase", fontWeight: 700, marginBottom: 24,
@@ -614,8 +614,8 @@ function Philosophy() {
               key={item.letter}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.6, delay: i * 0.06, ease: "easeOut" }}
+              viewport={{ once: true, margin: "0px" }}
+              transition={{ duration: 0.8, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
               style={{ display: "grid", gridTemplateColumns: "1fr auto",
                 alignItems: "baseline", gap: "clamp(12px,4vw,40px)",
                 borderBottom: "1px solid rgba(255,255,255,0.07)", padding: "14px 0" }}
@@ -690,10 +690,10 @@ function WhatWeAre() {
           {points.map((p, i) => (
             <motion.div
               key={p.label}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.6, delay: i * 0.08, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px" }}
+              transition={{ duration: 0.85, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 display: "grid", gridTemplateColumns: "64px 1fr",
                 gap: "0 40px",
@@ -806,10 +806,10 @@ function Services() {
           {services.map((s, i) => (
             <motion.div
               key={s.label}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px" }}
+              transition={{ duration: 0.85, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div style={{ fontSize: 12, color: L.accent, letterSpacing: "0.15em",
                 textTransform: "uppercase", marginBottom: 16,
@@ -901,10 +901,10 @@ function About() {
           {members.map((m, i) => (
             <motion.div
               key={m.name}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px" }}
+              transition={{ duration: 0.85, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div style={{
                 fontSize: 11, color: L.accent, letterSpacing: "0.2em",
