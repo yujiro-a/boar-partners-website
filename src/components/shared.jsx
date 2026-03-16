@@ -107,7 +107,7 @@ export function SectionLabel({ children, color }) {
       viewport={{ once: true, margin: "0px" }}
       transition={{ duration: 0.7 }}
       style={{
-        fontFamily: FONTS.accent, fontSize: 12, letterSpacing: "0.22em",
+        fontFamily: FONTS.accent, fontSize: 24, letterSpacing: "0.22em",
         textTransform: "uppercase", fontWeight: 700, marginBottom: 24,
         color: color || "rgba(255,255,255,0.25)",
       }}
