@@ -4,266 +4,332 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Color Patterns — BOAR Partners</title>
+  <title>Color Flow — BOAR Partners TOP</title>
   <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #090c0e; font-family: 'Hiragino Sans W3', sans-serif; -webkit-font-smoothing: antialiased; }
-    .accent { font-family: 'Big Shoulders Display', sans-serif; }
-    .display { font-family: 'Hiragino Sans W6', sans-serif; }
+    body { background: #060809; font-family: 'Hiragino Sans W3', sans-serif; -webkit-font-smoothing: antialiased; }
+    .acc { font-family: 'Big Shoulders Display', sans-serif; }
+    .dp  { font-family: 'Hiragino Sans W6', sans-serif; }
+    .label { font-size:11px; letter-spacing:0.22em; text-transform:uppercase; font-weight:700; margin-bottom:12px; }
+    .h2   { font-size:clamp(24px,3.5vw,44px); font-weight:900; line-height:1.1; margin-bottom:16px; }
+    .body { font-size:14px; line-height:1.9; max-width:520px; }
+    .tag  { display:inline-block; font-size:11px; letter-spacing:0.1em; font-weight:900; padding:3px 12px; }
+
+    /* 共通レイアウト */
+    .section { padding: 64px 40px; }
+    .section-sm { padding: 48px 40px; }
+    .inner { max-width: 800px; margin: 0 auto; }
+
+    /* ページタイトル */
+    .page-header {
+      background: #0d1a14;
+      padding: 28px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky; top: 0; z-index: 50;
+    }
+
+    /* パターンラベル */
+    .pattern-header {
+      background: #0a1208;
+      padding: 18px 40px;
+      display: flex; align-items: center; gap: 16px;
+      border-top: 3px solid var(--accent);
+    }
+
+    /* 色サンプルチップ */
+    .chip { width:14px; height:14px; border-radius:2px; display:inline-block; }
+
+    /* 暗→暗の繋ぎ（前後の文脈として表示） */
+    .dark-bridge {
+      background: linear-gradient(180deg, #0d1a14 0%, #152f26 100%);
+      padding: 32px 40px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .dark-marker {
+      font-size:11px; color:rgba(255,255,255,0.2); letter-spacing:0.15em;
+      text-transform:uppercase;
+    }
+
+    /* フッター遷移 */
+    .footer-section {
+      padding: 40px 40px 32px;
+      display: flex; justify-content: center; align-items: center;
+      font-size: 12px; letter-spacing:0.04em;
+    }
+
+    /* 評価バー */
+    .verdict {
+      background: rgba(255,255,255,0.03);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 14px 40px;
+      display: grid; grid-template-columns: 80px 1fr; gap: 16px; align-items: center;
+    }
+
+    @media (max-width: 600px) {
+      .section { padding: 48px 24px; }
+      .section-sm { padding: 36px 24px; }
+      .dark-bridge { padding: 24px 24px; }
+      .pattern-header { padding: 16px 24px; }
+      .verdict { padding: 12px 24px; }
+    }
   </style>
 </head>
 <body>
 
-<!-- 凡例ヘッダー -->
-<div style="background:#0d1a14; padding:32px 40px; border-bottom:1px solid rgba(255,255,255,0.08); position:sticky; top:0; z-index:50;">
-  <div style="color:rgba(255,255,255,0.4); font-size:11px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;" class="accent">Color Palette Candidates</div>
-  <div style="color:#fff; font-size:22px; font-weight:900;" class="accent">Services セクション カラー比較 — 5パターン</div>
-  <div style="color:rgba(255,255,255,0.4); font-size:13px; margin-top:8px;">各パターンはServicesヒーロー → ForwardBuyout → AlliancePartner → Contactの明転セクションをシミュレート</div>
-</div>
-
-<!-- =============== PATTERN 1 =============== -->
-<div style="border-bottom:3px solid #6aaa88;">
-  <div style="background:#0d1a14; padding:20px 40px; display:flex; align-items:center; gap:16px;">
-    <div style="background:#6aaa88; color:#fff; font-size:13px; font-weight:900; padding:4px 14px; letter-spacing:0.1em;" class="accent">PATTERN 01</div>
-    <div style="color:#fff; font-size:18px; font-weight:900;" class="accent">現状（ミントグリーン）</div>
-    <div style="color:rgba(255,255,255,0.4); font-size:13px;">参照ベースライン</div>
-  </div>
-
-  <!-- Services light section -->
-  <div style="background:linear-gradient(180deg,#6aaa88 0%,#b0d4c0 100%); padding:72px 40px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:#2d5a40; font-weight:700; margin-bottom:16px;" class="accent">Services</div>
-      <div style="font-size:clamp(28px,4vw,52px); font-weight:900; color:#0d1a14; line-height:1.1; margin-bottom:20px;" class="accent">技術の価値を市場に届ける</div>
-      <p style="font-size:15px; color:rgba(9,12,14,0.58); line-height:1.9; max-width:560px; margin-bottom:40px;">有望な技術が、事業にならないまま消えていく。その現実に、2つの切り口で向き合います。</p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px 60px;">
-        <div>
-          <div style="font-size:11px; color:#2d5a40; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">価値の発見・証明</div>
-          <div style="font-size:32px; font-weight:900; color:#0d1a14; margin-bottom:12px;" class="accent">Forward R&D</div>
-          <p style="font-size:14px; color:rgba(9,12,14,0.58); line-height:1.9;">研究開発段階から課題ごと一緒に解きます。</p>
-        </div>
-        <div>
-          <div style="font-size:11px; color:#2d5a40; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">価値の統合</div>
-          <div style="font-size:32px; font-weight:900; color:#0d1a14; margin-bottom:12px;" class="accent">Forward Buyout</div>
-          <p style="font-size:14px; color:rgba(9,12,14,0.58); line-height:1.9;">共創の延長線上にあるM&Aを設計・実行します。</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Alliance / Contact area -->
-  <div style="background:linear-gradient(180deg,#b0d4c0 0%,#d0e8dd 100%); padding:64px 40px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(9,12,14,0.38); margin-bottom:16px; font-weight:700;" class="accent">Alliance Partner</div>
-      <div style="font-size:40px; font-weight:900; color:#0d1a14; margin-bottom:24px;" class="accent">commissure</div>
-      <p style="font-size:14px; color:rgba(9,12,14,0.58); line-height:1.9; max-width:480px;">触覚AI（ハプティクス）領域のディープテック企業として、大企業との共創プロジェクトにおけるショーケースの役割を担う。</p>
-    </div>
-  </div>
-  <div style="padding:12px 40px; background:#0d1a14; color:rgba(255,255,255,0.35); font-size:12px;">
-    判定: ミント感が強すぎ、クライアント向け資料との距離感があり格調不足
+<div class="page-header">
+  <div class="label acc" style="color:rgba(255,255,255,0.3);">TOP PAGE — Color Flow Study</div>
+  <div class="acc" style="color:#fff; font-size:20px; font-weight:900; margin-bottom:6px;">Services以降の色の流れ — 5パターン</div>
+  <div style="color:rgba(255,255,255,0.35); font-size:13px;">
+    暗（WhatWeAre）→ <strong style="color:rgba(255,255,255,0.7);">Services（明転ポイント）</strong>→ Contact → Footer の色遷移比較
   </div>
 </div>
 
-<!-- =============== PATTERN 2 =============== -->
-<div style="border-bottom:3px solid #c8b89a;">
-  <div style="background:#0d1a14; padding:20px 40px; display:flex; align-items:center; gap:16px;">
-    <div style="background:#c8b89a; color:#1a1208; font-size:13px; font-weight:900; padding:4px 14px; letter-spacing:0.1em;" class="accent">PATTERN 02</div>
-    <div style="color:#fff; font-size:18px; font-weight:900;" class="accent">アイボリー / シャンパンゴールド</div>
-    <div style="color:rgba(255,255,255,0.4); font-size:13px;">温かみ × 品格。ブランドとして一番強い選択肢</div>
+
+<!-- ======================================== -->
+<!-- PATTERN 01 — 現状ミントグリーン（ベースライン） -->
+<!-- ======================================== -->
+<div style="--accent:#6aaa88; margin-bottom:2px;">
+  <div class="pattern-header">
+    <div class="tag acc" style="background:#1e4a35; color:#6aaa88; border:1px solid #6aaa88;">01</div>
+    <div class="acc" style="color:#fff; font-size:17px; font-weight:900;">現状 — ミントグリーン</div>
+    <div style="color:rgba(255,255,255,0.35); font-size:13px;">参照ベース</div>
   </div>
 
-  <div style="background:linear-gradient(180deg,#f4ede2 0%,#ede4d4 100%); padding:72px 40px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:#8a6f4e; font-weight:700; margin-bottom:16px;" class="accent">Services</div>
-      <div style="font-size:clamp(28px,4vw,52px); font-weight:900; color:#1a1208; line-height:1.1; margin-bottom:20px;" class="accent">技術の価値を市場に届ける</div>
-      <p style="font-size:15px; color:rgba(26,18,8,0.55); line-height:1.9; max-width:560px; margin-bottom:40px;">有望な技術が、事業にならないまま消えていく。その現実に、2つの切り口で向き合います。</p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px 60px;">
-        <div>
-          <div style="font-size:11px; color:#8a6f4e; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">価値の発見・証明</div>
-          <div style="font-size:32px; font-weight:900; color:#1a1208; margin-bottom:12px;" class="accent">Forward R&D</div>
-          <p style="font-size:14px; color:rgba(26,18,8,0.55); line-height:1.9;">研究開発段階から課題ごと一緒に解きます。</p>
-        </div>
-        <div>
-          <div style="font-size:11px; color:#8a6f4e; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">価値の統合</div>
-          <div style="font-size:32px; font-weight:900; color:#1a1208; margin-bottom:12px;" class="accent">Forward Buyout</div>
-          <p style="font-size:14px; color:rgba(26,18,8,0.55); line-height:1.9;">共創の延長線上にあるM&Aを設計・実行します。</p>
-        </div>
-      </div>
+  <!-- 前のセクション（文脈） -->
+  <div class="dark-bridge">
+    <div class="chip" style="background:#152f26;"></div>
+    <div class="dark-marker acc">← WhatWeAre（暗緑）からここへ続く</div>
+  </div>
+
+  <!-- Services -->
+  <div class="section" style="background:linear-gradient(180deg,#6aaa88 0%,#b0d4c0 100%);">
+    <div class="inner">
+      <div class="label acc" style="color:#2d5a40;">Services</div>
+      <div class="h2 acc" style="color:#0d1a14;">技術の価値を市場に届ける</div>
+      <p class="body" style="color:rgba(9,12,14,0.55);">有望な技術が、事業にならないまま消えていく。<br/>研究開発段階から共創する「Forward R&D」と、その先のM&Aまで設計する「Forward Buyout」です。</p>
     </div>
   </div>
 
-  <div style="background:linear-gradient(180deg,#ede4d4 0%,#e4d8c4 100%); padding:64px 40px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,18,8,0.38); margin-bottom:16px; font-weight:700;" class="accent">Alliance Partner</div>
-      <div style="font-size:40px; font-weight:900; color:#1a1208; margin-bottom:24px;" class="accent">commissure</div>
-      <p style="font-size:14px; color:rgba(26,18,8,0.55); line-height:1.9; max-width:480px;">触覚AI（ハプティクス）領域のディープテック企業として、大企業との共創プロジェクトにおけるショーケースの役割を担う。</p>
+  <!-- Contact -->
+  <div class="section-sm" style="background:linear-gradient(180deg,#b0d4c0 0%,#f0f4f2 100%);">
+    <div class="inner">
+      <div class="label acc" style="color:rgba(9,12,14,0.38);">Contact</div>
+      <div class="h2 dp" style="color:#0d1a14;">ご相談・お問い合わせ</div>
+      <p class="body" style="color:rgba(9,12,14,0.5);">まずは話してみませんか。</p>
     </div>
   </div>
-  <div style="padding:12px 40px; background:#0d1a14; color:rgba(255,255,255,0.35); font-size:12px;">
-    判定: HERMÈS・資生堂ライン。暗緑との対比が最も映える。M&A × 高級感に直結
+
+  <!-- Footer -->
+  <div class="footer-section" style="background:linear-gradient(180deg,#f0f4f2 0%,#090c0e 65%);">
+    <div style="font-family:'Hiragino Sans W3',sans-serif; color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div>
+  </div>
+
+  <div class="verdict">
+    <div class="acc" style="color:#6aaa88; font-size:12px; font-weight:900;">現状</div>
+    <div style="color:rgba(255,255,255,0.35); font-size:13px;">ミント感が前に出すぎる。暗緑の続きに見えてしまい「明転の爽快感」が薄い</div>
   </div>
 </div>
 
-<!-- =============== PATTERN 3 =============== -->
-<div style="border-bottom:3px solid #e0dbd2;">
-  <div style="background:#0d1a14; padding:20px 40px; display:flex; align-items:center; gap:16px;">
-    <div style="background:#e0dbd2; color:#1a1914; font-size:13px; font-weight:900; padding:4px 14px; letter-spacing:0.1em;" class="accent">PATTERN 03</div>
-    <div style="color:#fff; font-size:18px; font-weight:900;" class="accent">ストーン / オフホワイト</div>
-    <div style="color:rgba(255,255,255,0.4); font-size:13px;">ニュートラル × モダン。テック企業寄り</div>
+
+<!-- ======================================== -->
+<!-- PATTERN 02 — アイボリー / ウォームクリーム -->
+<!-- ======================================== -->
+<div style="--accent:#c8b49a; margin-bottom:2px; margin-top:16px;">
+  <div class="pattern-header" style="border-top-color:#c8b49a;">
+    <div class="tag acc" style="background:#2a1f14; color:#c8b49a; border:1px solid #c8b49a;">02</div>
+    <div class="acc" style="color:#fff; font-size:17px; font-weight:900;">アイボリー / ウォームクリーム</div>
+    <div style="color:rgba(255,255,255,0.35); font-size:13px;">暖かみ × 格調。M&A文脈に一番フィット</div>
   </div>
 
-  <div style="background:linear-gradient(180deg,#f2f0ec 0%,#e8e4de 100%); padding:72px 40px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:#4a6b55; font-weight:700; margin-bottom:16px;" class="accent">Services</div>
-      <div style="font-size:clamp(28px,4vw,52px); font-weight:900; color:#1a1914; line-height:1.1; margin-bottom:20px;" class="accent">技術の価値を市場に届ける</div>
-      <p style="font-size:15px; color:rgba(26,25,20,0.55); line-height:1.9; max-width:560px; margin-bottom:40px;">有望な技術が、事業にならないまま消えていく。その現実に、2つの切り口で向き合います。</p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px 60px;">
-        <div>
-          <div style="font-size:11px; color:#4a6b55; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">価値の発見・証明</div>
-          <div style="font-size:32px; font-weight:900; color:#1a1914; margin-bottom:12px;" class="accent">Forward R&D</div>
-          <p style="font-size:14px; color:rgba(26,25,20,0.55); line-height:1.9;">研究開発段階から課題ごと一緒に解きます。</p>
-        </div>
-        <div>
-          <div style="font-size:11px; color:#4a6b55; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">価値の統合</div>
-          <div style="font-size:32px; font-weight:900; color:#1a1914; margin-bottom:12px;" class="accent">Forward Buyout</div>
-          <p style="font-size:14px; color:rgba(26,25,20,0.55); line-height:1.9;">共創の延長線上にあるM&Aを設計・実行します。</p>
-        </div>
-      </div>
+  <div class="dark-bridge">
+    <div class="chip" style="background:#152f26;"></div>
+    <div class="dark-marker acc">← WhatWeAre（暗緑）からここへ続く</div>
+  </div>
+
+  <div class="section" style="background:linear-gradient(180deg,#f4ede0 0%,#ede3d0 100%);">
+    <div class="inner">
+      <div class="label acc" style="color:#7a5f42;">Services</div>
+      <div class="h2 acc" style="color:#1a1208;">技術の価値を市場に届ける</div>
+      <p class="body" style="color:rgba(26,18,8,0.55);">有望な技術が、事業にならないまま消えていく。<br/>研究開発段階から共創する「Forward R&D」と、その先のM&Aまで設計する「Forward Buyout」です。</p>
     </div>
   </div>
 
-  <div style="background:linear-gradient(180deg,#e8e4de 0%,#dfdbd4 100%); padding:64px 40px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,25,20,0.38); margin-bottom:16px; font-weight:700;" class="accent">Alliance Partner</div>
-      <div style="font-size:40px; font-weight:900; color:#1a1914; margin-bottom:24px;" class="accent">commissure</div>
-      <p style="font-size:14px; color:rgba(26,25,20,0.55); line-height:1.9; max-width:480px;">触覚AI（ハプティクス）領域のディープテック企業として、大企業との共創プロジェクトにおけるショーケースの役割を担う。</p>
+  <div class="section-sm" style="background:linear-gradient(180deg,#ede3d0 0%,#f7f2ea 100%);">
+    <div class="inner">
+      <div class="label acc" style="color:rgba(26,18,8,0.38);">Contact</div>
+      <div class="h2 dp" style="color:#1a1208;">ご相談・お問い合わせ</div>
+      <p class="body" style="color:rgba(26,18,8,0.5);">まずは話してみませんか。</p>
     </div>
   </div>
-  <div style="padding:12px 40px; background:#0d1a14; color:rgba(255,255,255,0.35); font-size:12px;">
-    判定: 中立的で清潔。暗色ページとの繋ぎが自然。主張が薄い分、内容で勝負できる
+
+  <div class="footer-section" style="background:linear-gradient(180deg,#f7f2ea 0%,#090c0e 65%);">
+    <div style="font-family:'Hiragino Sans W3',sans-serif; color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div>
+  </div>
+
+  <div class="verdict">
+    <div class="acc" style="color:#c8b49a; font-size:12px; font-weight:900;">02</div>
+    <div style="color:rgba(255,255,255,0.5); font-size:13px;">暗緑との対比がくっきり。高級感・誠実さが出る。緑アクセントは文字色として継続使用可</div>
   </div>
 </div>
 
-<!-- =============== PATTERN 4 =============== -->
-<div style="border-bottom:3px solid #b8d4c0;">
-  <div style="background:#0d1a14; padding:20px 40px; display:flex; align-items:center; gap:16px;">
-    <div style="background:#152f26; border:1px solid #6aaa88; color:#6aaa88; font-size:13px; font-weight:900; padding:4px 14px; letter-spacing:0.1em;" class="accent">PATTERN 04</div>
-    <div style="color:#fff; font-size:18px; font-weight:900;" class="accent">フルダーク / ディープグリーン統一</div>
-    <div style="color:rgba(255,255,255,0.4); font-size:13px;">明転なし。ダークのまま深度で変化。PE・IB感が最強</div>
+
+<!-- ======================================== -->
+<!-- PATTERN 03 — ストーン / ペーパーホワイト -->
+<!-- ======================================== -->
+<div style="--accent:#d4cfc6; margin-bottom:2px; margin-top:16px;">
+  <div class="pattern-header" style="border-top-color:#d4cfc6;">
+    <div class="tag acc" style="background:#1c1c18; color:#d4cfc6; border:1px solid #d4cfc6;">03</div>
+    <div class="acc" style="color:#fff; font-size:17px; font-weight:900;">ストーン / ペーパーホワイト</div>
+    <div style="color:rgba(255,255,255,0.35); font-size:13px;">ニュートラル × クリーン。テック感・現代的</div>
   </div>
 
-  <div style="background:linear-gradient(180deg,#152f26 0%,#1e3d2e 100%); padding:72px 40px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:#6aaa88; font-weight:700; margin-bottom:16px;" class="accent">Services</div>
-      <div style="font-size:clamp(28px,4vw,52px); font-weight:900; color:rgba(255,255,255,0.92); line-height:1.1; margin-bottom:20px;" class="accent">技術の価値を市場に届ける</div>
-      <p style="font-size:15px; color:rgba(255,255,255,0.45); line-height:1.9; max-width:560px; margin-bottom:40px;">有望な技術が、事業にならないまま消えていく。その現実に、2つの切り口で向き合います。</p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px 60px;">
-        <div>
-          <div style="font-size:11px; color:#6aaa88; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">価値の発見・証明</div>
-          <div style="font-size:32px; font-weight:900; color:rgba(255,255,255,0.92); margin-bottom:12px;" class="accent">Forward R&D</div>
-          <p style="font-size:14px; color:rgba(255,255,255,0.45); line-height:1.9;">研究開発段階から課題ごと一緒に解きます。</p>
-        </div>
-        <div>
-          <div style="font-size:11px; color:#6aaa88; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">価値の統合</div>
-          <div style="font-size:32px; font-weight:900; color:rgba(255,255,255,0.92); margin-bottom:12px;" class="accent">Forward Buyout</div>
-          <p style="font-size:14px; color:rgba(255,255,255,0.45); line-height:1.9;">共創の延長線上にあるM&Aを設計・実行します。</p>
-        </div>
-      </div>
+  <div class="dark-bridge">
+    <div class="chip" style="background:#152f26;"></div>
+    <div class="dark-marker acc">← WhatWeAre（暗緑）からここへ続く</div>
+  </div>
+
+  <div class="section" style="background:linear-gradient(180deg,#f0ede8 0%,#e8e4de 100%);">
+    <div class="inner">
+      <div class="label acc" style="color:#4a6b55;">Services</div>
+      <div class="h2 acc" style="color:#191714;">技術の価値を市場に届ける</div>
+      <p class="body" style="color:rgba(25,23,20,0.55);">有望な技術が、事業にならないまま消えていく。<br/>研究開発段階から共創する「Forward R&D」と、その先のM&Aまで設計する「Forward Buyout」です。</p>
     </div>
   </div>
 
-  <div style="background:linear-gradient(180deg,#1e3d2e 0%,#152f26 100%); padding:64px 40px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:16px; font-weight:700;" class="accent">Alliance Partner</div>
-      <div style="font-size:40px; font-weight:900; color:#6aaa88; margin-bottom:24px;" class="accent">commissure</div>
-      <p style="font-size:14px; color:rgba(255,255,255,0.45); line-height:1.9; max-width:480px;">触覚AI（ハプティクス）領域のディープテック企業として、大企業との共創プロジェクトにおけるショーケースの役割を担う。</p>
+  <div class="section-sm" style="background:linear-gradient(180deg,#e8e4de 0%,#f5f4f2 100%);">
+    <div class="inner">
+      <div class="label acc" style="color:rgba(25,23,20,0.38);">Contact</div>
+      <div class="h2 dp" style="color:#191714;">ご相談・お問い合わせ</div>
+      <p class="body" style="color:rgba(25,23,20,0.5);">まずは話してみませんか。</p>
     </div>
   </div>
-  <div style="padding:12px 40px; background:#0d1a14; color:rgba(255,255,255,0.35); font-size:12px;">
-    判定: 最もクールで一貫性が高い。ただし「章の切り替わり感」がなく単調になるリスクあり
+
+  <div class="footer-section" style="background:linear-gradient(180deg,#f5f4f2 0%,#090c0e 65%);">
+    <div style="font-family:'Hiragino Sans W3',sans-serif; color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div>
+  </div>
+
+  <div class="verdict">
+    <div class="acc" style="color:#d4cfc6; font-size:12px; font-weight:900;">03</div>
+    <div style="color:rgba(255,255,255,0.4); font-size:13px;">清潔で邪魔しない。どのブランドにも合う無難さ。際立ちは少ない</div>
   </div>
 </div>
 
-<!-- =============== PATTERN 5 =============== -->
-<div style="border-bottom:3px solid #d4cfc8;">
-  <div style="background:#0d1a14; padding:20px 40px; display:flex; align-items:center; gap:16px;">
-    <div style="background:#d4cfc8; color:#1a1914; font-size:13px; font-weight:900; padding:4px 14px; letter-spacing:0.1em;" class="accent">PATTERN 05</div>
-    <div style="color:#fff; font-size:18px; font-weight:900;" class="accent">ダーク基調 × アイボリー（折衷案）</div>
-    <div style="color:rgba(255,255,255,0.4); font-size:13px;">暗い → アイボリー → 暗い。メリハリ最大・個人的にイチオシ</div>
+
+<!-- ======================================== -->
+<!-- PATTERN 04 — サンドベージュ / ウォームグレージュ -->
+<!-- ======================================== -->
+<div style="--accent:#c4b8a4; margin-bottom:2px; margin-top:16px;">
+  <div class="pattern-header" style="border-top-color:#c4b8a4;">
+    <div class="tag acc" style="background:#221e18; color:#c4b8a4; border:1px solid #c4b8a4;">04</div>
+    <div class="acc" style="color:#fff; font-size:17px; font-weight:900;">サンド / グレージュ</div>
+    <div style="color:rgba(255,255,255,0.35); font-size:13px;">土の温もり。02より渋め・落ち着いた印象</div>
   </div>
 
-  <!-- 直前の暗色セクション（対比見せるため） -->
-  <div style="background:linear-gradient(180deg,#0d1a14 0%,#152f26 100%); padding:48px 40px 32px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; color:rgba(255,255,255,0.25); letter-spacing:0.22em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">← 直前のダークセクション（ForwardRDなど）</div>
-      <div style="font-size:28px; font-weight:900; color:rgba(255,255,255,0.92);" class="accent">3D Framework</div>
+  <div class="dark-bridge">
+    <div class="chip" style="background:#152f26;"></div>
+    <div class="dark-marker acc">← WhatWeAre（暗緑）からここへ続く</div>
+  </div>
+
+  <div class="section" style="background:linear-gradient(180deg,#ede4d6 0%,#e4d8c8 100%);">
+    <div class="inner">
+      <div class="label acc" style="color:#5a4a34;">Services</div>
+      <div class="h2 acc" style="color:#1a1510;">技術の価値を市場に届ける</div>
+      <p class="body" style="color:rgba(26,21,16,0.55);">有望な技術が、事業にならないまま消えていく。<br/>研究開発段階から共創する「Forward R&D」と、その先のM&Aまで設計する「Forward Buyout」です。</p>
     </div>
   </div>
 
-  <!-- Services — アイボリー -->
-  <div style="background:linear-gradient(180deg,#f4ede2 0%,#ede6d8 100%); padding:72px 40px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:#6b5240; font-weight:700; margin-bottom:16px;" class="accent">Services</div>
-      <div style="font-size:clamp(28px,4vw,52px); font-weight:900; color:#1a1208; line-height:1.1; margin-bottom:20px;" class="accent">技術の価値を市場に届ける</div>
-      <p style="font-size:15px; color:rgba(26,18,8,0.55); line-height:1.9; max-width:560px; margin-bottom:40px;">有望な技術が、事業にならないまま消えていく。その現実に、2つの切り口で向き合います。</p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px 60px;">
-        <div>
-          <div style="font-size:11px; color:#2d5a40; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">価値の発見・証明</div>
-          <div style="font-size:32px; font-weight:900; color:#1a1208; margin-bottom:12px;" class="accent">Forward R&D</div>
-          <p style="font-size:14px; color:rgba(26,18,8,0.55); line-height:1.9;">研究開発段階から課題ごと一緒に解きます。</p>
-        </div>
-        <div>
-          <div style="font-size:11px; color:#2d5a40; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; font-weight:700;" class="accent">価値の統合</div>
-          <div style="font-size:32px; font-weight:900; color:#1a1208; margin-bottom:12px;" class="accent">Forward Buyout</div>
-          <p style="font-size:14px; color:rgba(26,18,8,0.55); line-height:1.9;">共創の延長線上にあるM&Aを設計・実行します。</p>
-        </div>
-      </div>
+  <div class="section-sm" style="background:linear-gradient(180deg,#e4d8c8 0%,#f2ece2 100%);">
+    <div class="inner">
+      <div class="label acc" style="color:rgba(26,21,16,0.38);">Contact</div>
+      <div class="h2 dp" style="color:#1a1510;">ご相談・お問い合わせ</div>
+      <p class="body" style="color:rgba(26,21,16,0.5);">まずは話してみませんか。</p>
     </div>
   </div>
 
-  <!-- 再び暗色（深緑）→ コントラスト効果 -->
-  <div style="background:linear-gradient(180deg,#152f26 0%,#0d1a14 100%); padding:64px 40px;">
-    <div style="max-width:800px; margin:0 auto;">
-      <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:16px; font-weight:700;" class="accent">Alliance Partner</div>
-      <div style="font-size:40px; font-weight:900; color:#6aaa88; margin-bottom:24px;" class="accent">commissure</div>
-      <p style="font-size:14px; color:rgba(255,255,255,0.45); line-height:1.9; max-width:480px;">触覚AI（ハプティクス）領域のディープテック企業として、大企業との共創プロジェクトにおけるショーケースの役割を担う。</p>
-    </div>
+  <div class="footer-section" style="background:linear-gradient(180deg,#f2ece2 0%,#090c0e 65%);">
+    <div style="font-family:'Hiragino Sans W3',sans-serif; color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div>
   </div>
-  <!-- アイボリーContactへ戻る -->
-  <div style="background:linear-gradient(180deg,#f0e8da 0%,#f4ede2 100%); padding:64px 40px; text-align:center;">
-    <div style="font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(26,18,8,0.35); margin-bottom:20px; font-weight:700;" class="accent">Contact</div>
-    <div style="font-size:clamp(28px,4vw,52px); font-weight:900; color:#1a1208; margin-bottom:20px;" class="accent">まずは、話しましょう。</div>
-    <div style="display:inline-block; padding:16px 48px; border:1px solid #2d5a40; color:#2d5a40; font-size:14px; letter-spacing:0.15em; text-transform:uppercase; font-weight:700;" class="accent">Get in touch</div>
-  </div>
-  <div style="padding:12px 40px; background:#0d1a14; color:rgba(255,255,255,0.35); font-size:12px;">
-    判定: ダーク×アイボリーの折返しがリズムを生む。緑アクセントはそのまま活きる。一番バランスが良い構成
+
+  <div class="verdict">
+    <div class="acc" style="color:#c4b8a4; font-size:12px; font-weight:900;">04</div>
+    <div style="color:rgba(255,255,255,0.4); font-size:13px;">02よりアーシー。職人感・堅実さが出る。インテリア・建設系クライアントに刺さりやすい</div>
   </div>
 </div>
 
-<!-- 結論サマリ -->
-<div style="background:#0a1a12; padding:48px 40px; border-top:1px solid rgba(255,255,255,0.08);">
+
+<!-- ======================================== -->
+<!-- PATTERN 05 — フォグ / ミストグリーン（現状の上品版） -->
+<!-- ======================================== -->
+<div style="--accent:#a8c4b4; margin-bottom:2px; margin-top:16px;">
+  <div class="pattern-header" style="border-top-color:#a8c4b4;">
+    <div class="tag acc" style="background:#182820; color:#a8c4b4; border:1px solid #a8c4b4;">05</div>
+    <div class="acc" style="color:#fff; font-size:17px; font-weight:900;">フォググリーン / ミスト（現状の上品版）</div>
+    <div style="color:rgba(255,255,255,0.35); font-size:13px;">緑を残したまま彩度を落とす。ブランドカラー継承</div>
+  </div>
+
+  <div class="dark-bridge">
+    <div class="chip" style="background:#152f26;"></div>
+    <div class="dark-marker acc">← WhatWeAre（暗緑）からここへ続く</div>
+  </div>
+
+  <div class="section" style="background:linear-gradient(180deg,#d8e8df 0%,#c8dcd2 100%);">
+    <div class="inner">
+      <div class="label acc" style="color:#3a6050;">Services</div>
+      <div class="h2 acc" style="color:#0d1a14;">技術の価値を市場に届ける</div>
+      <p class="body" style="color:rgba(9,12,14,0.55);">有望な技術が、事業にならないまま消えていく。<br/>研究開発段階から共創する「Forward R&D」と、その先のM&Aまで設計する「Forward Buyout」です。</p>
+    </div>
+  </div>
+
+  <div class="section-sm" style="background:linear-gradient(180deg,#c8dcd2 0%,#eef4f0 100%);">
+    <div class="inner">
+      <div class="label acc" style="color:rgba(9,12,14,0.38);">Contact</div>
+      <div class="h2 dp" style="color:#0d1a14;">ご相談・お問い合わせ</div>
+      <p class="body" style="color:rgba(9,12,14,0.5);">まずは話してみませんか。</p>
+    </div>
+  </div>
+
+  <div class="footer-section" style="background:linear-gradient(180deg,#eef4f0 0%,#090c0e 65%);">
+    <div style="font-family:'Hiragino Sans W3',sans-serif; color:rgba(255,255,255,0.25);">© 2026 BOAR Partners, Inc.</div>
+  </div>
+
+  <div class="verdict">
+    <div class="acc" style="color:#a8c4b4; font-size:12px; font-weight:900;">05</div>
+    <div style="color:rgba(255,255,255,0.4); font-size:13px;">現状から最も近い変更。ブランド継承感が高い。彩度を下げるだけで印象は大幅改善</div>
+  </div>
+</div>
+
+
+<!-- まとめ -->
+<div style="background:#0a1208; padding:48px 40px; margin-top:16px;">
   <div style="max-width:800px; margin:0 auto;">
-    <div style="color:#6aaa88; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; font-weight:700; margin-bottom:20px;" class="accent">Summary</div>
-    <div style="display:flex; flex-direction:column; gap:16px;">
-      <div style="display:grid; grid-template-columns:120px 1fr; gap:24px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:16px;">
-        <div style="color:#6aaa88; font-weight:900; font-size:13px;" class="accent">Pattern 01</div>
-        <div style="color:rgba(255,255,255,0.4); font-size:14px;">現状のミント。親しみやすいがブランド格調が弱い</div>
+    <div class="label acc" style="color:#6aaa88; margin-bottom:24px;">まとめ — どれを選ぶか</div>
+
+    <div style="display:flex; flex-direction:column; gap:0;">
+      <div style="display:grid; grid-template-columns:48px 160px 1fr; gap:16px; align-items:start; padding:16px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div class="acc" style="color:rgba(255,255,255,0.3); font-size:13px; font-weight:900;">01</div>
+        <div style="color:rgba(255,255,255,0.35); font-size:13px;">ミント（現状）</div>
+        <div style="color:rgba(255,255,255,0.3); font-size:13px;">変更不要なら維持。ただし格調面で限界あり</div>
       </div>
-      <div style="display:grid; grid-template-columns:120px 1fr; gap:24px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:16px;">
-        <div style="color:#c8b89a; font-weight:900; font-size:13px;" class="accent">Pattern 02</div>
-        <div style="color:rgba(255,255,255,0.5); font-size:14px;">アイボリー×シャンパン。最も格調高い。M&A文脈にベストマッチ</div>
+      <div style="display:grid; grid-template-columns:48px 160px 1fr; gap:16px; align-items:start; padding:16px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div class="acc" style="color:#c8b49a; font-size:13px; font-weight:900;">02 ★</div>
+        <div style="color:rgba(255,255,255,0.6); font-size:13px;">アイボリー</div>
+        <div style="color:rgba(255,255,255,0.55); font-size:13px;">暗緑との対比が最強。ブランド格調No.1。緑アクセントはラベル・ボタンで継続使用可</div>
       </div>
-      <div style="display:grid; grid-template-columns:120px 1fr; gap:24px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:16px;">
-        <div style="color:#e0dbd2; font-weight:900; font-size:13px;" class="accent">Pattern 03</div>
-        <div style="color:rgba(255,255,255,0.4); font-size:14px;">ストーン/オフホワイト。クリーン・テック寄り。安全牌</div>
+      <div style="display:grid; grid-template-columns:48px 160px 1fr; gap:16px; align-items:start; padding:16px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div class="acc" style="color:#d4cfc6; font-size:13px; font-weight:900;">03</div>
+        <div style="color:rgba(255,255,255,0.4); font-size:13px;">ストーン</div>
+        <div style="color:rgba(255,255,255,0.3); font-size:13px;">安全牌。邪魔しない。緑との対比も十分</div>
       </div>
-      <div style="display:grid; grid-template-columns:120px 1fr; gap:24px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:16px;">
-        <div style="color:#6aaa88; font-weight:900; font-size:13px;" class="accent">Pattern 04</div>
-        <div style="color:rgba(255,255,255,0.4); font-size:14px;">フルダーク統一。最もハードコア。単調リスクあり</div>
+      <div style="display:grid; grid-template-columns:48px 160px 1fr; gap:16px; align-items:start; padding:16px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div class="acc" style="color:#c4b8a4; font-size:13px; font-weight:900;">04</div>
+        <div style="color:rgba(255,255,255,0.4); font-size:13px;">グレージュ</div>
+        <div style="color:rgba(255,255,255,0.3); font-size:13px;">02より渋く落ち着き重視。クライアント業種次第で◎</div>
       </div>
-      <div style="display:grid; grid-template-columns:120px 1fr; gap:24px;">
-        <div style="color:#d4cfc8; font-weight:900; font-size:13px;" class="accent">Pattern 05 ★</div>
-        <div style="color:rgba(255,255,255,0.7); font-size:14px;">ダーク×アイボリーの往復。緑アクセント活きる。メリハリ最強。個人的イチオシ</div>
+      <div style="display:grid; grid-template-columns:48px 160px 1fr; gap:16px; align-items:start; padding:16px 0;">
+        <div class="acc" style="color:#a8c4b4; font-size:13px; font-weight:900;">05</div>
+        <div style="color:rgba(255,255,255,0.4); font-size:13px;">フォググリーン</div>
+        <div style="color:rgba(255,255,255,0.3); font-size:13px;">現状から最小変更。緑好きならここが着地点</div>
       </div>
     </div>
   </div>
