@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import {
   Search, Users, Rocket, Layers, PieChart,
@@ -690,50 +690,43 @@ function AlliancePartner() {
 
 // ─── Contact CTA ─────────────────────────────────────────
 function ContactCTA() {
+  const [hovered, setHovered] = useState(false);
+  const G = COLORS.G300;
   return (
-    <section style={{
-      background: "linear-gradient(180deg,#152f26 0%,#090c0e 100%)",
-      padding: "100px 8vw 120px",
-      textAlign: "center",
-    }}>
-      <FadeIn>
+    <a
+      href="/contact"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "block", textDecoration: "none",
+        background: "#090c0e",
+        padding: "72px 8vw",
+        borderTop: `1px solid ${hovered ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.06)"}`,
+        transition: "border-color 0.4s",
+        cursor: "pointer",
+      }}
+    >
+      <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
         <div style={{
-          fontFamily: FONTS.accent, fontSize: 12, fontWeight: 700,
-          letterSpacing: "0.22em", textTransform: "uppercase",
-          color: "rgba(255,255,255,0.25)", marginBottom: 24,
-        }}>Contact</div>
-      </FadeIn>
-      <FadeIn delay={0.1}>
-        <h2 style={{
-          fontFamily: FONTS.accent, fontSize: "clamp(28px,5vw,64px)",
-          color: COLORS.N500, fontWeight: 900, lineHeight: 1.1, marginBottom: 20,
+          fontFamily: FONTS.accent, fontSize: "clamp(48px,9vw,120px)",
+          fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em",
+          color: hovered ? G : "white",
+          transition: "color 0.4s",
         }}>
-          まずは、話しましょう。
-        </h2>
-      </FadeIn>
-      <FadeIn delay={0.2}>
-        <p style={{
-          fontFamily: FONTS.body, fontSize: "clamp(14px,1.4vw,16px)",
-          color: COLORS.darkBody, lineHeight: 2.0, marginBottom: 48,
+          Contact.
+        </div>
+        <div style={{
+          fontFamily: FONTS.accent, fontSize: 13, fontWeight: 700,
+          letterSpacing: "0.2em", textTransform: "uppercase",
+          color: G, display: "flex", alignItems: "center", gap: 16,
+          opacity: hovered ? 1 : 0, transition: "opacity 0.4s",
+          paddingBottom: 8,
         }}>
-          ディープテック事業化、M&A、資本政策——どのフェーズでもご相談ください。
-        </p>
-      </FadeIn>
-      <FadeIn delay={0.3}>
-        <a href="/contact" style={{
-          display: "inline-block", padding: "18px 56px",
-          border: `1px solid ${COLORS.G300}`, color: COLORS.G300,
-          textDecoration: "none", fontFamily: FONTS.accent, fontSize: 14,
-          letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 700,
-          transition: "all 0.4s",
-        }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.G300; e.currentTarget.style.color = COLORS.N100; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = COLORS.G300; }}
-        >
-          Get in touch
-        </a>
-      </FadeIn>
-    </section>
+          <span style={{ width: 48, height: 1, background: G, display: "inline-block" }} />
+          Form
+        </div>
+      </div>
+    </a>
   );
 }
 

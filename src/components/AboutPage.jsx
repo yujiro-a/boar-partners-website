@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { FONTS, COLORS, FadeIn, TextReveal, SectionLabel, Header, Footer, useIsMobile } from "./shared.jsx";
 
@@ -5,9 +6,9 @@ import { FONTS, COLORS, FadeIn, TextReveal, SectionLabel, Header, Footer, useIsM
 function Origin() {
   /* TODO: 荒川さん確認・差し替え */
   const storyParagraphs = [
-    "エンジニアリングと資本市場——異なるフィールドで実績を積んだ2人が出会ったとき、共通の問いが浮かび上がりました。",
-    "「なぜ日本の最高の技術は、産業にならないのか」",
-    "技術の価値を正しく評価し、事業として育て、最終的に統合するまで。その全プロセスを一気通貫で走れるチームを作る。BOARは、その確信から生まれました。",
+    "商売が好きで、事業を動かすことが好きだ。——それぞれの現場で仕事をしながら、同じ問いを持っていた。",
+    "「なぜ、技術は産業にならないのか」",
+    "技術の価値を正しく評価し、事業として育て、最終的に統合するまで。そのプロセスを一気通貫で走れるプロ集団を作る。BOARは、その意志から生まれた。",
   ];
 
   return (
@@ -35,7 +36,7 @@ function Origin() {
             なぜ、BOARをつくったか。
           </h2>
         </FadeIn>
-        <div style={{ maxWidth: 700, display: "flex", flexDirection: "column", gap: 28 }}>
+        <div style={{ maxWidth: "none", display: "flex", flexDirection: "column", gap: 28 }}>
           {storyParagraphs.map((p, i) => (
             <FadeIn key={i} delay={i * 0.15}>
               <p style={{
@@ -65,23 +66,17 @@ function Team() {
       role: "代表",
       name: "荒川 悠次朗",
       nameEn: "Yujiro Arakawa",
-      initials: "YA",
-      career: [
-        { phase: "起業家", desc: "リユース業界にて事業会社を創業・取締役として経営。採用・営業・資金管理を一気通貫で推進。" },
-        { phase: "コンサルファーム", desc: "新規事業開発・M&A戦略室立ち上げ支援・資金調達支援。建設業・内装工事業など複数業種での融資実績。グロース/プライム上場企業への支援実績。" },
-        { phase: "独立後（現在）", desc: "M&A × 事業開発 × 資金調達を一気通貫で支援。" },
-      ],
+      photo: "/team/arakawa_crop.jpg",
+      photoPos: "center 15%",
+      bio: "事業会社を創業・取締役として経営した後、コンサルファームにてM&A戦略室立ち上げ支援・資金調達支援に従事。建設業・内装工事業など複数業種での融資実績、グロース/プライム上場企業への支援実績を持つ。現在はcomissureに参画し、大企業のアカデミア技術活用をテーマに活動している。",
     },
     {
       role: "共同創業者",
       name: "溝橋 正輝",
       nameEn: "Masaki Mizohashi",
-      initials: "MM",
-      career: [
-        { phase: "川崎重工業", desc: "エンジニアとしてキャリアをスタート。製造技術・品質管理の実務を担う。" },
-        { phase: "野村證券", desc: "資本市場・投資銀行業務に従事。企業価値評価・資金調達の実務を習得。" },
-        { phase: "独立後（現在）", desc: "ディープテック・スタートアップ支援に特化。アカデミア発ベンチャーのエコシステムと深いネットワークを持ち、技術の目利きから事業化・資金調達まで一気通貫で支援。" },
-      ],
+      photo: "/team/mizohashi_crop.png",
+      photoPos: "center 15%",
+      bio: "川崎重工業にてエンジニアとしてキャリアをスタートし、製造技術・品質管理の実務を経た後、野村證券にて資本市場・投資銀行業務に従事。現在はディープテック・スタートアップ支援に特化し、アカデミア発ベンチャーのエコシステムと深いネットワークを持つ。技術の目利きから事業化・資金調達まで一気通貫で動く。",
     },
   ];
 
@@ -104,89 +99,56 @@ function Team() {
               viewport={{ once: true, margin: "0px" }}
               transition={{ duration: 0.9, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* 写真プレースホルダー + ロール・名前 */}
-              <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 28 }}>
-                {/* 円形アバター（TODO: 将来実写真に差し替え可能）*/}
-                <div style={{
-                  width: 72, height: 72, borderRadius: "50%",
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 22, color: COLORS.G300, fontFamily: FONTS.accent, fontWeight: 900,
-                  flexShrink: 0,
-                }}>
-                  {m.initials}
-                </div>
-                <div>
-                  <div style={{
-                    fontSize: 11, color: COLORS.G300, letterSpacing: "0.2em",
-                    textTransform: "uppercase", marginBottom: 6,
-                    fontFamily: FONTS.accent, fontWeight: 700,
-                  }}>
-                    {m.role}
-                  </div>
-                  <div style={{
-                    fontFamily: FONTS.display, fontSize: "clamp(22px,2.5vw,36px)",
-                    fontWeight: 700, color: COLORS.N500, lineHeight: 1.1, marginBottom: 2,
-                  }}>
-                    {m.name}
-                  </div>
-                  <div style={{
-                    fontFamily: FONTS.accent, fontSize: 12, color: COLORS.G300,
-                    letterSpacing: "0.04em",
-                  }}>
-                    {m.nameEn}
-                  </div>
-                </div>
-              </div>
-
-              {/* キャリアタイムライン（縦線ドット付き）*/}
-              <div style={{ position: "relative" }}>
-                {/* 縦線 */}
-                <div style={{
-                  position: "absolute", left: 3, top: 0, bottom: 0,
-                  width: 1, background: "rgba(255,255,255,0.08)",
-                }} />
-                <div style={{ display: "flex", flexDirection: "column", gap: 0, paddingLeft: 20 }}>
-                  {m.career.map((c, j) => (
-                    <div key={j} style={{
-                      position: "relative",
-                      borderTop: "1px solid rgba(255,255,255,0.07)",
-                      padding: "18px 0",
-                      display: "grid",
-                      gridTemplateColumns: "120px 1fr",
-                      gap: "0 24px",
-                    }}>
-                      {/* ドット */}
-                      <div style={{
-                        position: "absolute", left: -23,
-                        top: "50%", transform: "translateY(-50%)",
-                        width: 7, height: 7, borderRadius: "50%",
-                        background: COLORS.G300,
-                      }} />
-                      <div style={{
-                        fontFamily: FONTS.body, fontSize: 11,
-                        color: COLORS.G300, letterSpacing: "0.04em",
-                        lineHeight: 1.6, paddingTop: 2,
-                      }}>
-                        {c.phase}
-                      </div>
-                      <div style={{
-                        fontFamily: FONTS.body, fontSize: 14,
-                        color: "rgba(255,255,255,0.65)", lineHeight: 1.9,
-                      }}>
-                        {c.desc}
-                      </div>
-                    </div>
-                  ))}
-                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }} />
-                </div>
-              </div>
+              <TeamMemberCard m={m} />
             </motion.div>
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function TeamMemberCard({ m }) {
+  const [hovered, setHovered] = useState(false);
+  const G = COLORS.G300;
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ overflow: "hidden", position: "relative" }}>
+        <img src={m.photo} alt={m.name} style={{
+          width: "100%", height: 420, objectFit: "cover",
+          objectPosition: m.photoPos, display: "block",
+          filter: hovered ? "grayscale(0%) brightness(1)" : "grayscale(100%) brightness(0.85)",
+          transform: hovered ? "scale(1.04)" : "scale(1)",
+          transition: "filter 0.5s ease, transform 0.6s ease",
+        }} />
+        <div style={{
+          position: "absolute", bottom: 0, left: 0, right: 0, height: 2,
+          background: G, transform: hovered ? "scaleX(1)" : "scaleX(0)",
+          transformOrigin: "left", transition: "transform 0.4s ease",
+        }} />
+      </div>
+      <div style={{ padding: "20px 0 36px" }}>
+        <div style={{
+          fontFamily: FONTS.accent, fontSize: 10, color: G,
+          letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 8,
+          opacity: hovered ? 1 : 0.5, transition: "opacity 0.4s",
+        }}>{m.role}</div>
+        <div style={{
+          fontFamily: FONTS.display, fontSize: "clamp(24px,2.5vw,36px)",
+          fontWeight: 700, lineHeight: 1.05, marginBottom: 4,
+          color: hovered ? "white" : "rgba(255,255,255,0.7)",
+          transition: "color 0.4s",
+        }}>{m.name}</div>
+        <div style={{
+          fontFamily: FONTS.accent, fontSize: 12, color: G,
+          letterSpacing: "0.04em", marginBottom: 20,
+        }}>{m.nameEn}</div>
+        <p style={{ fontFamily: FONTS.body, fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 2.0 }}>{m.bio}</p>
+      </div>
+    </div>
   );
 }
 
@@ -387,30 +349,43 @@ function Company() {
 
 // ─── CTA ─────────────────────────────────────────────────
 function CTA() {
+  const [hovered, setHovered] = useState(false);
+  const G = COLORS.G300;
   return (
-    <section style={{ padding: "80px 8vw", background: COLORS.G100, textAlign: "center" }}>
-      <FadeIn>
+    <a
+      href="/contact"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "block", textDecoration: "none",
+        background: "#090c0e",
+        padding: "72px 8vw",
+        borderTop: `1px solid ${hovered ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.06)"}`,
+        transition: "border-color 0.4s",
+        cursor: "pointer",
+      }}
+    >
+      <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
         <div style={{
-          fontFamily: FONTS.display, fontSize: "clamp(24px,3vw,40px)",
-          color: COLORS.N500, marginBottom: 32, fontWeight: 700,
+          fontFamily: FONTS.accent, fontSize: "clamp(48px,9vw,120px)",
+          fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em",
+          color: hovered ? G : "white",
+          transition: "color 0.4s",
         }}>
-          まずは話してみませんか。
+          Contact.
         </div>
-        <a href="/contact" style={{
-          display: "inline-block",
-          fontFamily: FONTS.accent, fontSize: 15, letterSpacing: "0.14em",
-          textTransform: "uppercase", fontWeight: 700,
-          color: COLORS.N500, textDecoration: "none",
-          padding: "16px 48px", border: "1px solid rgba(255,255,255,0.4)",
-          transition: "all 0.3s",
-        }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.N500; e.currentTarget.style.color = COLORS.G100; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = COLORS.N500; }}
-        >
-          Contact Us
-        </a>
-      </FadeIn>
-    </section>
+        <div style={{
+          fontFamily: FONTS.accent, fontSize: 13, fontWeight: 700,
+          letterSpacing: "0.2em", textTransform: "uppercase",
+          color: G, display: "flex", alignItems: "center", gap: 16,
+          opacity: hovered ? 1 : 0, transition: "opacity 0.4s",
+          paddingBottom: 8,
+        }}>
+          <span style={{ width: 48, height: 1, background: G, display: "inline-block" }} />
+          Form
+        </div>
+      </div>
+    </a>
   );
 }
 
@@ -457,10 +432,10 @@ export default function AboutPage() {
               About Us
             </motion.div>
             <TextReveal
-              lines={["実行する者が、", "伴走する。"]}
-              fontSize="clamp(36px,5.5vw,80px)"
+              lines={["商売好きな事業開発のプロ集団"]}
+              fontSize="clamp(28px,4vw,64px)"
               delay={0.1}
-              style={{ marginBottom: 32 }}
+              style={{ marginBottom: 32, whiteSpace: "nowrap" }}
             />
             <motion.p
               initial={{ opacity: 0, y: 16 }}
@@ -468,18 +443,16 @@ export default function AboutPage() {
               transition={{ duration: 0.9, delay: 0.4 }}
               style={{
                 fontFamily: FONTS.body, fontSize: "clamp(14px,1.1vw,17px)",
-                color: "rgba(255,255,255,0.55)", lineHeight: 1.9, maxWidth: 560,
+                color: "rgba(255,255,255,0.55)", lineHeight: 1.9,
               }}
             >
-              BOAR Partnersは、紹介や橋渡しではなく、チームとして当事者意識を持って事業に入り込む。
-              それぞれが異なるフィールドで実績を積んだ2人が、ゼロから共に走る。
+              商売が好きで、事業を動かす力がある。そういう人間が集まる場所として、BOARを作った。
             </motion.p>
           </div>
         </section>
 
         <Origin />
         <Team />
-        <Complement />
         <Company />
         <CTA />
       </main>
