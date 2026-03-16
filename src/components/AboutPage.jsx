@@ -6,9 +6,9 @@ import { FONTS, COLORS, FadeIn, TextReveal, SectionLabel, Header, Footer, useIsM
 function Origin() {
   /* TODO: 荒川さん確認・差し替え */
   const storyParagraphs = [
-    "商売が好きで、事業を動かすことが好きだ。——それぞれの現場で仕事をしながら、同じ問いを持っていた。",
+    "商売が好きで、事業を動かすことに意義を感じる。——それぞれの現場で経験を重ねながら、私たちは同じ問いを持ち続けていました。",
     "「なぜ、技術は産業にならないのか」",
-    "技術の価値を正しく評価し、事業として育て、最終的に統合するまで。そのプロセスを一気通貫で走れるプロ集団を作る。BOARは、その意志から生まれた。",
+    "技術の価値を正しく評価し、事業として育て、最終的に統合するまでを一気通貫で担えるプロ集団をつくる。BOARは、その意志から生まれました。",
   ];
 
   return (
@@ -116,37 +116,57 @@ function TeamMemberCard({ m }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div style={{ overflow: "hidden", position: "relative" }}>
-        <img src={m.photo} alt={m.name} style={{
-          width: "100%", height: 420, objectFit: "cover",
-          objectPosition: m.photoPos, display: "block",
-          filter: hovered ? "grayscale(0%) brightness(1)" : "grayscale(100%) brightness(0.85)",
+      {/* 画像 + オーバーレイ + 肩書き・名前 */}
+      <div style={{ overflow: "hidden", position: "relative", height: 420 }}>
+        {/* 背景画像 — S03フィルター + ホバーでズーム */}
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: `url(${m.photo})`,
+          backgroundSize: "cover",
+          backgroundPosition: m.photoPos,
+          filter: "grayscale(50%) brightness(0.78) saturate(0.6)",
           transform: hovered ? "scale(1.04)" : "scale(1)",
-          transition: "filter 0.5s ease, transform 0.6s ease",
+          transition: "transform 0.7s cubic-bezier(0.16,1,0.3,1)",
         }} />
+        {/* グラデーションオーバーレイ */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to top, rgba(9,12,14,0.92) 0%, rgba(9,12,14,0.35) 55%, rgba(9,12,14,0.10) 100%)",
+        }} />
+        {/* H02 グリーンカーテン */}
+        <div style={{
+          position: "absolute", bottom: 0, left: 0, right: 0,
+          height: hovered ? "55%" : "0%",
+          background: "linear-gradient(to top, rgba(109,184,139,0.16) 0%, rgba(109,184,139,0.04) 70%, transparent 100%)",
+          transition: "height 0.55s cubic-bezier(0.16,1,0.3,1)",
+          pointerEvents: "none",
+        }} />
+        {/* 下ライン */}
         <div style={{
           position: "absolute", bottom: 0, left: 0, right: 0, height: 2,
-          background: G, transform: hovered ? "scaleX(1)" : "scaleX(0)",
+          background: G,
+          transform: hovered ? "scaleX(1)" : "scaleX(0)",
           transformOrigin: "left", transition: "transform 0.4s ease",
         }} />
+        {/* 肩書き・名前（画像左下） */}
+        <div style={{ position: "absolute", bottom: 24, left: 24 }}>
+          <div style={{
+            fontFamily: FONTS.accent, fontSize: 10, color: G,
+            letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 6,
+          }}>{m.role}</div>
+          <div style={{
+            fontFamily: FONTS.display, fontSize: "clamp(20px,2vw,28px)",
+            fontWeight: 700, lineHeight: 1.1, color: COLORS.N500, marginBottom: 2,
+          }}>{m.name}</div>
+          <div style={{
+            fontFamily: FONTS.accent, fontSize: 11, color: "rgba(255,255,255,0.4)",
+            letterSpacing: "0.06em",
+          }}>{m.nameEn}</div>
+        </div>
       </div>
-      <div style={{ padding: "20px 0 36px" }}>
-        <div style={{
-          fontFamily: FONTS.accent, fontSize: 10, color: G,
-          letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 8,
-          opacity: hovered ? 1 : 0.5, transition: "opacity 0.4s",
-        }}>{m.role}</div>
-        <div style={{
-          fontFamily: FONTS.display, fontSize: "clamp(24px,2.5vw,36px)",
-          fontWeight: 700, lineHeight: 1.05, marginBottom: 4,
-          color: hovered ? "white" : "rgba(255,255,255,0.7)",
-          transition: "color 0.4s",
-        }}>{m.name}</div>
-        <div style={{
-          fontFamily: FONTS.accent, fontSize: 12, color: G,
-          letterSpacing: "0.04em", marginBottom: 20,
-        }}>{m.nameEn}</div>
-        <p style={{ fontFamily: FONTS.body, fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 2.0 }}>{m.bio}</p>
+      {/* 説明（画像下） */}
+      <div style={{ padding: "20px 0 32px" }}>
+        <p style={{ fontFamily: FONTS.body, fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 2.0, margin: 0 }}>{m.bio}</p>
       </div>
     </div>
   );
@@ -158,12 +178,12 @@ const PILLARS = [
     num: "01",
     en: "EXECUTE",
     title: "事業開発のプロ集団",
-    punch: "戦略だけ、渡さない。",
+    punch: "戦略立案から実行まで、チームとして並走します。",
     img: "/what-we-do-01.jpg",
     fallback: "linear-gradient(160deg,#152f26 0%,#0d1a14 100%)",
     body: [
-      "事業開発には「動ける人」が必要だ。戦略を設計するだけでなく、顧客に会いに行き、パートナーと交渉し、チームを動かす。BOARはその実行まで一気通貫で走る。",
-      "紹介や橋渡しで終わらない。プロジェクトが動いている間、チームの一員として並走し続ける。それが、私たちの「EXECUTE」の意味だ。",
+      "事業開発に必要なのは、戦略を描く力だけではありません。顧客と向き合い、パートナーと交渉し、チームを動かし続ける実行力が伴ってはじめて、事業は前に進みます。",
+      "BOARは、紹介や橋渡しで関与を終えません。プロジェクトが動いている間、チームの一員として現場に入り込み、成果が出るまで並走します。",
     ],
     tags: ["事業戦略", "実行支援", "パートナー開拓", "PMO"],
   },
@@ -171,12 +191,12 @@ const PILLARS = [
     num: "02",
     en: "BRIDGE",
     title: "アカデミアとの深い連携",
-    punch: "研究室の言語で、話せる。",
+    punch: "研究室の言語で語り、技術の価値を市場につなげます。",
     img: "/what-we-do-02.jpg",
     fallback: "linear-gradient(160deg,#1e3a2a 0%,#0d1a14 100%)",
     body: [
-      "大学の研究室と企業の間には、深い溝がある。技術の言語と、ビジネスの言語が噛み合わない。BOARは両方の言語で話せる人間が揃っている。",
-      "東京大学をはじめとする研究ネットワークを活かし、技術の目利きから社会実装まで研究現場と並走する。アカデミア発のイノベーションを、産業に変える。",
+      "大学の研究室とビジネスの現場には、深い断絶があります。技術の言語とビジネスの言語が噛み合わないまま、多くの可能性が埋もれています。BOARには、その両方を話せる人間が揃っています。",
+      "東京大学をはじめとする研究ネットワークを活かし、技術の目利きから社会実装まで研究現場と密に連携します。アカデミア発のイノベーションを、産業として根付かせることを目指しています。",
     ],
     tags: ["アカデミア連携", "技術目利き", "社会実装", "共同研究"],
   },
@@ -184,12 +204,12 @@ const PILLARS = [
     num: "03",
     en: "ACCELERATE",
     title: "AIが一員として動く",
-    punch: "AIが本当に、働く。",
+    punch: "AIをチームに組み込み、意思決定のサイクルを加速します。",
     img: "/what-we-do-03.jpg",
     fallback: "linear-gradient(160deg,#0a1a12 0%,#152f26 100%)",
     body: [
-      "AIを「ツールとして使う」時代は終わった。BOARでは、AIエージェントがチームの一員として実際の業務を担う。調査、分析、ドキュメント生成——人間が判断し、AIが動く体制で動いている。",
-      "この仕組みを、クライアントの現場にも持ち込む。意思決定のサイクルを速め、仮説検証のコストを下げる。それが、私たちが言う「ACCELERATE」だ。",
+      "BOARでは、AIエージェントがチームの一員として実際の業務を担っています。調査・分析・資料作成といった作業をAIが受け持ち、人間はより本質的な判断と対話に集中できる体制を整えています。",
+      "この仕組みを、クライアントの現場にも持ち込みます。意思決定のサイクルを短縮し、仮説検証のコストを下げることで、事業の推進力を高めます。",
     ],
     tags: ["AI活用", "エージェント設計", "業務自動化", "意思決定支援"],
   },
@@ -208,10 +228,10 @@ function Pillars() {
         <SectionLabel>What We Do</SectionLabel>
         <FadeIn>
           <h2 style={{
-            fontFamily: FONTS.accent, fontSize: "clamp(28px,4vw,52px)",
+            fontFamily: FONTS.accent, fontSize: "clamp(24px,3.2vw,48px)",
             color: COLORS.N500, fontWeight: 900, lineHeight: 1.1, marginBottom: 64,
           }}>
-            三つの力が、一体化して動く。
+            技術の価値を証明する
           </h2>
         </FadeIn>
 
@@ -621,7 +641,7 @@ export default function AboutPage() {
                 color: "rgba(255,255,255,0.55)", lineHeight: 1.9,
               }}
             >
-              商売が好きで、事業を動かす力がある。そういう人間が集まる場所として、BOARを作った。
+              商売が好きで、事業を動かす力がある。そういう人間が集まる場所として、BOARを立ち上げました。
             </motion.p>
           </div>
         </section>

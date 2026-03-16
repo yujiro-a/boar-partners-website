@@ -39,23 +39,10 @@ function ContactForm() {
               style={{ marginBottom: 40 }}
             />
             <FadeIn delay={0.2}>
-              <p style={{ fontFamily: FONTS.body, fontSize: 15, color: L.body, lineHeight: 1.9, marginBottom: 40 }}>
-                M&A・事業開発・資金調達のご相談は、
-                フォームよりお気軽にご連絡ください。
-                通常2営業日以内にご返信いたします。
+              <p style={{ fontFamily: FONTS.body, fontSize: 15, color: L.body, lineHeight: 1.9 }}>
+                事業のこと、戦略のこと、なんでも。
+                まずは話しましょう。
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {[
-                  { icon: "◎", label: "M&A・エグジット戦略" },
-                  { icon: "◎", label: "新規事業・R&D共創" },
-                  { icon: "◎", label: "資金調達支援" },
-                ].map((item) => (
-                  <div key={item.label} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                    <span style={{ color: COLORS.G300, fontFamily: FONTS.accent, fontSize: 14 }}>{item.icon}</span>
-                    <span style={{ fontFamily: FONTS.body, fontSize: 14, color: L.body }}>{item.label}</span>
-                  </div>
-                ))}
-              </div>
             </FadeIn>
           </div>
 

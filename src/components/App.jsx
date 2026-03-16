@@ -1144,9 +1144,9 @@ const RELEASES_PREVIEW = [
   { id: 3, type: "column", typeLabel: "コラム",   date: "2026-03", title: "なぜ、日本の技術は産業にならないのか" },
 ];
 const BADGE = {
-  news:   { color: COLORS.G200, border: `1px solid ${COLORS.G200}` },
-  case:   { color: COLORS.G300, border: `1px solid ${COLORS.G300}` },
-  column: { color: "rgba(9,12,14,0.45)", border: "1px solid rgba(9,12,14,0.25)" },
+  news:   { color: COLORS.G200 },
+  case:   { color: COLORS.G300 },
+  column: { color: "rgba(9,12,14,0.4)" },
 };
 function ReleasesPreview() {
   return (
@@ -1168,9 +1168,9 @@ function ReleasesPreview() {
                 borderTop: i === 0 ? "1px solid rgba(9,12,14,0.15)" : "none",
                 borderBottom: "1px solid rgba(9,12,14,0.15)",
               }}>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingLeft: 16 }}>
                   <span style={{ fontFamily: FONTS.body, fontSize: 11, color: "rgba(9,12,14,0.35)" }}>{item.date}</span>
-                  <span style={{ fontFamily: FONTS.body, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", padding: "3px 8px", background: "transparent", border: b.border, color: b.color, display: "inline-block", width: "fit-content" }}>{item.typeLabel}</span>
+                  <span style={{ fontFamily: FONTS.body, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", color: b.color, display: "inline-block", width: "fit-content" }}>{item.typeLabel}</span>
                 </div>
                 <span style={{ fontFamily: FONTS.display, fontSize: "clamp(14px,1.4vw,17px)", fontWeight: 700, color: "#0d1a14", lineHeight: 1.4 }}>{item.title}</span>
                 <span style={{ fontFamily: FONTS.body, fontSize: 14, color: "rgba(9,12,14,0.25)" }}>→</span>
@@ -1204,7 +1204,7 @@ function ContactCTA() {
     >
       <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
         <div style={{
-          fontFamily: FONTS.accent, fontSize: "clamp(48px,9vw,120px)",
+          fontFamily: FONTS.accent, fontSize: "clamp(36px,5.5vw,72px)",
           fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em",
           color: hovered ? G : "white",
           transition: "color 0.4s",
