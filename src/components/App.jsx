@@ -647,7 +647,7 @@ function WhatWeAre() {
           <div>
             <SectionLabel>What We Do</SectionLabel>
             <TextReveal
-              lines={["三つの力が、一体化して動く。"]}
+              lines={["非連続な成長を実現する。"]}
               fontSize={isMobile ? "clamp(22px,6vw,32px)" : "clamp(24px,3.2vw,48px)"}
             />
           </div>
