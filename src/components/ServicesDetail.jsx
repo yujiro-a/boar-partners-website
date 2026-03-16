@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const FONTS = {
@@ -18,13 +19,24 @@ const L = {
   card: "rgba(9,12,14,0.05)", border: "rgba(9,12,14,0.12)",
 };
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
+
 function FadeIn({ children, delay = 0, style: extra = {} }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-30px" }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: "0px" }}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
       style={extra}
     >
       {children}
@@ -35,10 +47,10 @@ function FadeIn({ children, delay = 0, style: extra = {} }) {
 function SectionLabel({ children, dark = false }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -10 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px" }}
+      transition={{ duration: 0.7 }}
       style={{
         fontFamily: FONTS.accent, fontSize: 12, letterSpacing: "0.22em",
         textTransform: "uppercase", fontWeight: 700, marginBottom: 24,
@@ -50,41 +62,80 @@ function SectionLabel({ children, dark = false }) {
   );
 }
 
-// ─── ヘッダー（簡易） ───
+// ─── ヘッダー ───
 function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const navItems = [
+    { label: "Philosophy", href: "/#philosophy" },
+    { label: "Services",   href: "/services" },
+    { label: "About",      href: "/about" },
+  ];
+
   return (
     <header style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-      background: "rgba(9,12,14,0.97)", backdropFilter: "blur(8px)",
-      borderBottom: "1px solid rgba(255,255,255,0.08)",
+      background: scrolled ? "rgba(9,12,14,0.97)" : "rgba(9,12,14,0.85)",
+      backdropFilter: "blur(8px)",
+      transition: "all 0.4s ease",
+      borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "none",
     }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "15px 32px 10px",
         display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <a href="/" style={{ textDecoration: "none" }}>
+        <a href="/" style={{ display: "inline-block" }}>
           <img src="/boar-logo.png?v=2" alt="BOAR Partners" style={{ height: 48, width: "auto" }} />
         </a>
-        <nav style={{ display: "flex", gap: 36, alignItems: "center" }}>
-          {[
-            { label: "Philosophy", href: "/#philosophy" },
-            { label: "Services",   href: "/services" },
-            { label: "About",      href: "/#about" },
-          ].map((item) => (
+        {/* デスクトップナビ */}
+        <nav style={{ display: "flex", gap: 36, alignItems: "center" }} className="desktop-nav">
+          {navItems.map((item) => (
             <a key={item.label} href={item.href} style={{
               color: item.href === "/services" ? COLORS.N500 : "rgba(255,255,255,0.6)",
               textDecoration: "none", fontFamily: FONTS.accent, fontSize: 15,
               letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700,
               borderBottom: item.href === "/services" ? `1px solid ${COLORS.G300}` : "none",
-              paddingBottom: 2,
-            }}>{item.label}</a>
+              paddingBottom: 2, transition: "color 0.3s",
+            }}
+              onMouseEnter={(e) => e.target.style.color = COLORS.N500}
+              onMouseLeave={(e) => e.target.style.color = item.href === "/services" ? COLORS.N500 : "rgba(255,255,255,0.6)"}
+            >{item.label}</a>
           ))}
           <a href="/#contact" style={{
             color: COLORS.N500, textDecoration: "none",
             fontFamily: FONTS.accent, fontSize: 15, letterSpacing: "0.1em",
             textTransform: "uppercase", fontWeight: 700,
             padding: "10px 24px", border: "1px solid rgba(255,255,255,0.4)",
-          }}>Contact</a>
+            transition: "all 0.3s",
+          }}
+            onMouseEnter={(e) => { e.target.style.background = COLORS.N500; e.target.style.color = COLORS.G100; }}
+            onMouseLeave={(e) => { e.target.style.background = "transparent"; e.target.style.color = COLORS.N500; }}
+          >Contact</a>
         </nav>
+        {/* モバイルハンバーガー */}
+        <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)} style={{
+          display: "none", background: "none", border: "none", cursor: "pointer", padding: 8,
+        }}>
+          <div style={{ width: 24, height: 2, background: COLORS.N500, marginBottom: 6, transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translate(4px,4px)" : "none" }} />
+          <div style={{ width: 24, height: 2, background: COLORS.N500, marginBottom: 6, opacity: menuOpen ? 0 : 1, transition: "all 0.3s" }} />
+          <div style={{ width: 24, height: 2, background: COLORS.N500, transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translate(4px,-4px)" : "none" }} />
+        </button>
       </div>
+      {menuOpen && (
+        <div style={{ background: COLORS.N100, padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20 }}>
+          {[...navItems, { label: "Contact", href: "/#contact" }].map((item) => (
+            <a key={item.label} href={item.href} onClick={() => setMenuOpen(false)} style={{
+              color: item.href === "/services" ? COLORS.G300 : COLORS.N500,
+              textDecoration: "none", fontFamily: FONTS.accent, fontSize: 18,
+              letterSpacing: "0.1em", textTransform: "uppercase",
+            }}>{item.label}</a>
+          ))}
+        </div>
+      )}
     </header>
   );
 }
@@ -136,32 +187,25 @@ function ValueForward() {
 
 // ─── Section 2: Forward R&D — 3D Framework ───
 function ForwardRD() {
+  const isMobile = useIsMobile();
+
   const phases = [
     {
-      id: "01",
-      name: "Define",
-      ja: "課題を定義する",
+      id: "01", name: "Define", ja: "課題を定義する",
       desc: "大企業のペインを構造化し、ディープテックで解決可能な「問い」に変換する。課題の発見・定義そのものから入ることで、ミスマッチのない共創起点を設計する。",
     },
     {
-      id: "02",
-      name: "Drive",
-      ja: "研究開発をドライブする",
+      id: "02", name: "Drive", ja: "研究開発をドライブする",
       desc: "技術パートナーの選定・共同開発・PoC推進・収益化ロードマップの設計。VCMが「製品化済みの技術を購買」するのに対し、研究段階から入り課題ごと一緒に解く。",
     },
     {
-      id: "03",
-      name: "Deliver",
-      ja: "価値を届ける",
+      id: "03", name: "Deliver", ja: "価値を届ける",
       desc: "PMOとして顧客に常駐し、事業化・スケール・グループインまで伴走する。提言で終わらず、実装まで責任を持つ。",
     },
   ];
 
   return (
-    <section style={{
-      background: "linear-gradient(180deg,#0d1a14 0%,#152f26 100%)",
-      padding: "100px 8vw",
-    }}>
+    <section style={{ background: "linear-gradient(180deg,#0d1a14 0%,#152f26 100%)", padding: "100px 8vw" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <SectionLabel>Forward R&D</SectionLabel>
         <FadeIn>
@@ -175,7 +219,7 @@ function ForwardRD() {
         <FadeIn delay={0.1}>
           <p style={{
             fontFamily: FONTS.body, fontSize: "clamp(14px,1.4vw,16px)",
-            color: COLORS.darkBody, lineHeight: 2.0, maxWidth: 600, marginBottom: 64,
+            color: COLORS.darkBody, lineHeight: 2.0, maxWidth: 600, marginBottom: 56,
           }}>
             Forward R&Dは3つのフェーズで構成される。<br />
             課題を「定義」し、研究開発を「駆動」し、価値を「届ける」。
@@ -183,18 +227,22 @@ function ForwardRD() {
         </FadeIn>
 
         {/* 3フェーズ */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 2 }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
+          gap: isMobile ? 2 : 2,
+        }}>
           {phases.map((p, i) => (
             <motion.div
               key={p.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.8, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, margin: "0px" }}
+              transition={{ duration: 0.85, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                padding: "40px 36px",
+                padding: isMobile ? "32px 28px" : "40px 36px",
                 borderTop: `2px solid ${COLORS.G300}`,
-                borderRight: i < phases.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
+                borderRight: !isMobile && i < phases.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
                 background: "rgba(255,255,255,0.025)",
               }}
             >
@@ -208,7 +256,7 @@ function ForwardRD() {
               }}>{p.name}</div>
               <div style={{
                 fontFamily: FONTS.body, fontSize: 13, color: COLORS.G300,
-                marginBottom: 24, letterSpacing: "0.04em",
+                marginBottom: 20, letterSpacing: "0.04em",
               }}>{p.ja}</div>
               <p style={{
                 fontFamily: FONTS.body, fontSize: 14, color: COLORS.darkBody, lineHeight: 1.9, margin: 0,
@@ -219,38 +267,69 @@ function ForwardRD() {
 
         {/* 構造図 */}
         <FadeIn delay={0.2} style={{ marginTop: 64 }}>
-          <div style={{
-            border: "1px solid rgba(255,255,255,0.1)",
-            padding: "40px 48px",
-            display: "grid", gridTemplateColumns: "1fr auto 1fr auto 1fr",
-            alignItems: "center", gap: 16,
-          }}>
-            {[
-              { label: "大企業（顧客）", sub: "ペイン・課題" },
-              null,
-              { label: "BOAR Partners", sub: "戦略設計・実行伴走", highlight: true },
-              null,
-              { label: "アライアンスパートナー群", sub: "ディープテック・研究機関" },
-            ].map((item, i) =>
-              item === null ? (
-                <div key={i} style={{ textAlign: "center", color: COLORS.G300, fontSize: 18 }}>⇄</div>
-              ) : (
+          {isMobile ? (
+            /* モバイル: 縦リスト */
+            <div style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
+              {[
+                { label: "大企業（顧客）",       sub: "ペイン・課題",      highlight: false },
+                { label: "BOAR Partners",        sub: "戦略設計・実行伴走", highlight: true  },
+                { label: "アライアンスパートナー群", sub: "ディープテック・研究機関", highlight: false },
+              ].map((item, i) => (
                 <div key={i} style={{
-                  textAlign: "center", padding: "24px 20px",
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "20px 28px",
                   background: item.highlight ? "rgba(106,170,136,0.12)" : "rgba(255,255,255,0.03)",
-                  border: item.highlight ? `1px solid ${COLORS.G300}` : "1px solid rgba(255,255,255,0.08)",
+                  borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.07)" : "none",
+                  borderLeft: item.highlight ? `3px solid ${COLORS.G300}` : "3px solid transparent",
                 }}>
-                  <div style={{
-                    fontFamily: FONTS.accent, fontSize: 15, fontWeight: 900,
-                    color: item.highlight ? COLORS.G300 : COLORS.darkHL, marginBottom: 8,
-                  }}>{item.label}</div>
-                  <div style={{ fontFamily: FONTS.body, fontSize: 12, color: COLORS.darkBody }}>
-                    {item.sub}
+                  <div>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: 15, fontWeight: 900,
+                      color: item.highlight ? COLORS.G300 : COLORS.darkHL, marginBottom: 4 }}>
+                      {item.label}
+                    </div>
+                    <div style={{ fontFamily: FONTS.body, fontSize: 12, color: COLORS.darkBody }}>
+                      {item.sub}
+                    </div>
                   </div>
+                  {i < 2 && <div style={{ color: COLORS.G300, fontSize: 20 }}>↓</div>}
                 </div>
-              )
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            /* デスクトップ: 横並び */
+            <div style={{
+              border: "1px solid rgba(255,255,255,0.1)",
+              padding: "40px 48px",
+              display: "grid", gridTemplateColumns: "1fr auto 1fr auto 1fr",
+              alignItems: "center", gap: 16,
+            }}>
+              {[
+                { label: "大企業（顧客）",        sub: "ペイン・課題" },
+                null,
+                { label: "BOAR Partners",        sub: "戦略設計・実行伴走", highlight: true },
+                null,
+                { label: "アライアンスパートナー群", sub: "ディープテック・研究機関" },
+              ].map((item, i) =>
+                item === null ? (
+                  <div key={i} style={{ textAlign: "center", color: COLORS.G300, fontSize: 18 }}>⇄</div>
+                ) : (
+                  <div key={i} style={{
+                    textAlign: "center", padding: "24px 20px",
+                    background: item.highlight ? "rgba(106,170,136,0.12)" : "rgba(255,255,255,0.03)",
+                    border: item.highlight ? `1px solid ${COLORS.G300}` : "1px solid rgba(255,255,255,0.08)",
+                  }}>
+                    <div style={{
+                      fontFamily: FONTS.accent, fontSize: 15, fontWeight: 900,
+                      color: item.highlight ? COLORS.G300 : COLORS.darkHL, marginBottom: 8,
+                    }}>{item.label}</div>
+                    <div style={{ fontFamily: FONTS.body, fontSize: 12, color: COLORS.darkBody }}>
+                      {item.sub}
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          )}
         </FadeIn>
       </div>
     </section>
@@ -259,25 +338,24 @@ function ForwardRD() {
 
 // ─── Section 3: 5 Core Functions ───
 function CoreFunctions() {
+  const isMobile = useIsMobile();
+
   const groups = [
     {
-      phase: "Define",
-      color: COLORS.G200,
+      phase: "Define", color: COLORS.G200,
       functions: [
         { name: "市場開発", desc: "大企業のペインを構造化し、ディープテックで解決可能な「問い」に変換する。" },
       ],
     },
     {
-      phase: "Drive",
-      color: "#3d7054",
+      phase: "Drive", color: "#3d7054",
       functions: [
         { name: "共同開発", desc: "技術パートナーと共同で解を設計・プロトタイプを推進する。" },
         { name: "事業化",   desc: "PoC → 収益化ロードマップ設計・事業モデル構築。" },
       ],
     },
     {
-      phase: "Deliver",
-      color: COLORS.G300,
+      phase: "Deliver", color: COLORS.G300,
       functions: [
         { name: "PMO",     desc: "チームで顧客先に常駐し、事業開発をディレクションする。" },
         { name: "資本政策", desc: "段階的グループイン・Exit設計・M&Aスキーム組成。" },
@@ -286,10 +364,7 @@ function CoreFunctions() {
   ];
 
   return (
-    <section style={{
-      background: "linear-gradient(180deg,#152f26 0%,#1e3d2e 100%)",
-      padding: "100px 8vw",
-    }}>
+    <section style={{ background: "linear-gradient(180deg,#152f26 0%,#1e3d2e 100%)", padding: "100px 8vw" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <SectionLabel>Forward R&D</SectionLabel>
         <FadeIn>
@@ -305,41 +380,72 @@ function CoreFunctions() {
           {groups.map((g, gi) => (
             <motion.div
               key={g.phase}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.8, delay: gi * 0.1 }}
-              style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 0 }}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px" }}
+              transition={{ duration: 0.85, delay: gi * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* フェーズラベル */}
-              <div style={{
-                background: g.color, padding: "20px 24px",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                gridRow: `span ${g.functions.length}`,
-              }}>
-                <div style={{
-                  fontFamily: FONTS.accent, fontSize: 18, fontWeight: 900,
-                  color: COLORS.N500, writingMode: "vertical-rl", letterSpacing: "0.1em",
-                }}>{g.phase}</div>
-              </div>
-              {/* ファンクション */}
-              {g.functions.map((f, fi) => (
-                <div key={f.name} style={{
-                  padding: "28px 40px",
-                  background: "rgba(255,255,255,0.025)",
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
-                  display: "flex", gap: 32, alignItems: "flex-start",
-                }}>
+              {isMobile ? (
+                /* モバイル: フェーズ見出し → ファンクション縦積み */
+                <div>
+                  {/* フェーズラベル */}
                   <div style={{
+                    background: g.color, padding: "12px 24px",
                     fontFamily: FONTS.accent, fontSize: 16, fontWeight: 900,
-                    color: COLORS.darkHL, minWidth: 120,
-                  }}>{f.name}</div>
-                  <p style={{
-                    fontFamily: FONTS.body, fontSize: 14, color: COLORS.darkBody,
-                    lineHeight: 1.9, margin: 0, flex: 1,
-                  }}>{f.desc}</p>
+                    color: COLORS.N500, letterSpacing: "0.1em",
+                  }}>
+                    {g.phase}
+                  </div>
+                  {/* ファンクション */}
+                  {g.functions.map((f, fi) => (
+                    <div key={f.name} style={{
+                      padding: "24px 24px",
+                      background: "rgba(255,255,255,0.025)",
+                      borderBottom: "1px solid rgba(255,255,255,0.06)",
+                    }}>
+                      <div style={{
+                        fontFamily: FONTS.accent, fontSize: 16, fontWeight: 900,
+                        color: COLORS.darkHL, marginBottom: 10,
+                      }}>{f.name}</div>
+                      <p style={{
+                        fontFamily: FONTS.body, fontSize: 14, color: COLORS.darkBody,
+                        lineHeight: 1.9, margin: 0,
+                      }}>{f.desc}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              ) : (
+                /* デスクトップ: 左カラム固定 + 右コンテンツ */
+                <div style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 0 }}>
+                  <div style={{
+                    background: g.color, padding: "20px 24px",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    gridRow: `span ${g.functions.length}`,
+                  }}>
+                    <div style={{
+                      fontFamily: FONTS.accent, fontSize: 18, fontWeight: 900,
+                      color: COLORS.N500, writingMode: "vertical-rl", letterSpacing: "0.1em",
+                    }}>{g.phase}</div>
+                  </div>
+                  {g.functions.map((f, fi) => (
+                    <div key={f.name} style={{
+                      padding: "28px 40px",
+                      background: "rgba(255,255,255,0.025)",
+                      borderBottom: "1px solid rgba(255,255,255,0.06)",
+                      display: "flex", gap: 32, alignItems: "flex-start",
+                    }}>
+                      <div style={{
+                        fontFamily: FONTS.accent, fontSize: 16, fontWeight: 900,
+                        color: COLORS.darkHL, minWidth: 120,
+                      }}>{f.name}</div>
+                      <p style={{
+                        fontFamily: FONTS.body, fontSize: 14, color: COLORS.darkBody,
+                        lineHeight: 1.9, margin: 0, flex: 1,
+                      }}>{f.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
@@ -350,27 +456,39 @@ function CoreFunctions() {
 
 // ─── Section 4: Forward Buyout ───
 function ForwardBuyout() {
+  const isMobile = useIsMobile();
+
   const comparison = [
-    ["", "一般的なM&A FA", "Forward Buyout"],
-    ["起点", "売り手・買い手からの受託", "共創の過程で自然に生まれる"],
-    ["技術理解", "外部DD（限定的）", "共同開発を通じた深い理解"],
-    ["PMI設計", "ディール後に着手", "ディール前から実質的に始まっている"],
-    ["バリュエーション", "財務指標ベース", "技術の社会実装ポテンシャルを織り込む"],
+    ["",            "一般的なM&A FA",        "Forward Buyout"],
+    ["起点",        "売り手・買い手からの受託",  "共創の過程で自然に生まれる"],
+    ["技術理解",    "外部DD（限定的）",         "共同開発を通じた深い理解"],
+    ["PMI設計",     "ディール後に着手",          "ディール前から実質的に始まっている"],
+    ["バリュエーション", "財務指標ベース",       "技術の社会実装ポテンシャルを織り込む"],
   ];
 
-  const flow = ["バリュエーション", "ストラクチャー設計", "PMI実行", "マネタイズ"];
+  const flow = [
+    { num: "01", label: "バリュエーション" },
+    { num: "02", label: "ストラクチャー設計" },
+    { num: "03", label: "PMI実行" },
+    { num: "04", label: "マネタイズ" },
+  ];
+
+  // Forward Buyout は暗色テーマ
+  const D = {
+    bg: "linear-gradient(180deg,#152f26 0%,#0d1a14 100%)",
+    text: COLORS.darkHL, body: COLORS.darkBody,
+    accent: COLORS.G300, label: "rgba(255,255,255,0.3)",
+    border: "rgba(255,255,255,0.09)",
+  };
 
   return (
-    <section style={{
-      background: "linear-gradient(180deg,#6aaa88 0%,#b0d4c0 100%)",
-      padding: "100px 8vw",
-    }}>
+    <section style={{ background: D.bg, padding: "100px 8vw" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-        <SectionLabel dark>Forward Buyout</SectionLabel>
+        <SectionLabel>Forward Buyout</SectionLabel>
         <FadeIn>
           <h2 style={{
             fontFamily: FONTS.accent, fontSize: "clamp(28px,4vw,52px)",
-            color: L.text, fontWeight: 900, lineHeight: 1.1, marginBottom: 12,
+            color: D.text, fontWeight: 900, lineHeight: 1.1, marginBottom: 12,
           }}>
             価値の統合
           </h2>
@@ -378,7 +496,7 @@ function ForwardBuyout() {
         <FadeIn delay={0.1}>
           <p style={{
             fontFamily: FONTS.accent, fontSize: "clamp(14px,1.5vw,18px)",
-            color: L.accent, marginBottom: 32, fontWeight: 700,
+            color: D.accent, marginBottom: 32, fontWeight: 700,
           }}>
             共創の延長線上にあるM&A
           </p>
@@ -386,72 +504,83 @@ function ForwardBuyout() {
         <FadeIn delay={0.15}>
           <p style={{
             fontFamily: FONTS.body, fontSize: "clamp(14px,1.4vw,16px)",
-            color: L.body, lineHeight: 2.0, maxWidth: 640, marginBottom: 56,
+            color: D.body, lineHeight: 2.0, maxWidth: 640, marginBottom: 64,
           }}>
             社会実装の過程で成熟したアライアンスパートナーの段階的グループインを設計・実行する。<br />
             共創の延長線上にあるM&Aだからこそ、技術の本質的な価値に基づくストラクチャーを組める。
           </p>
         </FadeIn>
 
-        {/* プロセスフロー */}
-        <FadeIn delay={0.2} style={{ marginBottom: 56 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 0, flexWrap: "wrap" }}>
+        {/* プロセスフロー — 番号付きリスト */}
+        <FadeIn delay={0.2} style={{ marginBottom: 64 }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(4,1fr)",
+            gap: 2,
+          }}>
             {flow.map((step, i) => (
-              <div key={step} style={{ display: "flex", alignItems: "center" }}>
+              <div key={step.num} style={{
+                padding: isMobile ? "24px 20px" : "28px 32px",
+                background: "rgba(255,255,255,0.04)",
+                borderTop: `2px solid ${D.accent}`,
+                position: "relative",
+              }}>
                 <div style={{
-                  padding: "14px 28px", background: L.card,
-                  border: `1px solid ${L.border}`, borderTop: `3px solid ${L.accent}`,
-                  fontFamily: FONTS.accent, fontSize: 14, fontWeight: 900,
-                  color: L.text, letterSpacing: "0.04em", whiteSpace: "nowrap",
-                }}>{step}</div>
-                {i < flow.length - 1 && (
-                  <div style={{ padding: "0 12px", color: L.accent, fontSize: 16, fontWeight: 900 }}>→</div>
-                )}
+                  fontFamily: FONTS.accent, fontSize: 11, fontWeight: 700,
+                  letterSpacing: "0.22em", color: D.accent, marginBottom: 12,
+                }}>{step.num}</div>
+                <div style={{
+                  fontFamily: FONTS.display, fontSize: "clamp(14px,1.5vw,17px)",
+                  color: D.text, fontWeight: 700, lineHeight: 1.4,
+                }}>{step.label}</div>
               </div>
             ))}
           </div>
         </FadeIn>
 
-        {/* 比較テーブル */}
+        {/* 比較テーブル — 横スクロール対応 */}
         <FadeIn delay={0.25}>
-          <div style={{ border: `1px solid ${L.border}`, overflow: "hidden" }}>
-            {comparison.map((row, ri) => (
-              <div key={ri} style={{
-                display: "grid", gridTemplateColumns: "1fr 2fr 2fr",
-                borderBottom: ri < comparison.length - 1 ? `1px solid ${L.border}` : "none",
-                background: ri === 0 ? "rgba(9,12,14,0.08)" : (ri % 2 === 0 ? "transparent" : "rgba(9,12,14,0.025)"),
-              }}>
-                {row.map((cell, ci) => (
-                  <div key={ci} style={{
-                    padding: "16px 24px",
-                    fontFamily: ri === 0 ? FONTS.accent : (ci === 2 ? FONTS.body : FONTS.body),
-                    fontSize: ri === 0 ? 11 : 14,
-                    fontWeight: ri === 0 ? 700 : (ci === 0 ? 700 : 400),
-                    letterSpacing: ri === 0 ? "0.12em" : "0",
-                    textTransform: ri === 0 ? "uppercase" : "none",
-                    color: ri === 0 ? L.label : (ci === 2 ? L.accent : L.body),
-                    borderRight: ci < 2 ? `1px solid ${L.border}` : "none",
-                  }}>
-                    {cell}
-                  </div>
-                ))}
-              </div>
-            ))}
+          <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch", marginBottom: 48 }}>
+            <div style={{ minWidth: 560 }}>
+              {comparison.map((row, ri) => (
+                <div key={ri} style={{
+                  display: "grid", gridTemplateColumns: "1fr 2fr 2fr",
+                  borderBottom: ri < comparison.length - 1 ? `1px solid ${D.border}` : "none",
+                  background: ri === 0 ? "rgba(255,255,255,0.06)" : (ri % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)"),
+                }}>
+                  {row.map((cell, ci) => (
+                    <div key={ci} style={{
+                      padding: "16px 20px",
+                      fontFamily: ri === 0 ? FONTS.accent : FONTS.body,
+                      fontSize: ri === 0 ? 11 : 14,
+                      fontWeight: ri === 0 ? 700 : (ci === 0 ? 700 : 400),
+                      letterSpacing: ri === 0 ? "0.12em" : "0",
+                      textTransform: ri === 0 ? "uppercase" : "none",
+                      color: ri === 0 ? D.label : (ci === 2 ? D.accent : D.body),
+                      borderRight: ci < 2 ? `1px solid ${D.border}` : "none",
+                    }}>
+                      {cell}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </FadeIn>
 
         {/* R&Dとの接続 */}
-        <FadeIn delay={0.3} style={{ marginTop: 48 }}>
+        <FadeIn delay={0.3}>
           <div style={{
             padding: "28px 36px",
-            background: L.card, border: `1px solid ${L.border}`,
-            borderLeft: `3px solid ${L.accent}`,
+            background: "rgba(106,170,136,0.06)",
+            border: `1px solid ${D.border}`,
+            borderLeft: `3px solid ${D.accent}`,
           }}>
             <div style={{ fontFamily: FONTS.accent, fontSize: 11, fontWeight: 700,
-              letterSpacing: "0.2em", textTransform: "uppercase", color: L.label, marginBottom: 12 }}>
+              letterSpacing: "0.2em", textTransform: "uppercase", color: D.label, marginBottom: 12 }}>
               Forward R&D との接続
             </div>
-            <p style={{ fontFamily: FONTS.body, fontSize: 14, color: L.body, lineHeight: 1.9, margin: 0 }}>
+            <p style={{ fontFamily: FONTS.body, fontSize: 14, color: D.body, lineHeight: 1.9, margin: 0 }}>
               Forward R&D の Deliver フェーズで実装が成熟した時点で、<br />
               「この技術はグループに組み込むべき」という判断が生まれる。<br />
               そこで Forward Buyout が発動し、共創の延長線上でM&Aを設計・実行する。
@@ -467,46 +596,48 @@ function ForwardBuyout() {
 function AlliancePartner() {
   return (
     <section style={{
-      background: "linear-gradient(180deg,#b0d4c0 0%,#d0e8dd 100%)",
+      background: "linear-gradient(180deg,#0d1a14 0%,#152f26 100%)",
       padding: "100px 8vw",
     }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-        <SectionLabel dark>Alliance Partner</SectionLabel>
+        <SectionLabel>Alliance Partner</SectionLabel>
         <FadeIn>
           <h2 style={{
             fontFamily: FONTS.accent, fontSize: "clamp(28px,4vw,52px)",
-            color: L.text, fontWeight: 900, lineHeight: 1.1, marginBottom: 40,
+            color: COLORS.N500, fontWeight: 900, lineHeight: 1.1, marginBottom: 40,
           }}>
             1st Alliance Partner
           </h2>
         </FadeIn>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            background: L.card, border: `1px solid ${L.border}`,
-            borderTop: `3px solid ${L.accent}`, padding: "48px 56px",
+            background: "rgba(255,255,255,0.025)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            borderTop: `2px solid ${COLORS.G300}`,
+            padding: "48px 56px",
             maxWidth: 680,
           }}
         >
           <div style={{
             fontFamily: FONTS.accent, fontSize: 11, fontWeight: 700,
             letterSpacing: "0.2em", textTransform: "uppercase",
-            color: L.label, marginBottom: 12,
+            color: "rgba(255,255,255,0.3)", marginBottom: 12,
           }}>
             触覚AI / Physical AI
           </div>
           <div style={{
             fontFamily: FONTS.accent, fontSize: "clamp(28px,3.5vw,44px)",
-            color: L.text, fontWeight: 900, lineHeight: 1.0, marginBottom: 24,
+            color: COLORS.G300, fontWeight: 900, lineHeight: 1.0, marginBottom: 24,
           }}>
             commissure
           </div>
           <p style={{
-            fontFamily: FONTS.body, fontSize: 15, color: L.body,
+            fontFamily: FONTS.body, fontSize: 15, color: COLORS.darkBody,
             lineHeight: 2.0, margin: 0,
           }}>
             BOAR Partnersの第1号アライアンスパートナー。<br />
@@ -523,7 +654,7 @@ function AlliancePartner() {
 function ContactCTA() {
   return (
     <section style={{
-      background: "linear-gradient(180deg,#d0e8dd 0%,#f0f4f2 60%, #090c0e 100%)",
+      background: "linear-gradient(180deg,#152f26 0%,#090c0e 100%)",
       padding: "100px 8vw 120px",
       textAlign: "center",
     }}>
@@ -531,13 +662,13 @@ function ContactCTA() {
         <div style={{
           fontFamily: FONTS.accent, fontSize: 12, fontWeight: 700,
           letterSpacing: "0.22em", textTransform: "uppercase",
-          color: L.label, marginBottom: 24,
+          color: "rgba(255,255,255,0.25)", marginBottom: 24,
         }}>Contact</div>
       </FadeIn>
       <FadeIn delay={0.1}>
         <h2 style={{
           fontFamily: FONTS.accent, fontSize: "clamp(28px,5vw,64px)",
-          color: L.text, fontWeight: 900, lineHeight: 1.1, marginBottom: 20,
+          color: COLORS.N500, fontWeight: 900, lineHeight: 1.1, marginBottom: 20,
         }}>
           まずは、話しましょう。
         </h2>
@@ -545,7 +676,7 @@ function ContactCTA() {
       <FadeIn delay={0.2}>
         <p style={{
           fontFamily: FONTS.body, fontSize: "clamp(14px,1.4vw,16px)",
-          color: L.body, lineHeight: 2.0, marginBottom: 48,
+          color: COLORS.darkBody, lineHeight: 2.0, marginBottom: 48,
         }}>
           ディープテック事業化、M&A、資本政策——どのフェーズでもご相談ください。
         </p>
@@ -553,13 +684,13 @@ function ContactCTA() {
       <FadeIn delay={0.3}>
         <a href="/#contact" style={{
           display: "inline-block", padding: "18px 56px",
-          border: `1px solid ${L.accent}`, color: L.accent,
+          border: `1px solid ${COLORS.G300}`, color: COLORS.G300,
           textDecoration: "none", fontFamily: FONTS.accent, fontSize: 14,
           letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 700,
           transition: "all 0.4s",
         }}
-          onMouseEnter={(e) => { e.target.style.background = L.accent; e.target.style.color = "#fff"; }}
-          onMouseLeave={(e) => { e.target.style.background = "transparent"; e.target.style.color = L.accent; }}
+          onMouseEnter={(e) => { e.target.style.background = COLORS.G300; e.target.style.color = COLORS.N100; }}
+          onMouseLeave={(e) => { e.target.style.background = "transparent"; e.target.style.color = COLORS.G300; }}
         >
           Get in touch
         </a>
@@ -573,7 +704,14 @@ export default function ServicesDetail() {
     <div style={{ overflowX: "clip" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&display=swap');
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .mobile-menu-btn { display: block !important; }
+        }
+        @media (min-width: 769px) {
+          .mobile-menu-btn { display: none !important; }
+        }
       `}</style>
       <Header />
       <main>

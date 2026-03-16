@@ -802,7 +802,7 @@ function Services() {
         </FadeIn>
 
         {/* 2カラムテキスト（カードなし） */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "0 80px", marginBottom: 56 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "48px 80px", marginBottom: 56 }}>
           {services.map((s, i) => (
             <motion.div
               key={s.label}
