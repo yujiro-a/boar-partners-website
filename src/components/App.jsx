@@ -679,8 +679,9 @@ function WhatWeAre() {
         gap: isMobile ? 2 : 0,
       }}>
         {WWD_PILLARS.map((p, i) => (
-          <motion.div
+          <motion.a
             key={p.en}
+            href="/about"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -690,7 +691,9 @@ function WhatWeAre() {
             style={{
               position: "relative",
               overflow: "hidden",
-              cursor: "default",
+              cursor: "pointer",
+              textDecoration: "none",
+              display: "block",
               minHeight: isMobile ? "62vw" : "60vh",
             }}
           >
@@ -813,7 +816,7 @@ function WhatWeAre() {
                 {p.one}
               </motion.div>
             </div>
-          </motion.div>
+          </motion.a>
         ))}
       </div>
       </div>
@@ -1136,9 +1139,9 @@ const RELEASES_PREVIEW = [
   { id: 3, type: "column", typeLabel: "コラム",   date: "2026-03", title: "なぜ、日本の技術は産業にならないのか" },
 ];
 const BADGE = {
-  news:   { bg: COLORS.G200,   color: "#fff" },
-  case:   { bg: "#8B5CF6",     color: "#fff" },
-  column: { bg: "rgba(9,12,14,0.1)", color: "rgba(9,12,14,0.6)" },
+  news:   { color: COLORS.G200, border: `1px solid ${COLORS.G200}` },
+  case:   { color: COLORS.G300, border: `1px solid ${COLORS.G300}` },
+  column: { color: "rgba(9,12,14,0.45)", border: "1px solid rgba(9,12,14,0.25)" },
 };
 function ReleasesPreview() {
   return (
@@ -1162,7 +1165,7 @@ function ReleasesPreview() {
               }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   <span style={{ fontFamily: FONTS.body, fontSize: 11, color: "rgba(9,12,14,0.35)" }}>{item.date}</span>
-                  <span style={{ fontFamily: FONTS.body, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", padding: "2px 8px", background: b.bg, color: b.color, display: "inline-block", width: "fit-content" }}>{item.typeLabel}</span>
+                  <span style={{ fontFamily: FONTS.body, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", padding: "3px 8px", background: "transparent", border: b.border, color: b.color, display: "inline-block", width: "fit-content" }}>{item.typeLabel}</span>
                 </div>
                 <span style={{ fontFamily: FONTS.display, fontSize: "clamp(14px,1.4vw,17px)", fontWeight: 700, color: "#0d1a14", lineHeight: 1.4 }}>{item.title}</span>
                 <span style={{ fontFamily: FONTS.body, fontSize: 14, color: "rgba(9,12,14,0.25)" }}>→</span>
