@@ -19,7 +19,31 @@ const COLORS = {
   darkBorder: "rgba(255,255,255,0.09)",
   darkHL:     "rgba(255,255,255,0.92)",
   darkBody:   "rgba(255,255,255,0.45)",
+  // Alpha variants — ハードコード rgba を集約
+  darkSub18:  "rgba(255,255,255,0.18)",
+  darkSub30:  "rgba(255,255,255,0.30)",
+  darkSub35:  "rgba(255,255,255,0.35)",
+  darkSub38:  "rgba(255,255,255,0.38)",
+  darkSub50:  "rgba(255,255,255,0.50)",
+  darkLine10: "rgba(255,255,255,0.10)",
+  darkLine12: "rgba(255,255,255,0.12)",
+  darkLine15: "rgba(255,255,255,0.15)",
+  // Light section（Services/About/Releases背景）
+  lightText:   "#0d1a14",
+  lightBody:   "rgba(9,12,14,0.55)",
+  lightBorder: "rgba(9,12,14,0.12)",
+  lightLabel:  "rgba(9,12,14,0.38)",
+  lightAccent: "#2d5a40",
+  lightLine:   "rgba(9,26,20,0.28)",
 };
+
+// ─── カード共通エントランスアニメーション ───
+const cardEntrance = (i = 0) => ({
+  initial: { opacity: 0, y: 32 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.85, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] },
+  viewport: { once: true, margin: "-20px" },
+});
 
 // ─── テキストマスクリビール ───
 function TextReveal({ lines, delay = 0, fontSize, color = COLORS.darkHL, fontFamily, fontWeight = 700, style: extra = {} }) {
@@ -111,30 +135,27 @@ function TypewriterText({ text, loop = false }) {
     const t = setInterval(() => setPos(p => {
       if (p >= flat.length) return loop ? 0 : p;
       return p + 1;
-    }), 90);
+    }), 28);
     return () => clearInterval(t);
   }, [loop, flat.length]);
 
-  const cursor = <span style={{ animation: "cursorBlink 1.5s linear infinite" }}>|</span>;
   const chars = text.split("");
-  const lastIdx = chars.filter(c => c !== "\n").length - 1;
   let gi = 0;
   const nodes = [];
   chars.forEach((ch, i) => {
     if (ch === "\n") {
-      nodes.push(<br key={i} />);
+      nodes.push(<br key={`br${i}`} />);
       return;
     }
     const idx = gi++;
-    const isLast = idx === lastIdx;
     nodes.push(
-      <span key={i} style={{ opacity: idx < pos ? 1 : 0, transition: "opacity 0.05s",
-        animation: done && isLast ? "none" : "none" }}>
+      <span key={`ch${i}`} style={{ opacity: idx < pos ? 1 : 0, transition: "opacity 0.05s" }}>
         {ch}
       </span>
     );
-    if (idx + 1 === pos && !done) nodes.push(<span key={`c${i}`}>{cursor}</span>);
-    if (done && isLast) nodes.push(<span key="dc" style={{ animation: "cursorBlink 1.5s linear infinite" }}>|</span>);
+    if (idx + 1 === pos && !done) {
+      nodes.push(<span key={`cur${i}`} style={{ animation: "cursorBlink 1.5s linear infinite" }}>|</span>);
+    }
   });
   return <>{nodes}</>;
 }
@@ -225,8 +246,8 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
                   {String(i + 1).padStart(2, "0")} — {block.label}
                 </div>
                 <div style={{
-                  fontFamily: FONTS.display, fontSize: "clamp(26px,7vw,34px)",
-                  color: COLORS.N500, fontWeight: 200, lineHeight: 1.3, marginBottom: 14,
+                  fontFamily: FONTS.body, fontSize: "clamp(26px,7vw,34px)",
+                  color: COLORS.N500, fontWeight: 300, lineHeight: 1.3, marginBottom: 14,
                 }}>
                   {block.heading.split("\n").map((line, li, arr) => (
                     <span key={li}>
@@ -241,7 +262,7 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
                 </div>
                 <p style={{
                   fontFamily: FONTS.body, fontSize: "clamp(13px,3.5vw,14px)",
-                  color: "rgba(255,255,255,0.38)", lineHeight: 1.9, margin: 0, fontWeight: 300,
+                  color: COLORS.darkSub38, lineHeight: 1.9, margin: 0, fontWeight: 300,
                 }}>
                   {block.body.split("\n").map((line, li, arr) => (
                     <span key={li}>{line}{li < arr.length - 1 && <br />}</span>
@@ -430,8 +451,8 @@ function Hero() {
                 </div>
                 {/* 見出し */}
                 <div style={{
-                  fontFamily: FONTS.display, fontSize: "clamp(26px,3.2vw,48px)",
-                  color: COLORS.N500, fontWeight: 200, lineHeight: 1.35, marginBottom: 28,
+                  fontFamily: FONTS.body, fontSize: "clamp(26px,3.2vw,48px)",
+                  color: COLORS.N500, fontWeight: 300, lineHeight: 1.35, marginBottom: 28,
                 }}>
                   {block.heading.split("\n").map((line, li, arr) => (
                     <span key={li}>
@@ -501,6 +522,7 @@ function Hero() {
 
 // ─── PHILOSOPHY ───
 function Philosophy() {
+  const [linkHovered, setLinkHovered] = useState(false);
   const boarItems = [
     { letter: "B", rest: "uild the Business",  ja: "事業を構築する" },
     { letter: "O", rest: "pen Opportunities",  ja: "機会を開く" },
@@ -570,17 +592,20 @@ function Philosophy() {
           ))}
         </div>
         <FadeIn delay={0.3}>
-          <a href="/about" style={{
-            display: "inline-flex", alignItems: "center", gap: 10,
-            fontFamily: FONTS.accent, fontSize: 13, fontWeight: 700,
-            letterSpacing: "0.15em", textTransform: "uppercase",
-            color: "rgba(255,255,255,0.5)", textDecoration: "none",
-            borderBottom: "1px solid rgba(255,255,255,0.2)", paddingBottom: 2,
-            transition: "color 0.3s, border-color 0.3s",
-            marginTop: 40,
-          }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.N500; e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; }}
+          <a href="#about"
+            onMouseEnter={() => setLinkHovered(true)}
+            onMouseLeave={() => setLinkHovered(false)}
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              fontFamily: FONTS.accent, fontSize: 13, fontWeight: 700,
+              letterSpacing: "0.15em", textTransform: "uppercase",
+              color: linkHovered ? COLORS.N500 : COLORS.darkSub50,
+              textDecoration: "none",
+              borderBottom: `1px solid ${linkHovered ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.2)"}`,
+              paddingBottom: 2,
+              transition: "color 0.3s, border-color 0.3s",
+              marginTop: 40,
+            }}
           >
             私たちについて
             <span style={{ fontSize: 16 }}>→</span>
@@ -623,6 +648,7 @@ const WWD_PILLARS = [
 
 function WhatWeAre() {
   const [hovered, setHovered] = useState(null);
+  const [aboutLinkHovered, setAboutLinkHovered] = useState(false);
   const isMobile = useIsMobile();
 
   return (
@@ -666,15 +692,18 @@ function WhatWeAre() {
           </div>
           {!isMobile && (
             <FadeIn delay={0.2}>
-              <a href="/about" style={{
-                fontFamily: FONTS.accent, fontSize: 12, fontWeight: 700,
-                letterSpacing: "0.15em", textTransform: "uppercase",
-                color: "rgba(255,255,255,0.35)", textDecoration: "none",
-                borderBottom: "1px solid rgba(255,255,255,0.15)", paddingBottom: 2,
-                transition: "color 0.3s, border-color 0.3s", whiteSpace: "nowrap",
-              }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.N500; e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.35)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
+              <a href="#about"
+                onMouseEnter={() => setAboutLinkHovered(true)}
+                onMouseLeave={() => setAboutLinkHovered(false)}
+                style={{
+                  fontFamily: FONTS.accent, fontSize: 12, fontWeight: 700,
+                  letterSpacing: "0.15em", textTransform: "uppercase",
+                  color: aboutLinkHovered ? COLORS.N500 : COLORS.darkSub35,
+                  textDecoration: "none",
+                  borderBottom: `1px solid ${aboutLinkHovered ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.15)"}`,
+                  paddingBottom: 2,
+                  transition: "color 0.3s, border-color 0.3s", whiteSpace: "nowrap",
+                }}
               >
                 About Us →
               </a>
@@ -694,11 +723,8 @@ function WhatWeAre() {
         {WWD_PILLARS.map((p, i) => (
           <motion.a
             key={p.en}
-            href="/about"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.0, delay: i * 0.15 }}
+            href="#what-we-do"
+            {...cardEntrance(i)}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}
             style={{
@@ -841,6 +867,7 @@ function WhatWeAre() {
 
 // ─── SERVICES ───
 function Services() {
+  const [hoveredCard, setHoveredCard] = useState(null);
   const services = [
     {
       num: "01",
@@ -858,7 +885,7 @@ function Services() {
       ),
       bg: "linear-gradient(140deg, #1a3825 0%, #2d5a40 50%, #152f26 100%)",
       decoration: (
-        <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }} aria-hidden>
+        <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }} aria-hidden="true">
           {[90, 70, 50, 34, 18].map((r, i) => (
             <circle key={i} cx="88%" cy="30%" r={`${r}%`}
               fill="none" stroke="#5a8c73" strokeWidth="0.7"
@@ -888,7 +915,7 @@ function Services() {
       ),
       bg: "linear-gradient(140deg, #0d1a14 0%, #152f26 50%, #090c0e 100%)",
       decoration: (
-        <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }} aria-hidden>
+        <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }} aria-hidden="true">
           <defs>
             <pattern id="svc-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
               <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
@@ -908,7 +935,7 @@ function Services() {
     },
   ];
 
-  const L = { text: "#0d1a14", body: "rgba(9,12,14,0.55)", accent: "#2d5a40", line: "rgba(9,12,14,0.12)" };
+  const L = { text: COLORS.lightText, body: COLORS.lightBody, accent: COLORS.lightAccent, line: COLORS.lightBorder };
 
   return (
     <DiagSection id="services" bg="linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%)">
@@ -941,10 +968,10 @@ function Services() {
             {[["top","left"],["top","right"],["bottom","left"],["bottom","right"]].map(([v,h]) => (
               <div key={`${v}${h}`} style={{
                 position: "absolute", [v]: 0, [h]: 0, width: 24, height: 24,
-                borderTop: v === "top" ? "2px solid rgba(9,26,20,0.28)" : "none",
-                borderBottom: v === "bottom" ? "2px solid rgba(9,26,20,0.28)" : "none",
-                borderLeft: h === "left" ? "2px solid rgba(9,26,20,0.28)" : "none",
-                borderRight: h === "right" ? "2px solid rgba(9,26,20,0.28)" : "none",
+                borderTop: v === "top" ? `2px solid ${COLORS.lightLine}` : "none",
+                borderBottom: v === "bottom" ? `2px solid ${COLORS.lightLine}` : "none",
+                borderLeft: h === "left" ? `2px solid ${COLORS.lightLine}` : "none",
+                borderRight: h === "right" ? `2px solid ${COLORS.lightLine}` : "none",
               }} />
             ))}
             {/* 親ヘッダー */}
@@ -966,23 +993,20 @@ function Services() {
               {services.map((s, i) => (
                 <motion.a
                   key={s.label}
-                  href="/services"
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "0px" }}
-                  transition={{ duration: 0.85, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                  href="#services"
+                  {...cardEntrance(i)}
                   whileHover={{ y: -2 }}
+                  onMouseEnter={() => setHoveredCard(i)}
+                  onMouseLeave={() => setHoveredCard(null)}
                   style={{
                     position: "relative", overflow: "hidden",
                     padding: "32px 32px 28px",
                     background: s.bg,
-                    border: "1px solid rgba(255,255,255,0.07)",
+                    border: `1px solid ${hoveredCard === i ? s.borderHover : "rgba(255,255,255,0.07)"}`,
                     cursor: "pointer", textDecoration: "none",
                     display: "block",
                     transition: "border-color 0.35s",
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = s.borderHover; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; }}
                 >
                   {s.decoration}
                   <div style={{ position: "relative", zIndex: 1 }}>
@@ -1030,9 +1054,10 @@ function Services() {
 
 // ─── ABOUT ───
 function About() {
+  const isMobile = useIsMobile();
   const L = {
-    text: "#0d1a14", body: "rgba(9,12,14,0.58)",
-    accent: "#2d5a40",
+    text: COLORS.lightText, body: "rgba(9,12,14,0.58)",
+    accent: COLORS.lightAccent,
   };
 
   const members = [
@@ -1091,7 +1116,7 @@ function About() {
               </div>
               <div style={{
                 fontFamily: FONTS.display, fontSize: "clamp(28px,3vw,44px)",
-                fontWeight: 700, color: L.text, lineHeight: 1.1, marginBottom: 4,
+                fontWeight: 900, color: L.text, lineHeight: 1.1, marginBottom: 4,
               }}>
                 {m.name}
               </div>
@@ -1103,7 +1128,7 @@ function About() {
               </div>
               <div style={{ height: 1, background: "rgba(9,12,14,0.12)", marginBottom: 24 }} />
               <p style={{
-                fontSize: 14, color: L.body, lineHeight: 2.0,
+                fontSize: 14, color: L.body, lineHeight: 1.9,
                 fontFamily: FONTS.body, margin: 0,
               }}>
                 {m.desc}
@@ -1125,8 +1150,9 @@ function About() {
             <div
               key={item.label}
               style={{
-                display: "grid", gridTemplateColumns: "160px 1fr",
-                gap: "0 32px",
+                display: "grid",
+                gridTemplateColumns: isMobile ? "1fr" : "160px 1fr",
+                gap: isMobile ? "4px 0" : "0 32px",
                 borderTop: "1px solid rgba(9,12,14,0.1)",
                 padding: "18px 0",
               }}
@@ -1158,22 +1184,26 @@ const BADGE = {
   column: { color: "rgba(9,12,14,0.4)" },
 };
 function ReleasesPreview() {
+  const isMobile = useIsMobile();
   return (
     <section style={{ padding: "80px 8vw", background: "linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%)" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         {/* ヘッダ行 */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 40 }}>
-          <span style={{ fontFamily: FONTS.accent, fontSize: "clamp(28px,3.5vw,48px)", fontWeight: 900, color: "#0d1a14", letterSpacing: "-0.01em" }}>Releases.</span>
-          <a href="/releases" style={{ fontFamily: FONTS.body, fontSize: 13, color: COLORS.G200, textDecoration: "none", letterSpacing: "0.05em" }}>すべて見る →</a>
+          <span style={{ fontFamily: FONTS.accent, fontSize: "clamp(28px,3.5vw,48px)", fontWeight: 900, color: COLORS.lightText, letterSpacing: "-0.01em" }}>Releases.</span>
+          <a href="#" style={{ fontFamily: FONTS.body, fontSize: 13, color: COLORS.G200, textDecoration: "none", letterSpacing: "0.05em" }}>すべて見る →</a>
         </div>
         {/* リスト */}
         {RELEASES_PREVIEW.map((item, i) => {
           const b = BADGE[item.type];
           return (
-            <a key={item.id} href="/releases" style={{ textDecoration: "none", display: "block" }}>
+            <a key={item.id} href="#" style={{ textDecoration: "none", display: "block" }}>
               <div style={{
-                display: "grid", gridTemplateColumns: "100px 1fr auto",
-                gap: "0 32px", alignItems: "center", padding: "24px 0",
+                display: "grid",
+                gridTemplateColumns: isMobile ? "1fr" : "100px 1fr auto",
+                gap: isMobile ? "8px 0" : "0 32px",
+                alignItems: isMobile ? "flex-start" : "center",
+                padding: "24px 0",
                 borderTop: i === 0 ? "1px solid rgba(9,12,14,0.15)" : "none",
                 borderBottom: "1px solid rgba(9,12,14,0.15)",
               }}>
@@ -1199,7 +1229,7 @@ function ContactCTA() {
   return (
     <a
       id="contact"
-      href="/contact"
+      href="#contact"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
