@@ -242,7 +242,7 @@ function TypewriterText({ text, loop = false }) {
         {lines[lines.length - 1].split("").map((ch, i) => (
           <span key={i} style={{ opacity: 1 }}>{ch}</span>
         ))}
-        <span key="cursor-end" style={{ opacity: 0 }}>|</span>
+        <span key="cursor-end" style={{ animation: "cursorBlink 1.8s linear infinite", color: "#555", marginLeft: "1px" }}>|</span>
       </span>
     );
   }
@@ -1544,7 +1544,7 @@ function ContactCTA() {
   return (
     <a
       id="contact"
-      href="#contact"
+      href="/contact"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
