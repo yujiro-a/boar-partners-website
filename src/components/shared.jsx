@@ -129,24 +129,23 @@ const NAV_ITEMS = [
 
 // ─── ページ遷移アニメーション（落ち着きバージョン）────────────────
 
-// 別ページ用: 暗転フェード + BOARゴースト + スキャンライン1本
+// 別ページ用: 暗転 + BOAR緑グロー
 function _FadeOverlay() {
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      style={{ position: "fixed", inset: 0, background: "#040a06", zIndex: 9000, overflow: "hidden" }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      style={{ position: "fixed", inset: 0, background: "#040a06", zIndex: 9000, display: "flex", alignItems: "center", justifyContent: "center" }}
     >
-      <div style={{
-        position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-        fontFamily: FONTS.accent, fontSize: "clamp(80px,15vw,160px)", fontWeight: 900,
-        color: "rgba(90,140,115,0.06)", letterSpacing: "-0.03em", userSelect: "none", pointerEvents: "none",
-      }}>BOAR</div>
       <motion.div
-        initial={{ top: "-2px" }} animate={{ top: "102%" }}
-        transition={{ duration: 0.9, ease: "linear" }}
-        style={{ position: "absolute", left: 0, right: 0, height: 1, background: `linear-gradient(to right, transparent, ${COLORS.G300}, transparent)`, opacity: 0.35 }}
-      />
+        initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 0.7] }} transition={{ duration: 0.4, times: [0, 0.4, 1] }}
+        style={{
+          fontFamily: FONTS.accent, fontSize: "clamp(64px,12vw,140px)", fontWeight: 900,
+          letterSpacing: "-0.03em", color: COLORS.G300,
+          textShadow: `0 0 40px ${COLORS.G300}, 0 0 80px rgba(90,140,115,0.4)`,
+          userSelect: "none",
+        }}
+      >BOAR</motion.div>
     </motion.div>
   );
 }
@@ -191,8 +190,8 @@ function _TerminalOverlay({ onDone }) {
 function _PageTransitionOverlay({ type, onPeak, onDone }) {
   const peakFired = useRef(false);
   useEffect(() => {
-    // 別ページ: 350ms(フェード完了) / 同ページ: 600ms(スライド完了)
-    const delay = type === "page" ? 380 : 610;
+    // 別ページ: 暗転完了300ms / 同ページ: スライド完了600ms
+    const delay = type === "page" ? 310 : 610;
     const t = setTimeout(() => { if (!peakFired.current) { peakFired.current = true; onPeak?.(); } }, delay);
     return () => clearTimeout(t);
   }, []);
