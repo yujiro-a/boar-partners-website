@@ -138,12 +138,16 @@ function _FadeOverlay() {
       style={{ position: "fixed", inset: 0, background: "#040a06", zIndex: 9000, display: "flex", alignItems: "center", justifyContent: "center" }}
     >
       <motion.div
-        initial={{ color: "rgba(90,140,115,0)", textShadow: "0 0 0px rgba(90,140,115,0)" }}
-        animate={{ color: COLORS.G300, textShadow: `0 0 40px ${COLORS.G300}, 0 0 100px rgba(90,140,115,0.5)` }}
-        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+        initial={{ color: "transparent", textShadow: "0 0 0px transparent" }}
+        animate={{
+          color:       ["transparent", "transparent", COLORS.G300],
+          textShadow:  ["0 0 0px transparent", `0 0 12px rgba(90,140,115,0.5)`, `0 0 40px ${COLORS.G300}, 0 0 100px rgba(90,140,115,0.5)`],
+        }}
+        transition={{ duration: 0.85, times: [0, 0.45, 1], ease: "easeOut" }}
         style={{
           fontFamily: FONTS.accent, fontSize: "clamp(64px,12vw,140px)", fontWeight: 900,
           letterSpacing: "-0.03em", userSelect: "none",
+          WebkitTextStroke: "1.5px rgba(180,180,180,0.35)",
         }}
       >BOAR</motion.div>
     </motion.div>
