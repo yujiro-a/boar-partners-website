@@ -835,7 +835,9 @@ function Philosophy() {
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(to right, transparent 0%, rgba(106,170,136,0.25) 20%, rgba(106,170,136,0.25) 80%, transparent 100%)" }} />
       <GridOverlay />
       <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <SectionLabel>Philosophy</SectionLabel>
+        <SectionLabel>Who We Are</SectionLabel>
+        <div style={{ marginBottom: 48 }}>
+          <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(11px,1vw,13px)", letterSpacing: "0.2em", textTransform: "uppercase", color: COLORS.G300, marginBottom: 12, opacity: 0.7 }}>Philosophy</div>
         <TextReveal
           lines={["限界を突破する"]}
           fontSize="clamp(24px,3.2vw,48px)"
@@ -891,6 +893,7 @@ function Philosophy() {
             </motion.div>
           ))}
         </div>
+        </div>{/* /Philosophy sub-section */}
         {/* ─ What We Do (統合) ─ */}
         <FadeIn delay={0.35}>
           <div style={{ marginTop: 56, marginBottom: 0 }}>
