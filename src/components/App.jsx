@@ -926,7 +926,7 @@ function Philosophy() {
                   style={{
                     position: "relative",
                     overflow: "hidden",
-                    minHeight: 200,
+                    minHeight: 260,
                   }}
                 >
                   <div style={{
@@ -935,14 +935,14 @@ function Philosophy() {
                     backgroundSize: "cover", backgroundPosition: "center",
                     filter: "grayscale(50%) brightness(0.72) saturate(0.55)",
                   }} />
-                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(9,12,14,0.95) 0%, rgba(9,12,14,0.45) 60%, rgba(9,12,14,0.08) 100%)" }} />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(9,12,14,0.98) 0%, rgba(9,12,14,0.6) 50%, rgba(9,12,14,0.10) 100%)" }} />
                   {i > 0 && (
                     <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: 1, background: "rgba(255,255,255,0.08)" }} />
                   )}
-                  <div style={{ position: "relative", zIndex: 1, padding: "32px 28px", display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
+                  <div style={{ position: "relative", zIndex: 1, padding: "28px 28px 32px", display: "flex", flexDirection: "column", justifyContent: "flex-end", minHeight: 260 }}>
                     <div style={{ fontFamily: FONTS.accent, fontSize: 10, letterSpacing: "0.25em", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>{p.num}</div>
-                    <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(22px,2.5vw,34px)", fontWeight: 900, color: COLORS.darkHL, lineHeight: 1, marginBottom: 10 }}>{p.en}</div>
-                    <p style={{ fontFamily: FONTS.body, fontSize: 13, color: "rgba(255,255,255,0.48)", lineHeight: 1.85, margin: 0 }}>{p.one}</p>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(22px,2.5vw,34px)", fontWeight: 900, color: COLORS.darkHL, lineHeight: 1, marginBottom: 12 }}>{p.en}</div>
+                    <p style={{ fontFamily: FONTS.body, fontSize: 13, color: "rgba(255,255,255,0.48)", lineHeight: 1.85, margin: 0, wordBreak: "keep-all", overflowWrap: "break-word" }}>{p.one}</p>
                   </div>
                 </motion.div>
               ))}
