@@ -143,7 +143,7 @@ function _FadeOverlay() {
           color:       ["transparent", "transparent", COLORS.G300],
           textShadow:  ["0 0 0px transparent", `0 0 12px rgba(90,140,115,0.5)`, `0 0 40px ${COLORS.G300}, 0 0 100px rgba(90,140,115,0.5)`],
         }}
-        transition={{ duration: 0.85, times: [0, 0.45, 1], ease: "easeOut" }}
+        transition={{ duration: 0.7, times: [0, 0.5, 1], ease: [0.25, 0.1, 0.25, 1] }}
         style={{
           fontFamily: FONTS.accent, fontSize: "clamp(64px,12vw,140px)", fontWeight: 900,
           letterSpacing: "-0.03em", userSelect: "none",
