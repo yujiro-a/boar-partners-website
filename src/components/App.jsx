@@ -535,15 +535,14 @@ const ALLIANCE_LOGOS = [
   { placeholder: true },
 ];
 
-function AllianceSection() {
+// ─── TICKER STRIP ───
+function TickerStrip() {
   return (
     <>
       <style>{`
         @keyframes fd-ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
         @keyframes fd-scan   { 0%{left:-220px} 100%{left:110%} }
       `}</style>
-
-      {/* ── Ticker strip (dark) ── */}
       <div style={{ position: "relative", height: 38, overflow: "hidden", background: "#040a06", borderTop: "1px solid rgba(61,168,96,0.3)", borderBottom: "1px solid rgba(61,168,96,0.3)" }}>
         <div style={{ position: "absolute", top: 0, width: 220, height: "100%", background: "linear-gradient(to right, transparent, rgba(61,168,96,0.14) 50%, transparent)", animation: "fd-scan 4s linear infinite", zIndex: 2, pointerEvents: "none" }} />
         <div style={{ position: "absolute", left: 0, top: 0, width: 120, height: "100%", background: "linear-gradient(to right, #040a06, transparent)", zIndex: 3, pointerEvents: "none" }} />
@@ -557,17 +556,21 @@ function AllianceSection() {
           ))}
         </div>
       </div>
+    </>
+  );
+}
 
-      {/* ── Ecosystem content (light section) ── */}
-      <section id="ecosystem" style={{ background: "linear-gradient(180deg,#f0ece4 0%,#ede8df 100%)", padding: "80px 8vw 100px" }}>
-        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-          <SectionLabel color={COLORS.G200}>Ecosystem</SectionLabel>
-          <TextReveal
-            lines={["共創パートナーシップ"]}
-            fontSize="clamp(24px,3.2vw,48px)"
-            color={COLORS.lightText}
-            style={{ marginBottom: 16 }}
-          />
+function AllianceSection() {
+  return (
+    <section id="ecosystem" style={{ background: "linear-gradient(180deg,#f0ece4 0%,#ede8df 100%)", padding: "80px 8vw 100px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+        <SectionLabel color={COLORS.G200}>Alliance Partners</SectionLabel>
+        <TextReveal
+          lines={["アライアンスパートナー"]}
+          fontSize="clamp(24px,3.2vw,48px)"
+          color={COLORS.lightText}
+          style={{ marginBottom: 16 }}
+        />
           <FadeIn delay={0.1}>
             <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.lightBody, lineHeight: 1.9, maxWidth: 600, marginBottom: 64 }}>
               ここにロゴが載ることを誇りに思えるエコシステムへ。<br />
@@ -639,8 +642,7 @@ function AllianceSection() {
             ))}
           </div>
         </div>
-      </section>
-    </>
+    </section>
   );
 }
 
@@ -706,8 +708,15 @@ function FocusDomains() {
 
       {/* ── Section header ── */}
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 8vw", marginBottom: 48 }}>
-        <SectionLabel>Focus Domains</SectionLabel>
-        <TextReveal lines={["注力する研究開発領域"]} fontSize="clamp(24px,3.2vw,48px)" style={{ marginBottom: 16 }} />
+        {/* メインセクション: ディープテックエコシステム */}
+        <SectionLabel>Ecosystem</SectionLabel>
+        <TextReveal lines={["ディープテックエコシステム"]} fontSize="clamp(28px,4.2vw,64px)" style={{ marginBottom: 52 }} />
+        {/* サブセクション: フォーカスドメイン */}
+        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+          <span style={{ fontFamily: FONTS.accent, fontSize: 10, letterSpacing: "0.22em", color: COLORS.G300, textTransform: "uppercase", whiteSpace: "nowrap" }}>01 — Focus Domains</span>
+          <span style={{ flex: 1, height: 1, background: "rgba(106,170,136,0.18)" }} />
+        </div>
+        <TextReveal lines={["フォーカスドメイン"]} fontSize="clamp(18px,2.5vw,36px)" style={{ marginBottom: 16 }} />
         <FadeIn delay={0.1}>
           <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 560 }}>
             技術の社会実装が最も困難で、最もインパクトが大きい領域に集中する。
@@ -1595,6 +1604,7 @@ export default function App() {
     <div style={{ overflowX: "clip" }}>
       <Header />
       <Hero />
+      <TickerStrip />
       <FocusDomains />
       <AllianceSection />
       <Philosophy />
