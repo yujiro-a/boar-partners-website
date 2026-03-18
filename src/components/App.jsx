@@ -1325,6 +1325,19 @@ function Services() {
                 }}
               >
                 {s.decoration}
+                {/* コーナーブラケット */}
+                {[["top","left"],["top","right"],["bottom","left"],["bottom","right"]].map(([v,h]) => (
+                  <div key={`${v}${h}`} style={{
+                    position: "absolute", [v]: 0, [h]: 0, width: 20, height: 20,
+                    borderTop: v === "top" ? `1px solid ${s.accentColor}` : "none",
+                    borderBottom: v === "bottom" ? `1px solid ${s.accentColor}` : "none",
+                    borderLeft: h === "left" ? `1px solid ${s.accentColor}` : "none",
+                    borderRight: h === "right" ? `1px solid ${s.accentColor}` : "none",
+                    opacity: hoveredCard === i ? 0.7 : 0.3,
+                    transition: "opacity 0.35s",
+                    zIndex: 2,
+                  }} />
+                ))}
                 <div style={{ position: "relative", zIndex: 1 }}>
                   {/* アイコン */}
                   <div style={{ marginBottom: 24 }}>{s.icon}</div>
