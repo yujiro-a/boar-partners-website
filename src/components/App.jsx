@@ -560,91 +560,6 @@ function TickerStrip() {
   );
 }
 
-function AllianceSection() {
-  return (
-    <section id="ecosystem" style={{ background: "linear-gradient(180deg,#f0ece4 0%,#ede8df 100%)", padding: "80px 8vw 100px" }}>
-      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-        <SectionLabel color={COLORS.G200}>Alliance Partners</SectionLabel>
-        <TextReveal
-          lines={["アライアンスパートナー"]}
-          fontSize="clamp(24px,3.2vw,48px)"
-          color={COLORS.lightText}
-          style={{ marginBottom: 16 }}
-        />
-          <FadeIn delay={0.1}>
-            <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.lightBody, lineHeight: 1.9, maxWidth: 600, marginBottom: 64 }}>
-              ここにロゴが載ることを誇りに思えるエコシステムへ。<br />
-              BOARが共に動くパートナーたちで構成される、ディープテック産業実装の連合体。
-            </p>
-          </FadeIn>
-
-          {/* フラットグリッド — 増えたらカテゴリ分類を検討 */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-            gap: 12,
-          }}>
-            {ALLIANCE_LOGOS.map((logo, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={logo.placeholder ? {} : { y: -3 }}
-                style={{
-                  padding: "22px 26px",
-                  minHeight: 84,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  background: logo.placeholder ? "transparent" : "rgba(255,255,255,0.80)",
-                  border: logo.placeholder
-                    ? "1px dashed rgba(9,26,20,0.16)"
-                    : "1px solid rgba(9,26,20,0.10)",
-                  cursor: logo.placeholder ? "default" : "pointer",
-                  transition: "box-shadow 0.25s, border-color 0.25s",
-                }}
-                onMouseEnter={e => {
-                  if (!logo.placeholder) {
-                    e.currentTarget.style.borderColor = "rgba(9,26,20,0.22)";
-                    e.currentTarget.style.boxShadow = "0 6px 24px rgba(9,26,20,0.08)";
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!logo.placeholder) {
-                    e.currentTarget.style.borderColor = "rgba(9,26,20,0.10)";
-                    e.currentTarget.style.boxShadow = "none";
-                  }
-                }}
-              >
-                {logo.placeholder ? (
-                  <div>
-                    <span style={{ display: "block", fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(9,26,20,0.38)" }}>COMING SOON</span>
-                    <span style={{ display: "block", fontFamily: FONTS.body, fontSize: 12, color: "rgba(9,26,20,0.28)", marginTop: 5 }}>Recruiting Partners</span>
-                  </div>
-                ) : logo.logo ? (
-                  <img
-                    src={logo.logo}
-                    alt={logo.name}
-                    style={{ maxWidth: 160, maxHeight: 40, objectFit: "contain", objectPosition: "left center" }}
-                  />
-                ) : (
-                  <>
-                    <span style={{ fontFamily: FONTS.accent, fontSize: 18, fontWeight: 900, color: COLORS.lightText, letterSpacing: "0.02em", lineHeight: 1.15 }}>{logo.name}</span>
-                    {logo.sub && (
-                      <span style={{ fontFamily: FONTS.body, fontSize: 12, color: COLORS.lightBody, marginTop: 6, lineHeight: 1.5 }}>{logo.sub}</span>
-                    )}
-                  </>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-    </section>
-  );
-}
 
 // ─── FOCUS DOMAINS ───
 const FOCUS_DOMAINS_DATA = [
@@ -710,13 +625,13 @@ function FocusDomains() {
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 8vw", marginBottom: 48 }}>
         {/* メインセクション: ディープテックエコシステム */}
         <SectionLabel>Ecosystem</SectionLabel>
-        <TextReveal lines={["ディープテックエコシステム"]} fontSize="clamp(28px,4.2vw,64px)" style={{ marginBottom: 52 }} />
-        {/* サブセクション: フォーカスドメイン */}
+        <TextReveal lines={["Deep Tech Ecosystem"]} fontSize="clamp(28px,4.2vw,64px)" style={{ marginBottom: 52 }} />
+        {/* サブセクション: Focus Domains */}
         <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
           <span style={{ fontFamily: FONTS.accent, fontSize: 10, letterSpacing: "0.22em", color: COLORS.G300, textTransform: "uppercase", whiteSpace: "nowrap" }}>01 — Focus Domains</span>
           <span style={{ flex: 1, height: 1, background: "rgba(106,170,136,0.18)" }} />
         </div>
-        <TextReveal lines={["フォーカスドメイン"]} fontSize="clamp(18px,2.5vw,36px)" style={{ marginBottom: 16 }} />
+        <TextReveal lines={["Focus Domains"]} fontSize="clamp(18px,2.5vw,36px)" style={{ marginBottom: 16 }} />
         <FadeIn delay={0.1}>
           <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 560 }}>
             技術の社会実装が最も困難で、最もインパクトが大きい領域に集中する。
@@ -820,6 +735,79 @@ function FocusDomains() {
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
+      </div>
+
+      {/* ── Alliance Partners ── */}
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "80px 8vw 100px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+          <span style={{ fontFamily: FONTS.accent, fontSize: 10, letterSpacing: "0.22em", color: COLORS.G300, textTransform: "uppercase", whiteSpace: "nowrap" }}>02 — Alliance Partners</span>
+          <span style={{ flex: 1, height: 1, background: "rgba(106,170,136,0.18)" }} />
+        </div>
+        <TextReveal lines={["Alliance Partners"]} fontSize="clamp(18px,2.5vw,36px)" style={{ marginBottom: 16 }} />
+        <FadeIn delay={0.1}>
+          <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 600, marginBottom: 48 }}>
+            ここにロゴが載ることを誇りに思えるエコシステムへ。<br />
+            BOARが共に動くパートナーたちで構成される、ディープテック産業実装の連合体。
+          </p>
+        </FadeIn>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 12 }}>
+          {ALLIANCE_LOGOS.map((logo, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={logo.placeholder ? {} : { y: -3 }}
+              style={{
+                padding: "22px 26px",
+                minHeight: 84,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                borderRadius: 10,
+                background: logo.placeholder ? "transparent" : "rgba(255,255,255,0.88)",
+                border: logo.placeholder
+                  ? "1px dashed rgba(255,255,255,0.12)"
+                  : "1px solid rgba(255,255,255,0.08)",
+                cursor: logo.placeholder ? "default" : "pointer",
+                transition: "box-shadow 0.25s, border-color 0.25s",
+              }}
+              onMouseEnter={e => {
+                if (!logo.placeholder) {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
+                  e.currentTarget.style.boxShadow = "0 6px 24px rgba(0,0,0,0.3)";
+                }
+              }}
+              onMouseLeave={e => {
+                if (!logo.placeholder) {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.boxShadow = "none";
+                }
+              }}
+            >
+              {logo.placeholder ? (
+                <div>
+                  <span style={{ display: "block", fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)" }}>COMING SOON</span>
+                  <span style={{ display: "block", fontFamily: FONTS.body, fontSize: 12, color: "rgba(255,255,255,0.18)", marginTop: 5 }}>Recruiting Partners</span>
+                </div>
+              ) : logo.logo ? (
+                <img
+                  src={logo.logo}
+                  alt={logo.name}
+                  style={{ maxWidth: 160, maxHeight: 40, objectFit: "contain", objectPosition: "left center" }}
+                />
+              ) : (
+                <>
+                  <span style={{ fontFamily: FONTS.accent, fontSize: 18, fontWeight: 900, color: COLORS.N100, letterSpacing: "0.02em", lineHeight: 1.15 }}>{logo.name}</span>
+                  {logo.sub && (
+                    <span style={{ fontFamily: FONTS.body, fontSize: 12, color: COLORS.N200, marginTop: 6, lineHeight: 1.5 }}>{logo.sub}</span>
+                  )}
+                </>
+              )}
+            </motion.div>
+          ))}
+        </div>
       </div>
 
     </section>
@@ -1606,7 +1594,6 @@ export default function App() {
       <Hero />
       <TickerStrip />
       <FocusDomains />
-      <AllianceSection />
       <Philosophy />
       <Services />
       <ReleasesPreview />
