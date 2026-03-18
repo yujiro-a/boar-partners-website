@@ -91,7 +91,7 @@ function ValueForwardSection() {
       icon: <FlaskConical size={22} color={L.accent} />,
       title: "研究開発の共創設計",
       desc: "アカデミア発ディープテックと大企業を繋ぎ、課題定義から事業化・社会実装まで共創プロセスをディレクションする。提言ではなく、チームの一員として現場に入り込む。",
-      points: ["課題の発見・定義", "技術パートナー選定・共同開発", "PoC推進・事業化ロードマップ", "PMOとして実装まで伴走"],
+      points: ["課題の発見・定義", "技術パートナー選定・共同開発", "PoC推進・事業化ロードマップ", "チームとして現場に入り実装まで伴走"],
     },
     {
       num: "02",
@@ -245,7 +245,7 @@ function ForwardRDDetail() {
     },
     {
       num: "03", name: "Deliver", ja: "価値を届ける", color: L.accent,
-      desc: "PMOとして顧客に常駐し、事業化・スケール・グループインまで伴走する。提言で終わらず、実装まで責任を持つ。",
+      desc: "顧客に常駐し、事業化・スケール・グループインまで伴走する。提言で終わらず、チームの一員として実装まで責任を持つ。",
     },
   ];
 
@@ -642,12 +642,20 @@ function ContactCTA() {
       }}
     >
       <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-        <div style={{
-          fontFamily: FONTS.accent, fontSize: "clamp(48px,9vw,120px)",
-          fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em",
-          color: hovered ? G : COLORS.N500, transition: "color 0.4s",
-        }}>
-          Contact.
+        <div>
+          <div style={{ fontFamily: FONTS.body, fontSize: "clamp(12px,1.2vw,14px)", color: COLORS.G300, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12 }}>
+            Service Inquiry
+          </div>
+          <div style={{
+            fontFamily: FONTS.accent, fontSize: "clamp(48px,9vw,120px)",
+            fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em",
+            color: hovered ? G : COLORS.N500, transition: "color 0.4s",
+          }}>
+            Contact.
+          </div>
+          <div style={{ fontFamily: FONTS.body, fontSize: "clamp(13px,1.3vw,15px)", color: "rgba(255,255,255,0.35)", marginTop: 16, lineHeight: 1.8 }}>
+            研究成果の事業化・Forward R&Dのご相談はこちらから。
+          </div>
         </div>
         <div style={{
           fontFamily: FONTS.accent, fontSize: 13, fontWeight: 700,

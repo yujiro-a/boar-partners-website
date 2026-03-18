@@ -14,8 +14,9 @@ const MEMBERS = [
     role: "共同創業者",
     name: "溝橋 正輝",
     nameEn: "Masaki Mizohashi",
-    photo: "/team/mizohashi_crop.png",
-    photoPos: "center 15%",
+    photo: "/team/mizohashi_crop.jpg",
+    photoPos: "47.9% 14.2%",
+    photoSize: "auto 221%",
     bio: "川崎重工業にてエンジニアとしてキャリアをスタートし、製造技術・品質管理の実務を経た後、野村證券にて資本市場・投資銀行業務に従事。現在はディープテック・スタートアップ支援に特化し、アカデミア発ベンチャーのエコシステムと深いネットワークを持つ。技術の目利きから事業化・資金調達まで一気通貫で動く。",
   },
 ];

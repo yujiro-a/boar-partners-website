@@ -22,7 +22,7 @@ import AboutPage from "../components/AboutPage.jsx";
         margin: 0;
         padding: 0;
       }
-      html { scroll-behavior: smooth; }
+      html { scroll-behavior: auto; }
       body {
         background: #090c0e;
         -webkit-font-smoothing: antialiased;
@@ -39,5 +39,26 @@ import AboutPage from "../components/AboutPage.jsx";
   </head>
   <body>
     <AboutPage client:load />
+    <script>
+      function scrollToHash(hash, instant) {
+        if (!hash) return;
+        const el = document.querySelector(hash);
+        if (!el) return;
+        el.scrollIntoView({ behavior: instant ? 'instant' : 'smooth', block: 'center' });
+      }
+
+      // 初回ロード: デフォルトスクロールをリセットしてから中央へ
+      window.addEventListener('load', () => {
+        const hash = window.location.hash;
+        if (!hash) return;
+        window.scrollTo(0, 0);
+        setTimeout(() => scrollToHash(hash, false), 80);
+      });
+
+      // 戻る/進む操作
+      window.addEventListener('popstate', () => {
+        scrollToHash(window.location.hash, false);
+      });
+    </script>
   </body>
 </html>

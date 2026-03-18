@@ -100,20 +100,81 @@ const SectionLabel = ({ children, color, fontSize, style: extStyle }) => (
   </motion.div>
 );
 
-// ─── 斜め区切りセクション ───
+// ─── フラットセクション（旧DiagSection） ───
 function DiagSection({ children, bg, style: extra = {}, id }) {
   return (
     <section id={id} style={{
       background: bg,
-      clipPath: "polygon(0 4vw, 100% 0, 100% calc(100% - 4vw), 0 100%)",
-      padding: "calc(100px + 4vw) 8vw",
-      marginTop: "-4vw", marginBottom: "-4vw",
+      padding: "100px 8vw",
       position: "relative",
       zIndex: 1,
       ...extra,
     }}>
       {children}
     </section>
+  );
+}
+
+// ─── 共通 CTA ストリップ（P10デザイン統一）───
+// variant: "dark"（暗背景）| "light"（明背景）
+function SectionCTAStrip({ href, bigLabel, label, title, variant = "dark" }) {
+  const [hovered, setHovered] = useState(false);
+  const isDark = variant === "dark";
+
+  const lineColor    = isDark ? "rgba(61,168,96,0.45)"   : "rgba(9,12,14,0.18)";
+  const glowColor    = isDark ? "rgba(61,168,96,0.1)"    : "rgba(9,12,14,0.05)";
+  const bgHoverGrad  = isDark
+    ? "linear-gradient(to right, rgba(45,90,64,0.12) 0%, transparent 60%)"
+    : "linear-gradient(to right, rgba(9,12,14,0.08) 0%, transparent 60%)";
+  const bigDefault   = isDark ? "rgba(255,255,255,0.1)"  : "rgba(9,12,14,0.08)";
+  const bigHover     = isDark ? "rgba(255,255,255,0.22)" : "rgba(9,12,14,0.16)";
+  const vlineColor   = isDark ? "rgba(61,168,96,0.2)"    : "rgba(9,12,14,0.15)";
+  const labelColor   = isDark ? "rgba(61,168,96,0.55)"   : "rgba(9,12,14,0.4)";
+  const titleDefault = isDark ? "rgba(255,255,255,0.5)"  : "rgba(9,12,14,0.5)";
+  const titleHover   = isDark ? "rgba(255,255,255,0.85)" : "rgba(9,12,14,0.85)";
+  const arrowDefault = isDark ? "rgba(61,168,96,0.4)"    : "rgba(9,12,14,0.3)";
+  const arrowHover   = isDark ? COLORS.G300               : "rgba(9,12,14,0.75)";
+
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ display: "block", background: hovered ? bgHoverGrad : "transparent", cursor: "pointer", position: "relative", textDecoration: "none", transition: "background 0.3s" }}
+    >
+      {/* グロー線 */}
+      <div style={{ position: "absolute", top: 0, left: "10%", right: "10%", height: 1, background: `linear-gradient(to right, transparent, ${lineColor} 30%, ${lineColor} 70%, transparent)` }} />
+      <div style={{ position: "absolute", top: -8, left: "25%", right: "25%", height: 18, background: `radial-gradient(ellipse 60% 100% at 50% 100%, ${glowColor} 0%, transparent 100%)`, pointerEvents: "none" }} />
+      {/* コンテンツ */}
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "28px 8vw", display: "flex", alignItems: "center", gap: 36, position: "relative", zIndex: 1 }}>
+        <div style={{ fontFamily: FONTS.accent, fontWeight: 900, fontSize: "clamp(48px,7vw,80px)", color: hovered ? bigHover : bigDefault, letterSpacing: "-0.03em", lineHeight: 1, whiteSpace: "nowrap", transition: "color 0.3s", flexShrink: 0 }}>{bigLabel}</div>
+        <div style={{ width: 1, height: 48, background: vlineColor, flexShrink: 0 }} />
+        <div>
+          <div style={{ fontFamily: FONTS.accent, fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: labelColor, marginBottom: 5 }}>{label}</div>
+          <div style={{ fontFamily: FONTS.accent, fontWeight: 900, fontSize: "clamp(15px,1.5vw,20px)", color: hovered ? titleHover : titleDefault, letterSpacing: "-0.01em", transition: "color 0.3s" }}>{title}</div>
+        </div>
+        <div style={{ marginLeft: "auto", fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.1em", color: hovered ? arrowHover : arrowDefault, transition: "color 0.3s, transform 0.3s", transform: hovered ? "translateX(6px)" : "translateX(0)", whiteSpace: "nowrap" }}>詳しく見る →</div>
+      </div>
+    </a>
+  );
+}
+
+// ─── P10 グロー線セパレーター ───
+function GlowDivider() {
+  return (
+    <div style={{ position: "relative", height: 1, overflow: "visible", zIndex: 2 }}>
+      {/* グリーン光る線 */}
+      <div style={{
+        position: "absolute", top: 0, left: "10%", right: "10%", height: 1,
+        background: "linear-gradient(to right, transparent, rgba(61,168,96,0.5) 30%, rgba(61,168,96,0.5) 70%, transparent)",
+      }} />
+      {/* 上方向グロー */}
+      <div style={{
+        position: "absolute", top: -8, left: "25%", right: "25%", height: 18,
+        background: "radial-gradient(ellipse 60% 100% at 50% 100%, rgba(61,168,96,0.1) 0%, transparent 100%)",
+        pointerEvents: "none",
+      }} />
+    </div>
   );
 }
 
@@ -136,33 +197,41 @@ function TypewriterText({ text, loop = false }) {
     const t = setInterval(() => setPos(p => {
       if (p >= flat.length) return loop ? 0 : p;
       return p + 1;
-    }), 70);
+    }), 80);
     return () => clearInterval(t);
   }, [loop, flat.length]);
 
-  const chars = text.split("");
+  const lines = text.split("\n");
   let gi = 0;
-  const nodes = [];
-  chars.forEach((ch, i) => {
-    if (ch === "\n") {
-      nodes.push(<br key={`br${i}`} />);
-      return;
-    }
-    const idx = gi++;
-    nodes.push(
-      <span key={`ch${i}`} style={{ opacity: idx < pos ? 1 : 0, transition: "opacity 0.05s" }}>
-        {ch}
+  const lineNodes = lines.map((line, li) => {
+    const charSpans = line.split("").map((ch) => {
+      const idx = gi++;
+      const isCursor = idx + 1 === pos && !done;
+      return (
+        <React.Fragment key={`ch${idx}`}>
+          <span style={{ opacity: idx < pos ? 1 : 0, transition: "opacity 0.05s" }}>{ch}</span>
+          {isCursor && <span style={{ animation: "cursorBlink 1.8s linear infinite", color: "#555", marginLeft: "1px" }}>|</span>}
+        </React.Fragment>
+      );
+    });
+    return (
+      <span key={`line${li}`} style={{ display: "block", whiteSpace: "nowrap" }}>
+        {charSpans}
       </span>
     );
-    if (idx + 1 === pos && !done) {
-      nodes.push(<span key={`cur${i}`} style={{ animation: "cursorBlink 1.8s linear infinite", color: "#555", marginLeft: "1px" }}>|</span>);
-    }
   });
-  // 完了後も末尾でカーソルを点滅させ続ける
   if (done) {
-    nodes.push(<span key="cursor-end" style={{ animation: "cursorBlink 1.8s linear infinite", color: "#555", marginLeft: "1px" }}>|</span>);
+    lineNodes[lineNodes.length - 1] = (
+      <span key={`line${lines.length - 1}-done`} style={{ display: "block", whiteSpace: "nowrap" }}>
+        {lines[lines.length - 1].split("").map((ch, i) => (
+          <span key={i} style={{ opacity: 1 }}>{ch}</span>
+        ))}
+        {/* 完了後も末尾でカーソルを点滅させ続ける */}
+        <span key="cursor-end" style={{ animation: "cursorBlink 1.8s linear infinite", color: "#555", marginLeft: "1px" }}>|</span>
+      </span>
+    );
   }
-  return <>{nodes}</>;
+  return <>{lineNodes}</>;
 }
 
 // ─── MOBILE HERO (独立コンポーネント — useScroll を mount 後に確実に設定) ───
@@ -171,16 +240,16 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
   const smooth = useSpring(scrollYProgress, { stiffness: 60, damping: 20, restDelta: 0.0005 });
 
-  // 初期: タイトルを中央付近に配置 → スクロールで上へ移動
-  const titleY = useTransform(smooth, [0, 0.2], ["34vh", "0vh"]);
-  const subOpacity = useTransform(smooth, [0, 0.12, 0.22], [0, 0, 1]);
-  const dividerOpacity = useTransform(smooth, [0, 0.12, 0.22], [0, 0, 1]);
+  // 初期: タイトルを少し下に → スクロールで自然位置へ浮き上がる
+  const titleY = useTransform(smooth, [0, 0.2], ["6vh", "0vh"]);
+  const subOpacity = useTransform(smooth, [0.06, 0.18], [0, 1]);
+  const dividerOpacity = useTransform(smooth, [0.06, 0.18], [0, 1]);
 
-  // 順次フェード（クロスオーバーなし）
-  const block0Op = useTransform(smooth, [0, 0.15, 0.22, 0.30, 0.37], [0, 0, 1, 1, 0]);
+  // block0: スクロール開始と同時にタイトルと連動して浮き上がる
+  const block0Op = useTransform(smooth, [0.08, 0.20, 0.30, 0.37], [0, 1, 1, 0]);
   const block1Op = useTransform(smooth, [0.37, 0.43, 0.54, 0.61], [0, 1, 1, 0]);
   const block2Op = useTransform(smooth, [0.61, 0.67, 0.86], [0, 1, 1]);
-  const block0Y  = useTransform(smooth, [0.22, 0.30, 0.37], ["0px", "0px", "-40px"]);
+  const block0Y  = useTransform(smooth, [0.08, 0.20, 0.30, 0.37], ["28px", "0px", "0px", "-40px"]);
   const block1Y  = useTransform(smooth, [0.37, 0.43, 0.54, 0.61], ["40px", "0px", "0px", "-40px"]);
   const block2Y  = useTransform(smooth, [0.61, 0.67, 0.86], ["40px", "0px", "0px"]);
   const dot0 = useTransform(smooth, [0.22, 0.37], [1, 0]);
@@ -195,9 +264,10 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
       {styles}
       <div style={{
         position: "sticky", top: 0, height: "100vh",
-        ...bgStyle, overflow: "hidden",
+        ...bgStyle, overflow: "clip",
         display: "flex", flexDirection: "column",
-        padding: "108px 6vw 60px", boxSizing: "border-box",
+        justifyContent: "center",
+        padding: "0 6vw", boxSizing: "border-box",
       }}>
         {/* 背景グリッド */}
         <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
@@ -207,7 +277,7 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
           </svg>
         </div>
 
-        <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", height: "100%" }}>
+        <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column" }}>
           {/* タイトル + 仕切り線 — y: titleY と opacity アニメーションを分離 */}
           <motion.div style={{ flexShrink: 0, y: titleY }}>
           <motion.div
@@ -233,7 +303,7 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
           </motion.div>
 
           {/* ブロック切り替えエリア */}
-          <div style={{ position: "relative", flex: 1 }}>
+          <div style={{ position: "relative", minHeight: "190px" }}>
             {rightBlocks.map((block, i) => (
               <motion.div
                 key={i}
@@ -278,7 +348,7 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
           </div>
 
           {/* ドットインジケーター */}
-          <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ display: "flex", gap: 8, marginTop: 24 }}>
             {dots.map((dot, i) => (
               <motion.div key={i} style={{
                 width: 6, height: 6, borderRadius: "50%",
@@ -360,7 +430,7 @@ function Hero() {
   };
 
   const styles = <style>{`
-    @keyframes cursorBlink { 0%,77%{opacity:1} 78%,100%{opacity:0} }
+    @keyframes cursorBlink { 0%,71%{opacity:1} 72%,100%{opacity:0} }
     @keyframes gridDrift   { 0%{transform:translateY(0)}100%{transform:translateY(-100px)} }
     @keyframes particleRise{ 0%{transform:translateY(0);opacity:0}10%{opacity:0.6}90%{opacity:0.3}100%{transform:translateY(-100vh);opacity:0} }
     @keyframes lineRun1    { 0%{opacity:0;transform:rotate(18deg) scaleX(2) translateX(-60%)}15%{opacity:1}85%{opacity:0.5}100%{opacity:0;transform:rotate(18deg) scaleX(2) translateX(60%)} }
@@ -406,7 +476,7 @@ function Hero() {
             <motion.div style={{
               scale: titleScale,
               transformOrigin: "left center",
-              fontFamily: FONTS.accent, fontSize: "clamp(48px,8vw,112px)",
+              fontFamily: FONTS.accent, fontSize: "clamp(44px,6.5vw,96px)",
               color: COLORS.N500, letterSpacing: "0.02em", lineHeight: 1.05, fontWeight: 900,
             }}>
               <TypewriterText text={"Deep tech,\nfor industry"} />
@@ -425,7 +495,7 @@ function Hero() {
           <motion.div style={{
             width: 1, height: "68vh", background: "rgba(255,255,255,0.12)",
             flexShrink: 0, opacity: dividerOp, scaleY: dividerScaleY, originY: "0%",
-            marginLeft: "1.5vw", marginRight: "3vw",
+            marginLeft: "2vw", marginRight: "6vw",
           }} />
 
           {/* 右: スクロールで出現 → ブロック切り替え（案A: 固定高さ＋垂直中央） */}
@@ -565,24 +635,27 @@ function TickerStrip() {
 // ─── FOCUS DOMAINS ───
 const FOCUS_DOMAINS_DATA = [
   {
-    num: "01", name: "フィジカルAI", en: "Physical AI",
+    num: "01", name: "Physical AI", id: "PA",
     desc: "デジタルが物理世界に直接介入する技術群——触覚、ロボティクス、センシング。commissureとのForward R&D実績を起点に、製造業・建設の現場を変える。",
-    img: "/what-we-do-02.jpg",
+    img: "https://www.shutterstock.com/image-illustration/semiconductor-manufacturing-3d-rendering-robotic-600nw-2649884261.jpg",
+    maturity: 72,
   },
   {
-    num: "02", name: "エージェンティックAI", en: "Agentic AI",
+    num: "02", name: "Agentic AI", id: "AA",
     desc: "指示を待つAIから、自ら判断し行動するAIへ。意思決定の構造そのものを再設計する。人月依存の業務構造を根本から変える次世代アーキテクチャ。",
-    img: "/what-we-do-03.jpg",
+    img: "https://www.shutterstock.com/image-vector/ai-agents-orchestration-workflow-diagram-600nw-2706465509.jpg",
+    maturity: 58,
   },
   {
-    num: "03", name: "量子技術", en: "Quantum Technology",
+    num: "03", name: "Quantum Technology", id: "QT",
     desc: "研究は世界水準、産業化支援は空白。年間1,000億円超の国家予算が動く。キャズムが最も深い領域に、BOARは正面から入る。",
-    img: "/what-we-do-01.jpg",
+    img: "https://www.shutterstock.com/image-illustration/futuristic-quantum-computing-machine-glowing-atomic-600nw-2621003427.jpg",
+    maturity: 34,
   },
   {
-    num: "04", name: "Next Domain", en: "Coming Soon",
+    num: "04", name: "Next Domain", id: "ND",
     desc: "新たな技術領域への挑戦。詳細は近日公開予定。",
-    img: null, comingSoon: true,
+    img: null, comingSoon: true, maturity: 0,
   },
 ];
 
@@ -620,16 +693,18 @@ function FocusDomains() {
   const CARD_H = isMobile ? 260 : 320;
 
   return (
-    <section ref={sectionRef} id="domains" style={{ padding: "100px 0 100px", background: "linear-gradient(180deg,#090c0e 0%,#0d1a14 100%)", position: "relative", overflow: "hidden" }}>
+    <section ref={sectionRef} id="domains" style={{ padding: "140px 0 0", scrollMarginTop: "80px", background: "linear-gradient(180deg,#090c0e 0%,#0d1a14 100%)", position: "relative", overflow: "hidden" }}>
 
       {/* ── Section header ── */}
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 8vw", marginBottom: 48 }}>
         <SectionLabel>Deep Tech Ecosystem</SectionLabel>
         <SectionLabel fontSize="clamp(20px,2.4vw,34px)" color={COLORS.G400} style={{ marginBottom: 16 }}>Focus Domains</SectionLabel>
         <FadeIn delay={0.1}>
-          <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 560, marginBottom: 0 }}>
-            技術の社会実装が最も困難で、最もインパクトが大きい領域に集中する。
-          </p>
+          <TextReveal
+            lines={["先端技術を社会に実装する"]}
+            fontSize="clamp(36px,4.8vw,58px)"
+            style={{ marginBottom: 0 }}
+          />
         </FadeIn>
       </div>
 
@@ -661,7 +736,10 @@ function FocusDomains() {
           return (
             <div
               key={i}
-              onClick={() => { if (!isCenter) go(i); }}
+              onClick={() => {
+                if (!isCenter) { go(i); return; }
+                if (!domain.comingSoon) window.location.href = `/ecosystem#domain-${domain.num}`;
+              }}
               style={{
                 position: "absolute",
                 width: CARD_W, height: CARD_H,
@@ -672,32 +750,51 @@ function FocusDomains() {
                 transform: `translateX(${x}px) rotateY(${ry}deg) scale(${scale})`,
                 opacity, zIndex,
                 transition: trans ? "transform 0.65s cubic-bezier(0.23,1,0.32,1), opacity 0.65s ease" : "none",
-                cursor: isCenter ? "default" : "pointer",
+                cursor: (isCenter && !domain.comingSoon) ? "pointer" : isCenter ? "default" : "pointer",
                 boxShadow: isCenter ? "0 24px 60px rgba(0,0,0,0.6)" : "none",
               }}
             >
               {domain.comingSoon ? (
-                <div style={{ width: "100%", height: "100%", background: "#070d09", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}>
-                  <div style={{ fontFamily: FONTS.accent, fontSize: 11, color: "rgba(61,168,96,0.5)", letterSpacing: "0.30em", textTransform: "uppercase" }}>Coming Soon</div>
-                  <div style={{ width: 32, height: 1, background: "rgba(61,168,96,0.2)" }} />
-                  <div style={{ fontFamily: FONTS.accent, fontSize: 12, color: "rgba(61,168,96,0.28)", letterSpacing: "0.18em" }}>PILLAR 04</div>
-                  <div style={{ fontFamily: FONTS.body, fontSize: 22, fontWeight: 700, color: "rgba(255,255,255,0.12)" }}>Next Domain</div>
-                </div>
+                <>
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg,#0a1410 0%,#040a06 100%)" }} />
+                  {/* Grid lines */}
+                  <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(61,168,96,.012) 40px,rgba(61,168,96,.012) 41px),repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(61,168,96,.012) 40px,rgba(61,168,96,.012) 41px)" }} />
+                  {/* Corner brackets */}
+                  <div style={{ position: "absolute", top: 14, left: 14, width: 16, height: 16, borderTop: "1.5px solid rgba(61,168,96,.28)", borderLeft: "1.5px solid rgba(61,168,96,.28)" }} />
+                  <div style={{ position: "absolute", top: 14, right: 14, width: 16, height: 16, borderTop: "1.5px solid rgba(61,168,96,.28)", borderRight: "1.5px solid rgba(61,168,96,.28)" }} />
+                  <div style={{ position: "absolute", bottom: 14, left: 14, width: 16, height: 16, borderBottom: "1.5px solid rgba(61,168,96,.28)", borderLeft: "1.5px solid rgba(61,168,96,.28)" }} />
+                  <div style={{ position: "absolute", bottom: 14, right: 14, width: 16, height: 16, borderBottom: "1.5px solid rgba(61,168,96,.28)", borderRight: "1.5px solid rgba(61,168,96,.28)" }} />
+                  {/* Ghost number */}
+                  <div style={{ position: "absolute", fontFamily: FONTS.accent, fontWeight: 900, fontSize: isMobile ? 150 : 220, color: "rgba(255,255,255,.03)", bottom: -24, right: -8, lineHeight: 1, letterSpacing: "-0.05em", pointerEvents: "none", userSelect: "none" }}>04</div>
+                  <div style={{ position: "relative", zIndex: 1, padding: isMobile ? "22px 24px 40px" : "30px 38px 56px", height: "100%", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: 10 }}>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: 13, letterSpacing: "0.20em", color: "rgba(61,168,96,.3)", textTransform: "uppercase" }}>Pillar 04</div>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: isMobile ? 30 : 46, fontWeight: 900, color: "rgba(255,255,255,0.12)", letterSpacing: "-0.02em", lineHeight: 0.9 }}>
+                      Next<br />Domain
+                    </div>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: 10, letterSpacing: "0.22em", color: "rgba(61,168,96,.3)", textTransform: "uppercase" }}>Coming Soon</div>
+                  </div>
+                </>
               ) : (
                 <>
-                  <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${domain.img})`, backgroundSize: "cover", backgroundPosition: "center" }} />
-                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg,rgba(9,12,14,0.88) 0%,rgba(13,26,20,0.82) 100%)" }} />
-                  <div style={{ position: "relative", zIndex: 1, padding: isMobile ? "32px 28px" : "48px 56px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                    <span style={{ fontFamily: FONTS.accent, fontWeight: 900, fontSize: 88, color: "rgba(255,255,255,0.04)", position: "absolute", top: 16, right: 24, lineHeight: 1 }}>{domain.num}</span>
-                    <div style={{ fontFamily: FONTS.accent, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: COLORS.G400, marginBottom: 18, display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ display: "inline-block", width: 20, height: 1, background: COLORS.G300 }} />
-                      Pillar {domain.num}
+                  {/* Full bleed image */}
+                  <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${domain.img})`, backgroundSize: "cover", backgroundPosition: "center", filter: "brightness(0.35) saturate(0.7)" }} />
+                  {/* Grid lines */}
+                  <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(61,168,96,.022) 40px,rgba(61,168,96,.022) 41px),repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(61,168,96,.022) 40px,rgba(61,168,96,.022) 41px)" }} />
+                  {/* Gradient overlay */}
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(4,10,6,.9) 0%,rgba(4,10,6,.35) 100%)" }} />
+                  {/* Corner brackets */}
+                  <div style={{ position: "absolute", top: 14, left: 14, width: 16, height: 16, borderTop: "1.5px solid rgba(61,168,96,.55)", borderLeft: "1.5px solid rgba(61,168,96,.55)" }} />
+                  <div style={{ position: "absolute", top: 14, right: 14, width: 16, height: 16, borderTop: "1.5px solid rgba(61,168,96,.55)", borderRight: "1.5px solid rgba(61,168,96,.55)" }} />
+                  <div style={{ position: "absolute", bottom: 14, left: 14, width: 16, height: 16, borderBottom: "1.5px solid rgba(61,168,96,.55)", borderLeft: "1.5px solid rgba(61,168,96,.55)" }} />
+                  <div style={{ position: "absolute", bottom: 14, right: 14, width: 16, height: 16, borderBottom: "1.5px solid rgba(61,168,96,.55)", borderRight: "1.5px solid rgba(61,168,96,.55)" }} />
+                  {/* Ghost number */}
+                  <div style={{ position: "absolute", fontFamily: FONTS.accent, fontWeight: 900, fontSize: isMobile ? 150 : 220, color: "rgba(255,255,255,.05)", bottom: -24, right: -8, lineHeight: 1, letterSpacing: "-0.05em", pointerEvents: "none", userSelect: "none" }}>{domain.num}</div>
+                  {/* Content */}
+                  <div style={{ position: "relative", zIndex: 1, padding: isMobile ? "22px 24px 40px" : "30px 38px 56px", height: "100%", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: 10 }}>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: 13, letterSpacing: "0.20em", color: "rgba(61,168,96,.55)", textTransform: "uppercase" }}>Pillar {domain.num}</div>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: isMobile ? 30 : 46, fontWeight: 900, color: "#f0f0f0", letterSpacing: "-0.02em", lineHeight: 0.9 }}>
+                      {domain.name.split(' ').map((w, i, arr) => <span key={i}>{w}{i < arr.length - 1 && <br />}</span>)}
                     </div>
-                    <div style={{ fontFamily: FONTS.body, fontSize: isMobile ? 22 : 30, color: COLORS.N500, fontWeight: 600, letterSpacing: "-0.01em", marginBottom: 4 }}>{domain.name}</div>
-                    <div style={{ fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: COLORS.G300, marginBottom: isCenter ? 24 : 0 }}>{domain.en}</div>
-                    {isCenter && (
-                      <p style={{ fontFamily: FONTS.body, fontSize: isMobile ? 13 : 14, color: "rgba(255,255,255,0.50)", lineHeight: 1.9, maxWidth: 400 }}>{domain.desc}</p>
-                    )}
                   </div>
                 </>
               )}
@@ -732,14 +829,8 @@ function FocusDomains() {
       </div>
 
       {/* ── Alliance Partners ── */}
-      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "80px 8vw 100px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "80px 8vw 56px" }}>
         <SectionLabel fontSize="clamp(20px,2.4vw,34px)" color={COLORS.G400} style={{ marginBottom: 16 }}>Alliance Partners</SectionLabel>
-        <FadeIn delay={0.1}>
-          <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 600, marginBottom: 48 }}>
-            ここにロゴが載ることを誇りに思えるエコシステムへ。<br />
-            BOARが共に動くパートナーたちで構成される、ディープテック産業実装の連合体。
-          </p>
-        </FadeIn>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 12 }}>
           {ALLIANCE_LOGOS.map((logo, i) => (
             <motion.div
@@ -785,7 +876,7 @@ function FocusDomains() {
                 <img
                   src={logo.logo}
                   alt={logo.name}
-                  style={{ maxWidth: 160, maxHeight: 40, objectFit: "contain", objectPosition: "left center" }}
+                  style={{ width: "100%", height: 40, objectFit: "contain", objectPosition: "center" }}
                 />
               ) : (
                 <>
@@ -800,162 +891,13 @@ function FocusDomains() {
         </div>
       </div>
 
+      <SectionCTAStrip href="/ecosystem" bigLabel="ECOSYSTEM" label="Deep Tech Ecosystem" title="注目するドメインを見る" variant="dark" />
+
     </section>
   );
 }
 
 // ─── PHILOSOPHY ───
-function Philosophy() {
-  const [linkHovered, setLinkHovered] = useState(false);
-  const boarItems = [
-    { letter: "B", rest: "uild the Business",  ja: "事業を構築する" },
-    { letter: "O", rest: "pen Opportunities",  ja: "機会を開く" },
-    { letter: "A", rest: "ccelerate Growth",   ja: "成長を加速する" },
-    { letter: "R", rest: "ealize Value",       ja: "価値を実現する" },
-  ];
-
-  return (
-    <section id="philosophy" style={{
-      background: "radial-gradient(ellipse 70% 60% at 15% 40%, rgba(45,90,64,0.22) 0%, transparent 70%), #0d1a14",
-      padding: "100px 8vw",
-      position: "relative",
-      zIndex: 1,
-    }}>
-      {/* FocusDomains / Philosophy 区切り線 */}
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(to right, transparent 0%, rgba(106,170,136,0.25) 20%, rgba(106,170,136,0.25) 80%, transparent 100%)" }} />
-      <GridOverlay />
-      <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <SectionLabel>Who We Are</SectionLabel>
-        <div style={{ marginBottom: 48 }}>
-          <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(11px,1vw,13px)", letterSpacing: "0.2em", textTransform: "uppercase", color: COLORS.G300, marginBottom: 12, opacity: 0.7 }}>Philosophy</div>
-        <TextReveal
-          lines={["限界を突破する"]}
-          fontSize="clamp(24px,3.2vw,48px)"
-          style={{ marginBottom: 32 }}
-        />
-        <FadeIn delay={0.15}>
-          <p style={{ fontFamily: FONTS.body, fontSize: "clamp(15px,1.8vw,19px)",
-            color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 1080, marginBottom: 56 }}>
-            知の探究と利益の追求——相容れない二つの世界に、橋を架ける。<br />
-            それがBOARの存在意義です。
-          </p>
-        </FadeIn>
-
-        <div style={{ position: "relative" }}>
-          {/* ゴーストBOAR */}
-          <div style={{
-            position: "absolute", top: "50%", left: "50%",
-            transform: "translate(-50%,-50%)",
-            fontFamily: FONTS.accent, fontWeight: 900,
-            fontSize: "clamp(120px,22vw,280px)",
-            color: "rgba(255,255,255,0.025)",
-            letterSpacing: "0.1em", lineHeight: 1,
-            whiteSpace: "nowrap", pointerEvents: "none",
-          }}>BOAR</div>
-
-          {boarItems.map((item, i) => (
-            <motion.div
-              key={item.letter}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "0px" }}
-              transition={{ duration: 0.8, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              style={{ display: "grid", gridTemplateColumns: "1fr auto",
-                alignItems: "baseline", gap: "clamp(12px,4vw,40px)",
-                borderBottom: "1px solid rgba(255,255,255,0.07)", padding: "14px 0" }}
-            >
-              <div style={{ display: "flex", alignItems: "baseline" }}>
-              <span style={{ fontFamily: FONTS.accent, fontWeight: 900,
-                fontSize: "clamp(32px,5.5vw,72px)", color: COLORS.G300,
-                lineHeight: 1, minWidth: "1.1ch", letterSpacing: "-0.02em" }}>
-                {item.letter}
-              </span>
-              <span style={{ fontFamily: FONTS.accent, fontWeight: 700,
-                fontSize: "clamp(24px,3.8vw,52px)", color: "rgba(255,255,255,0.85)",
-                lineHeight: 1, letterSpacing: "0.06em" }}>
-                {item.rest}
-              </span>
-              </div>
-              <span style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.8vw,28px)",
-                color: "rgba(255,255,255,0.4)", textAlign: "right", whiteSpace: "nowrap" }}>
-                {item.ja}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-        </div>{/* /Philosophy sub-section */}
-        {/* ─ What We Do (統合) ─ */}
-        <FadeIn delay={0.35}>
-          <div style={{ marginTop: 56, marginBottom: 0 }}>
-            <div style={{
-              fontFamily: FONTS.accent, fontSize: "clamp(13px,1.1vw,16px)", letterSpacing: "0.18em",
-              textTransform: "uppercase", color: COLORS.G300, marginBottom: 32,
-            }}>What We Do</div>
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-              gap: 1,
-            }}>
-              {[
-                { num: "01", en: "EXECUTE", one: "戦略立案から実行まで、チームとして並走します。", img: "/what-we-do-01.jpg", fallback: "linear-gradient(160deg,#152f26 0%,#0d1a14 100%)" },
-                { num: "02", en: "BRIDGE",  one: "研究室の言語で語り、技術の価値を市場につなげます。", img: "/what-we-do-02.jpg", fallback: "linear-gradient(160deg,#1e3a2a 0%,#0d1a14 100%)" },
-                { num: "03", en: "ACCELERATE", one: "AIをチームに組み込み、意思決定のサイクルを加速します。", img: "/what-we-do-03.jpg", fallback: "linear-gradient(160deg,#0a1a12 0%,#152f26 100%)" },
-              ].map((p, i) => (
-                <motion.div
-                  key={p.en}
-                  {...cardEntrance(i)}
-                  style={{
-                    position: "relative",
-                    overflow: "hidden",
-                    minHeight: 260,
-                  }}
-                >
-                  <div style={{
-                    position: "absolute", inset: 0,
-                    backgroundImage: `url(${p.img}), ${p.fallback}`,
-                    backgroundSize: "cover", backgroundPosition: "center",
-                    filter: "grayscale(50%) brightness(0.72) saturate(0.55)",
-                  }} />
-                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(9,12,14,0.98) 0%, rgba(9,12,14,0.6) 50%, rgba(9,12,14,0.10) 100%)" }} />
-                  {i > 0 && (
-                    <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: 1, background: "rgba(255,255,255,0.08)" }} />
-                  )}
-                  <div style={{ position: "relative", zIndex: 1, padding: "28px 28px 32px", display: "flex", flexDirection: "column", justifyContent: "flex-end", minHeight: 260 }}>
-                    <div style={{ fontFamily: FONTS.accent, fontSize: 10, letterSpacing: "0.25em", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>{p.num}</div>
-                    <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(22px,2.5vw,34px)", fontWeight: 900, color: COLORS.darkHL, lineHeight: 1, marginBottom: 12 }}>{p.en}</div>
-                    <p style={{ fontFamily: FONTS.body, fontSize: 13, color: "rgba(255,255,255,0.48)", lineHeight: 1.85, margin: 0, wordBreak: "keep-all", overflowWrap: "break-word" }}>{p.one}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={0.3}>
-          <a href="/about"
-            onMouseEnter={() => setLinkHovered(true)}
-            onMouseLeave={() => setLinkHovered(false)}
-            style={{
-              display: "inline-flex", alignItems: "center", gap: 10,
-              fontFamily: FONTS.accent, fontSize: 13, fontWeight: 700,
-              letterSpacing: "0.15em", textTransform: "uppercase",
-              color: linkHovered ? COLORS.N500 : COLORS.darkSub50,
-              textDecoration: "none",
-              borderBottom: `1px solid ${linkHovered ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.2)"}`,
-              paddingBottom: 2,
-              transition: "color 0.3s, border-color 0.3s",
-              marginTop: 40,
-            }}
-          >
-            私たちについて
-            <span style={{ fontSize: 16 }}>→</span>
-          </a>
-        </FadeIn>
-      </div>
-    </section>
-  );
-}
-
 // ─── WHAT WE DO ───
 // 画像は /public/what-we-do-*.jpg に配置（Shutterstockから取得）
 // 01: business team in action / 02: researcher laboratory / 03: AI neural network abstract
@@ -967,6 +909,7 @@ const WWD_PILLARS = [
     one: "戦略立案から実行まで、チームとして並走します。",
     img: "/what-we-do-01.jpg",
     fallback: "linear-gradient(160deg,#152f26 0%,#0d1a14 100%)",
+    href: "/about#execute",
   },
   {
     num: "02",
@@ -975,6 +918,7 @@ const WWD_PILLARS = [
     one: "研究室の言語で語り、技術の価値を市場につなげます。",
     img: "/what-we-do-02.jpg",
     fallback: "linear-gradient(160deg,#1e3a2a 0%,#0d1a14 100%)",
+    href: "/about#bridge",
   },
   {
     num: "03",
@@ -983,70 +927,53 @@ const WWD_PILLARS = [
     one: "AIをチームに組み込み、意思決定のサイクルを加速します。",
     img: "/what-we-do-03.jpg",
     fallback: "linear-gradient(160deg,#0a1a12 0%,#152f26 100%)",
+    href: "/about#accelerate",
   },
 ];
 
 function WhatWeAre() {
   const [hovered, setHovered] = useState(null);
-  const [aboutLinkHovered, setAboutLinkHovered] = useState(false);
   const isMobile = useIsMobile();
 
   return (
-    <section id="what-we-do" style={{ position: "relative", overflow: "hidden", zIndex: 2, background: "#0d1a14" }}>
-
-      {/* Philosophy / WWD 区切り線 */}
-      <div style={{ width: "100%", height: 1, background: "linear-gradient(to right, transparent 0%, rgba(106,170,136,0.25) 20%, rgba(106,170,136,0.25) 80%, transparent 100%)" }} />
+    <section id="what-we-do" style={{
+      background: "radial-gradient(ellipse 70% 60% at 15% 40%, rgba(45,90,64,0.22) 0%, transparent 70%), #0d1a14",
+      position: "relative",
+      zIndex: 1,
+    }}>
+      {/* FocusDomains / WhatWeDo 区切り線 */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(to right, transparent 0%, rgba(106,170,136,0.25) 20%, rgba(106,170,136,0.25) 80%, transparent 100%)" }} />
+      <GridOverlay />
 
       {/* セクションラベル + 見出し */}
       <div style={{
-        background: "radial-gradient(ellipse 65% 70% at 85% 80%, rgba(45,90,64,0.18) 0%, transparent 65%), #0d1a14",
-        padding: isMobile ? "72px 6vw 24px" : "80px 8vw 32px",
+        background: "radial-gradient(ellipse 65% 70% at 85% 80%, rgba(45,90,64,0.18) 0%, transparent 65%), transparent",
+        padding: isMobile ? "100px 6vw 24px" : "140px 8vw 32px",
       }}>
-        <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-          <div>
-            <SectionLabel>What We Do</SectionLabel>
-            <TextReveal
-              lines={["技術の価値を証明する"]}
-              fontSize={isMobile ? "clamp(22px,6vw,32px)" : "clamp(24px,3.2vw,48px)"}
-              style={{ marginBottom: 28 }}
-            />
-            <FadeIn delay={0.2}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {WWD_PILLARS.map((p, i) => (
-                  <div key={p.en} style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
-                    <span style={{
-                      fontFamily: FONTS.accent, fontSize: "clamp(13px,1.1vw,16px)", letterSpacing: "0.18em",
-                      color: COLORS.G300, textTransform: "uppercase",
-                      minWidth: isMobile ? 100 : 120, flexShrink: 0,
-                    }}>{p.en}</span>
-                    <span style={{
-                      fontFamily: FONTS.body, fontSize: "clamp(13px,1.1vw,15px)",
-                      color: "rgba(255,255,255,0.5)", lineHeight: 1.6,
-                    }}>{p.one}</span>
-                  </div>
-                ))}
-              </div>
-            </FadeIn>
-          </div>
-          {!isMobile && (
-            <FadeIn delay={0.2}>
-              <a href="#about"
-                onMouseEnter={() => setAboutLinkHovered(true)}
-                onMouseLeave={() => setAboutLinkHovered(false)}
-                style={{
-                  fontFamily: FONTS.accent, fontSize: 12, fontWeight: 700,
-                  letterSpacing: "0.15em", textTransform: "uppercase",
-                  color: aboutLinkHovered ? COLORS.N500 : COLORS.darkSub35,
-                  textDecoration: "none",
-                  borderBottom: `1px solid ${aboutLinkHovered ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.15)"}`,
-                  paddingBottom: 2,
-                  transition: "color 0.3s, border-color 0.3s", whiteSpace: "nowrap",
-                }}
-              >
-                About Us →
-              </a>
-            </FadeIn>
-          )}
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <SectionLabel fontSize="clamp(20px,2.4vw,34px)" color={COLORS.G400} style={{ marginBottom: 12 }}>What We Do</SectionLabel>
+          <TextReveal
+            lines={["技術の価値を証明する"]}
+            fontSize="clamp(36px,4.8vw,58px)"
+            style={{ marginBottom: 28 }}
+          />
+          <FadeIn delay={0.2}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {WWD_PILLARS.map((p, i) => (
+                <div key={p.en} style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
+                  <span style={{
+                    fontFamily: FONTS.accent, fontSize: "clamp(13px,1.1vw,16px)", letterSpacing: "0.18em",
+                    color: COLORS.G300, textTransform: "uppercase",
+                    minWidth: isMobile ? 100 : 120, flexShrink: 0,
+                  }}>{p.en}</span>
+                  <span style={{
+                    fontFamily: FONTS.body, fontSize: "clamp(13px,1.1vw,15px)",
+                    color: "rgba(255,255,255,0.5)", lineHeight: 1.6,
+                  }}>{p.one}</span>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
         </div>
       </div>
 
@@ -1061,17 +988,17 @@ function WhatWeAre() {
         {WWD_PILLARS.map((p, i) => (
           <motion.a
             key={p.en}
-            href="#what-we-do"
+            href={p.href}
             {...cardEntrance(i)}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}
             style={{
               position: "relative",
               overflow: "hidden",
-              cursor: "pointer",
-              textDecoration: "none",
               display: "block",
-              minHeight: isMobile ? "62vw" : "60vh",
+              minHeight: isMobile ? "44vw" : "34vh",
+              textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             {/* 背景画像（ズームアニメーション付き） — S03: grayscale50%+輝度78%+彩度60% */}
@@ -1153,12 +1080,12 @@ function WhatWeAre() {
               position: "absolute", inset: 0,
               display: "flex", flexDirection: "column",
               justifyContent: "flex-end",
-              padding: isMobile ? "28px 24px 36px" : "40px 36px 56px",
+              padding: isMobile ? "20px 24px 24px" : "32px 36px 32px",
             }}>
               {/* 番号 */}
               <div style={{
                 fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.25em",
-                color: "rgba(255,255,255,0.35)", marginBottom: 16,
+                color: "rgba(255,255,255,0.35)", marginBottom: 8,
               }}>
                 {p.num}
               </div>
@@ -1174,7 +1101,7 @@ function WhatWeAre() {
                   color: hovered === i ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.08)",
                   lineHeight: 0.9,
                   letterSpacing: "-0.01em",
-                  marginBottom: 16,
+                  marginBottom: 8,
                   transition: "color 0.4s",
                 }}
               >
@@ -1187,7 +1114,7 @@ function WhatWeAre() {
                 fontSize: "clamp(16px,1.6vw,22px)",
                 fontWeight: 700,
                 color: COLORS.N500,
-                marginBottom: 10,
+                marginBottom: 0,
                 lineHeight: 1.4,
               }}>
                 {p.title}
@@ -1199,19 +1126,28 @@ function WhatWeAre() {
       </div>
       </div>
 
+      {/* ── E型 CTA Strip — About BOAR ── */}
+      <AboutBoarStrip />
+
     </section>
   );
+}
+
+function AboutBoarStrip() {
+  return <SectionCTAStrip href="/about" bigLabel="ABOUT" label="About BOAR" title="私たちがBOARである理由" variant="dark" />;
 }
 
 // ─── SERVICES ───
 function Services() {
   const [hoveredCard, setHoveredCard] = useState(null);
+  const isMobile = useIsMobile();
   const services = [
     {
       num: "01",
       label: "Forward R&D",
       sub: "研究開発の共創設計",
       desc: "ディープテックと大企業を繋ぎ、課題定義から社会実装まで共創する。",
+      href: "/services#forward-rd",
       // I02: フラスコ（ラインスタイル）
       icon: (
         <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke={COLORS.G300} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
@@ -1242,6 +1178,7 @@ function Services() {
       label: "Forward Buyout",
       sub: "共創の延長線上にあるM&A",
       desc: "技術を深く理解しているからこそ、本質的な価値に基づくM&Aを設計する。",
+      href: "/services#forward-buyout",
       // I02: 上昇矢印（ラインスタイル）
       icon: (
         <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke={COLORS.G300} strokeWidth="1.2" strokeLinecap="round">
@@ -1274,12 +1211,12 @@ function Services() {
   const L = { text: COLORS.lightText, body: COLORS.lightBody, accent: COLORS.lightAccent, line: COLORS.lightBorder };
 
   return (
-    <DiagSection id="services" bg="linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%)">
+    <DiagSection id="services" bg="linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%)" style={{ paddingTop: 140, paddingBottom: 0 }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <SectionLabel color={COLORS.G200}>Services</SectionLabel>
+        <SectionLabel fontSize="clamp(20px,2.4vw,34px)" color={COLORS.G200}>Services</SectionLabel>
         <TextReveal
           lines={["非連続な成長を支援する"]}
-          fontSize="clamp(24px,3.2vw,48px)"
+          fontSize="clamp(36px,4.8vw,58px)"
           color={L.text}
           style={{ marginBottom: 32 }}
         />
@@ -1293,37 +1230,55 @@ function Services() {
         </FadeIn>
 
         <FadeIn delay={0.15}>
-          <div style={{ display: "flex", alignItems: "center", marginBottom: 28 }}>
-            <div style={{
-              fontFamily: FONTS.accent, fontSize: "clamp(20px,2.2vw,28px)",
-              fontWeight: 900, letterSpacing: "0.06em", textTransform: "uppercase",
-              color: "#0d1a14",
-            }}>Value Forward</div>
-            <div style={{ flex: 1, height: 1, background: "rgba(9,26,20,0.12)", margin: "0 20px" }} />
-            <div style={{
-              fontFamily: FONTS.body, fontSize: 13,
-              color: COLORS.G200, letterSpacing: "0.04em",
-            }}>技術の価値を、市場に届けきる。</div>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "16px", marginBottom: 56 }}>
+          {/* 2枚カードを四隅ブラケットで囲む外側フレーム */}
+          <div style={{ position: "relative", padding: "32px 24px 24px", marginBottom: 40 }}>
+            {/* 四隅ブラケット */}
+            {[["top","left"],["top","right"],["bottom","left"],["bottom","right"]].map(([v,h]) => (
+              <div key={`outer-${v}${h}`} style={{
+                position: "absolute", [v]: 0, [h]: 0, width: 28, height: 28,
+                borderTop: v === "top" ? "2px solid rgba(9,26,20,0.35)" : "none",
+                borderBottom: v === "bottom" ? "2px solid rgba(9,26,20,0.35)" : "none",
+                borderLeft: h === "left" ? "2px solid rgba(9,26,20,0.35)" : "none",
+                borderRight: h === "right" ? "2px solid rgba(9,26,20,0.35)" : "none",
+              }} />
+            ))}
+            {/* Value Forward ラベル — ブラケット内・カード上（帯クリック → /services） */}
+            <a href="/services" style={{
+              display: "block",
+              fontFamily: FONTS.accent, fontSize: "clamp(20px,2.4vw,34px)",
+              fontWeight: 900, letterSpacing: "-0.01em", textTransform: "uppercase",
+              color: "rgba(9,26,20,0.45)",
+              marginBottom: 16,
+              textDecoration: "none", cursor: "pointer",
+            }}>Value Forward</a>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: "16px" }}>
             {services.map((s, i) => (
               <motion.a
                 key={s.label}
-                href="/services"
+                href={s.href}
                 {...cardEntrance(i)}
-                whileHover={{ y: -2 }}
                 onMouseEnter={() => setHoveredCard(i)}
                 onMouseLeave={() => setHoveredCard(null)}
                 style={{
                   position: "relative", overflow: "hidden",
                   padding: "32px 32px 28px",
                   background: s.bg,
-                  border: `1px solid ${hoveredCard === i ? s.borderHover : "rgba(255,255,255,0.07)"}`,
-                  cursor: "pointer", textDecoration: "none",
+                  border: "1px solid rgba(255,255,255,0.07)",
                   display: "block",
-                  transition: "border-color 0.35s",
+                  textDecoration: "none",
+                  cursor: "pointer",
                 }}
               >
+                {/* ホバーグラデーション — フル幅 */}
+                <motion.div
+                  animate={{ opacity: hoveredCard === i ? 1 : 0 }}
+                  transition={{ duration: 0.45 }}
+                  style={{
+                    position: "absolute", inset: 0,
+                    background: `linear-gradient(to top, ${s.accentColor}28 0%, transparent 60%)`,
+                    pointerEvents: "none", zIndex: 0,
+                  }}
+                />
                 {s.decoration}
                 {/* コーナーブラケット */}
                 {[["top","left"],["top","right"],["bottom","left"],["bottom","right"]].map(([v,h]) => (
@@ -1373,7 +1328,11 @@ function Services() {
               </motion.a>
             ))}
           </div>
+          </div>{/* /outer bracket frame */}
         </FadeIn>
+      </div>
+      <div style={{ margin: "0 -8vw" }}>
+        <SectionCTAStrip href="/services" bigLabel="SERVICE" label="What We Do" title="3つのアプローチを詳しく見る" variant="light" />
       </div>
     </DiagSection>
   );
@@ -1411,10 +1370,10 @@ function About() {
   return (
     <DiagSection id="about" bg="linear-gradient(180deg,#e8e2d8 0%,#ece7dd 100%)">
       <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <SectionLabel color={COLORS.G200}>About</SectionLabel>
+        <SectionLabel fontSize="clamp(20px,2.4vw,34px)" color={COLORS.G200}>About</SectionLabel>
         <TextReveal
           lines={["チームについて"]}
-          fontSize="clamp(24px,3.2vw,48px)"
+          fontSize="clamp(32px,4vw,52px)"
           color={L.text}
           style={{ marginBottom: 48 }}
         />
@@ -1512,19 +1471,29 @@ const BADGE = {
 };
 function ReleasesPreview() {
   const isMobile = useIsMobile();
+  const [hoveredRow, setHoveredRow] = useState(null);
   return (
-    <section style={{ padding: "80px 8vw", background: "linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%)" }}>
+    <section style={{ padding: "140px 8vw 0", background: "linear-gradient(180deg,#ede8df 0%,#e8e2d8 100%)", borderTop: "1px solid rgba(9,12,14,0.1)" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         {/* ヘッダ行 */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 40 }}>
-          <span style={{ fontFamily: FONTS.accent, fontSize: "clamp(28px,3.5vw,48px)", fontWeight: 900, color: COLORS.lightText, letterSpacing: "-0.01em" }}>Releases.</span>
-          <a href="#" style={{ fontFamily: FONTS.body, fontSize: 13, color: COLORS.G200, textDecoration: "none", letterSpacing: "0.05em" }}>すべて見る →</a>
+        <div style={{ marginBottom: 40 }}>
+          <span style={{ fontFamily: FONTS.accent, fontSize: "clamp(20px,2.4vw,34px)", fontWeight: 900, color: COLORS.lightText, letterSpacing: "-0.01em" }}>Releases.</span>
         </div>
         {/* リスト */}
         {RELEASES_PREVIEW.map((item, i) => {
           const b = BADGE[item.type];
+          const isHov = hoveredRow === i;
           return (
-            <a key={item.id} href="#" style={{ textDecoration: "none", display: "block" }}>
+            <a key={item.id} href={item.href || "#"} style={{ display: "block", textDecoration: "none", position: "relative", overflow: "hidden" }}
+              onMouseEnter={() => setHoveredRow(i)} onMouseLeave={() => setHoveredRow(null)}>
+              {/* フル幅ホバーグラデーション */}
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(to right, rgba(45,90,64,0.08) 0%, transparent 70%)",
+                opacity: isHov ? 1 : 0,
+                transition: "opacity 0.3s",
+                pointerEvents: "none",
+              }} />
               <div style={{
                 display: "grid",
                 gridTemplateColumns: isMobile ? "1fr" : "100px 1fr auto",
@@ -1533,17 +1502,21 @@ function ReleasesPreview() {
                 padding: "24px 0",
                 borderTop: i === 0 ? "1px solid rgba(9,12,14,0.15)" : "none",
                 borderBottom: "1px solid rgba(9,12,14,0.15)",
+                position: "relative",
               }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingLeft: 16 }}>
                   <span style={{ fontFamily: FONTS.body, fontSize: 11, color: "rgba(9,12,14,0.35)" }}>{item.date}</span>
                   <span style={{ fontFamily: FONTS.body, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", color: b.color, display: "inline-block", width: "fit-content" }}>{item.typeLabel}</span>
                 </div>
                 <span style={{ fontFamily: FONTS.display, fontSize: "clamp(14px,1.4vw,17px)", fontWeight: 700, color: "#0d1a14", lineHeight: 1.4 }}>{item.title}</span>
-                <span style={{ fontFamily: FONTS.body, fontSize: 14, color: "rgba(9,12,14,0.25)" }}>→</span>
+                <span style={{ fontFamily: FONTS.body, fontSize: 14, color: isHov ? COLORS.G200 : "rgba(9,12,14,0.25)", transition: "color 0.3s" }}>→</span>
               </div>
             </a>
           );
         })}
+      </div>
+      <div style={{ margin: "0 -8vw" }}>
+        <SectionCTAStrip href="/releases" bigLabel="RELEASES" label="News &amp; Insights" title="すべてのリリースを見る" variant="light" />
       </div>
     </section>
   );
@@ -1569,13 +1542,21 @@ function ContactCTA() {
       }}
     >
       <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-        <div style={{
-          fontFamily: FONTS.accent, fontSize: "clamp(36px,5.5vw,72px)",
-          fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em",
-          color: hovered ? G : "white",
-          transition: "color 0.4s",
-        }}>
-          Contact.
+        <div>
+          <div style={{ fontFamily: FONTS.body, fontSize: "clamp(12px,1.2vw,14px)", color: COLORS.G300, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12 }}>
+            Business Inquiry
+          </div>
+          <div style={{
+            fontFamily: FONTS.accent, fontSize: "clamp(48px,9vw,120px)",
+            fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em",
+            color: hovered ? G : "white",
+            transition: "color 0.4s",
+          }}>
+            Contact.
+          </div>
+          <div style={{ fontFamily: FONTS.body, fontSize: "clamp(13px,1.3vw,15px)", color: "rgba(255,255,255,0.35)", marginTop: 16, lineHeight: 1.8 }}>
+            事業開発・資金調達・技術の社会実装について、まずはお気軽に。
+          </div>
         </div>
         <div style={{
           fontFamily: FONTS.accent, fontSize: 13, fontWeight: 700,
@@ -1600,9 +1581,11 @@ export default function App() {
       <Hero />
       <TickerStrip />
       <FocusDomains />
-      <Philosophy />
+      <WhatWeAre />
+      <GlowDivider />
       <Services />
       <ReleasesPreview />
+      <GlowDivider />
       <ContactCTA />
       <Footer />
     </div>

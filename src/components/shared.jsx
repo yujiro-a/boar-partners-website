@@ -119,11 +119,12 @@ export function SectionLabel({ children, color, large }) {
 
 // ─── Header（統一版）────────────────────────────────────
 const NAV_ITEMS = [
-  { label: "Top",      href: "/" },
-  { label: "About",    href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Releases", href: "/releases" },
-  { label: "Contact",  href: "/contact" },
+  { label: "Top",       href: "/" },
+  { label: "Ecosystem", href: "/ecosystem" },
+  { label: "About",     href: "/about" },
+  { label: "Services",  href: "/services" },
+  { label: "Releases",  href: "/releases" },
+  { label: "Contact",   href: "/contact" },
 ];
 
 export function Header() {
@@ -187,7 +188,7 @@ export function Header() {
                       textDecoration: "none",
                       fontFamily: FONTS.accent, fontSize: 15, letterSpacing: "0.12em",
                       textTransform: "uppercase", fontWeight: 700,
-                      borderBottom: active ? `1px solid ${COLORS.G300}` : "none",
+                      borderBottom: active ? `1px solid ${COLORS.G300}` : "1px solid transparent",
                       paddingBottom: 2, transition: "color 0.3s",
                     }}
                     onMouseEnter={(e) => e.target.style.color = COLORS.N500}

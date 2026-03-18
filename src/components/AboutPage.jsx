@@ -2,55 +2,311 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FONTS, COLORS, FadeIn, TextReveal, SectionLabel, Header, Footer, useIsMobile } from "./shared.jsx";
 
-// ─── Origin セクション（新規）────────────────────────────
-function Origin() {
-  /* TODO: 荒川さん確認・差し替え */
-  const storyParagraphs = [
-    "それぞれの現場で経験を重ねながら、私たちは同じ問いを持ち続けていました。",
-    "「なぜ、技術は産業にならないのか」",
-    "技術の価値を正しく評価し、事業として育て、最終的に統合するまでを一気通貫で担えるプロ集団をつくる。BOARは、その意志から生まれました。",
-  ];
-
+// ─── Philosophy セクション ───────────────────────────────────
+function Philosophy() {
   return (
     <section style={{
-      padding: "100px 8vw",
-      background: "linear-gradient(180deg, #090c0e 0%, #0d1a14 100%)",
-      position: "relative", overflow: "hidden",
+      background: "radial-gradient(ellipse 70% 60% at 15% 40%, rgba(45,90,64,0.22) 0%, transparent 70%), #0d1a14",
+      padding: "100px 8vw 80px",
+      position: "relative",
     }}>
-      {/* Ghost テキスト */}
-      <div style={{
-        position: "absolute", right: "-0.05em", top: "50%", transform: "translateY(-50%)",
-        fontFamily: FONTS.accent, fontWeight: 900, fontSize: "clamp(80px,15vw,200px)",
-        color: "rgba(255,255,255,0.025)", letterSpacing: "-0.04em", userSelect: "none", lineHeight: 1,
+      <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
+        <SectionLabel>Who We Are</SectionLabel>
+        <SectionLabel fontSize="clamp(20px,2.4vw,34px)" color={COLORS.G400} style={{ marginBottom: 12 }}>Philosophy</SectionLabel>
+        <TextReveal
+          lines={["限界を突破する"]}
+          fontSize="clamp(36px,4.8vw,58px)"
+          style={{ marginBottom: 32 }}
+        />
+        <FadeIn delay={0.15}>
+          <p style={{ fontFamily: FONTS.body, fontSize: "clamp(15px,1.8vw,19px)",
+            color: "rgba(255,255,255,0.5)", lineHeight: 1.9, maxWidth: 600, marginBottom: 0 }}>
+            知の探究と利益の追求——相容れない二つの世界に、橋を架ける。<br />
+            それがBOARの存在意義です。
+          </p>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
+// ─── Origin セクション ────────────────────────────────────
+const BOAR_ITEMS = [
+  { letter: "B", rest: "uild the Business", label: "事業開発のプロ集団", href: "/about#execute"    },
+  { letter: "O", rest: "pen Opportunities", label: "アカデミアとの連携", href: "/about#bridge"     },
+  { letter: "A", rest: "ccelerate Growth",  label: "AIによる事業加速",   href: "/about#accelerate" },
+  { letter: "R", rest: "ealize Value",      label: "実績・事例",         href: "/releases"         },
+];
+
+function GridOverlay() {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        backgroundImage: "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
+        backgroundSize: "80px 80px",
         pointerEvents: "none",
-      }}>
+        zIndex: 0,
+      }}
+    />
+  );
+}
+
+function AcronymRow({ item, isMobile, delay = 0 }) {
+  const [hovered, setHovered] = useState(false);
+
+  const handleClick = (e) => {
+    const url = new URL(item.href, window.location.href);
+    if (url.pathname === window.location.pathname && url.hash) {
+      e.preventDefault();
+      const el = document.querySelector(url.hash);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        history.pushState(null, "", url.hash);
+      }
+    }
+  };
+
+  return (
+    <motion.a
+      href={item.href}
+      onClick={handleClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px" }}
+      transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        display: "grid",
+        gridTemplateColumns: isMobile
+          ? "64px 1px 1fr 32px"
+          : "120px 1px 1fr 200px 48px",
+        alignItems: "center",
+        gap: isMobile ? "0 16px" : "0 28px",
+        padding: isMobile ? "20px 0" : "28px 16px",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
+        background: hovered ? "rgba(255,255,255,0.02)" : "transparent",
+        textDecoration: "none",
+        position: "relative",
+        transition: "background 0.4s",
+      }}
+    >
+      {/* 大文字 */}
+      <div
+        style={{
+          fontFamily: FONTS.accent,
+          fontSize: isMobile ? "clamp(40px,12vw,64px)" : "clamp(80px,10vw,140px)",
+          fontWeight: 900,
+          lineHeight: 1,
+          letterSpacing: "-0.02em",
+          color: hovered ? COLORS.G300 : "rgba(255,255,255,0.06)",
+          transition: "color 0.4s",
+        }}
+      >
+        {item.letter}
+      </div>
+
+      {/* 縦ライン */}
+      <div style={{ width: 1, height: isMobile ? 40 : 60, background: "rgba(255,255,255,0.12)" }} />
+
+      {/* 英語フレーズ（アクロニム展開: 頭文字グリーン強調） */}
+      <div>
+        <div
+          style={{
+            fontFamily: FONTS.accent,
+            fontSize: isMobile ? "clamp(18px,4vw,24px)" : "clamp(22px,2.4vw,32px)",
+            fontWeight: 700,
+            letterSpacing: "0.04em",
+            transition: "color 0.4s",
+          }}
+        >
+          <span style={{ color: hovered ? COLORS.G200 : COLORS.G300 }}>{item.letter}</span>
+          <span style={{ color: hovered ? COLORS.N500 : "rgba(255,255,255,0.45)", transition: "color 0.4s" }}>{item.rest}</span>
+        </div>
+        {isMobile && (
+          <div
+            style={{
+              fontFamily: FONTS.body,
+              fontSize: 13,
+              color: COLORS.darkBody,
+              marginTop: 4,
+            }}
+          >
+            {item.label}
+          </div>
+        )}
+      </div>
+
+      {/* 日本語ラベル（デスクトップのみ） */}
+      {!isMobile && (
+        <div
+          style={{
+            fontFamily: FONTS.body,
+            fontSize: "clamp(12px,1vw,14px)",
+            color: COLORS.darkBody,
+            lineHeight: 1.7,
+          }}
+        >
+          {item.label}
+        </div>
+      )}
+
+      {/* 矢印 */}
+      <div
+        style={{
+          fontFamily: FONTS.accent,
+          fontSize: isMobile ? 18 : 24,
+          textAlign: "right",
+          color: hovered ? COLORS.N500 : "rgba(255,255,255,0.25)",
+          transform: hovered ? "translateX(4px)" : "translateX(0px)",
+          transition: "transform 0.4s, color 0.4s",
+        }}
+      >
+        →
+      </div>
+
+      {/* 下ボーダー（ホバー展開） */}
+      <motion.div
+        animate={{ scaleX: hovered ? 1 : 0 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 1,
+          background: COLORS.G300,
+          transformOrigin: "left",
+        }}
+      />
+    </motion.a>
+  );
+}
+
+function Origin() {
+  const isMobile = useIsMobile();
+
+  return (
+    <section
+      style={{
+        background: "linear-gradient(180deg, #090c0e 0%, #0d1a14 100%)",
+        padding: "clamp(80px, 12vw, 160px) clamp(20px, 6vw, 80px)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <GridOverlay />
+
+      {/* Ghost Text */}
+      <div
+        style={{
+          position: "absolute",
+          top: "clamp(40px, 6vw, 80px)",
+          right: "clamp(20px, 4vw, 60px)",
+          fontFamily: FONTS.accent,
+          fontSize: "clamp(80px, 16vw, 200px)",
+          fontWeight: 900,
+          color: "rgba(255,255,255,0.025)",
+          letterSpacing: "0.05em",
+          userSelect: "none",
+          pointerEvents: "none",
+          lineHeight: 1,
+          zIndex: 0,
+        }}
+      >
         ORIGIN
       </div>
-      <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
+
+      <div
+        style={{
+          maxWidth: 1080,
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
         <SectionLabel>Origin</SectionLabel>
-        <FadeIn>
-          <h2 style={{
-            fontFamily: FONTS.accent, fontSize: "clamp(28px,4vw,52px)",
-            color: COLORS.N500, fontWeight: 900, lineHeight: 1.1, marginBottom: 48,
-          }}>
-            BOARが生まれた背景。
-          </h2>
-        </FadeIn>
-        <div style={{ maxWidth: "none", display: "flex", flexDirection: "column", gap: 28 }}>
-          {storyParagraphs.map((p, i) => (
-            <FadeIn key={i} delay={i * 0.15}>
-              <p style={{
+
+        {/* Beat 1 — 問い */}
+        <div style={{ marginBottom: "clamp(64px, 8vw, 112px)", marginTop: 40 }}>
+          <TextReveal
+            lines={["なぜ技術は、研究室の域を出ないのか。"]}
+            fontSize="clamp(32px, 4.5vw, 64px)"
+            fontFamily={FONTS.accent}
+            fontWeight={900}
+            color="rgba(255,255,255,0.92)"
+            delay={0.1}
+          />
+          <FadeIn delay={0.5}>
+            <p
+              style={{
+                color: "rgba(255,255,255,0.45)",
+                fontSize: "clamp(14px,1.4vw,16px)",
+                marginTop: 16,
+                marginBottom: 0,
                 fontFamily: FONTS.body,
-                fontSize: i === 1 ? "clamp(20px,2.5vw,32px)" : "clamp(15px,1.5vw,17px)",
-                color: i === 1 ? COLORS.G300 : "rgba(255,255,255,0.6)",
-                lineHeight: i === 1 ? 1.5 : 1.9,
-                fontWeight: i === 1 ? 700 : 400,
-                margin: 0,
-              }}>
-                {p}
+              }}
+            >
+              研究と産業の間に横たわる、深い断絶。
+            </p>
+          </FadeIn>
+        </div>
+
+        {/* Beat 2 — 転換 */}
+        <div style={{ marginBottom: "clamp(64px, 8vw, 112px)" }}>
+          <FadeIn delay={0.1}>
+            <div style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.45)",
+                  fontSize: "clamp(15px,1.5vw,18px)",
+                  lineHeight: 2.0,
+                  margin: 0,
+                  fontFamily: FONTS.body,
+                }}
+              >
+                BOARは、その現実と正面から向き合うために生まれた。
+                <br />
+                事業開発の力があれば、技術は社会を変えられる。
               </p>
-            </FadeIn>
+            </div>
+          </FadeIn>
+        </div>
+
+        {/* Beat 3 — 宣言 */}
+        <div style={{ marginBottom: "clamp(56px, 7vw, 96px)" }}>
+          <TextReveal
+            lines={["事業開発のプロ集団として、"]}
+            fontSize="clamp(28px, 3.5vw, 52px)"
+            fontFamily={FONTS.accent}
+            fontWeight={900}
+            color="rgba(255,255,255,0.92)"
+            delay={0.1}
+          />
+          <TextReveal
+            lines={["業界を牽引する。"]}
+            fontSize="clamp(28px, 3.5vw, 52px)"
+            fontFamily={FONTS.accent}
+            fontWeight={900}
+            color={COLORS.G300}
+            delay={0.25}
+          />
+        </div>
+
+        {/* BOAR アクロニム */}
+        <div>
+          {BOAR_ITEMS.map((item, i) => (
+            <AcronymRow
+              key={item.letter}
+              item={item}
+              isMobile={isMobile}
+              delay={i * 0.1}
+            />
           ))}
+          {/* 最下部ボーダー */}
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }} />
         </div>
       </div>
     </section>
@@ -74,14 +330,15 @@ function Team() {
       role: "共同創業者",
       name: "溝橋 正輝",
       nameEn: "Masaki Mizohashi",
-      photo: "/team/mizohashi_cutout.png",
-      photoCutout: true,
+      photo: "/team/mizohashi_crop.jpg?v=4",
+      photoPos: "47.9% 14.2%",
+      photoSize: "auto 221%",
       bio: "川崎重工業にてエンジニアとしてキャリアをスタートし、製造技術・品質管理の実務を経た後、野村證券にて資本市場・投資銀行業務に従事。現在はディープテック・スタートアップ支援に特化し、アカデミア発ベンチャーのエコシステムと深いネットワークを持つ。技術の目利きから事業化・資金調達まで一気通貫で動く。",
     },
   ];
 
   return (
-    <section style={{ padding: "100px 8vw", background: COLORS.N100 }}>
+    <section style={{ padding: "60px 8vw 100px", background: COLORS.N100 }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <FadeIn>
           <SectionLabel>Team</SectionLabel>
@@ -203,12 +460,13 @@ const PILLARS = [
     title: "事業開発のプロ集団",
     punch: "戦略立案から実行まで、チームとして並走します。",
     img: "/what-we-do-01.jpg",
+    imgPos: "center 20%",
     fallback: "linear-gradient(160deg,#152f26 0%,#0d1a14 100%)",
     body: [
       "事業開発に必要なのは、戦略を描く力だけではありません。顧客と向き合い、パートナーと交渉し、チームを動かし続ける実行力が伴ってはじめて、事業は前に進みます。",
       "BOARは、紹介や橋渡しで関与を終えません。プロジェクトが動いている間、チームの一員として現場に入り込み、成果が出るまで並走します。",
     ],
-    tags: ["事業戦略", "実行支援", "パートナー開拓", "PMO"],
+    tags: ["事業戦略", "実行支援", "パートナー開拓", "現場伴走"],
   },
   {
     num: "02",
@@ -216,6 +474,7 @@ const PILLARS = [
     title: "アカデミアとの深い連携",
     punch: "研究室の言語で語り、技術の価値を市場につなげます。",
     img: "/what-we-do-02.jpg",
+    imgPos: "center 30%",
     fallback: "linear-gradient(160deg,#1e3a2a 0%,#0d1a14 100%)",
     body: [
       "大学の研究室とビジネスの現場には、深い断絶があります。技術の言語とビジネスの言語が噛み合わないまま、多くの可能性が埋もれています。BOARには、その両方を話せる人間が揃っています。",
@@ -229,6 +488,7 @@ const PILLARS = [
     title: "AIが一員として動く",
     punch: "AIをチームに組み込み、意思決定のサイクルを加速します。",
     img: "/what-we-do-03.jpg",
+    imgPos: "center center",
     fallback: "linear-gradient(160deg,#0a1a12 0%,#152f26 100%)",
     body: [
       "BOARでは、AIエージェントがチームの一員として実際の業務を担っています。調査・分析・資料作成といった作業をAIが受け持ち、人間はより本質的な判断と対話に集中できる体制を整えています。",
@@ -251,7 +511,7 @@ function Pillars() {
         <SectionLabel>What We Do</SectionLabel>
         <FadeIn>
           <h2 style={{
-            fontFamily: FONTS.accent, fontSize: "clamp(24px,3.2vw,48px)",
+            fontFamily: FONTS.accent, fontSize: "clamp(36px,4.8vw,58px)",
             color: COLORS.N500, fontWeight: 900, lineHeight: 1.1, marginBottom: 64,
           }}>
             技術の価値を証明する
@@ -262,6 +522,7 @@ function Pillars() {
           {PILLARS.map((p, i) => (
             <motion.div
               key={p.en}
+              id={p.en.toLowerCase()}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px" }}
@@ -271,15 +532,18 @@ function Pillars() {
               style={{
                 display: "grid",
                 gridTemplateColumns: isMobile ? "1fr" : "1fr 1.6fr",
+                alignItems: "center",
+                height: isMobile ? undefined : 420,
                 gap: isMobile ? 0 : "0 64px",
                 borderTop: "1px solid rgba(255,255,255,0.07)",
                 overflow: "hidden",
+                scrollMarginTop: 80,
               }}
             >
               {/* 左: 画像 */}
               <div style={{
                 position: "relative",
-                height: isMobile ? "52vw" : 320,
+                height: isMobile ? "52vw" : 420,
                 overflow: "hidden",
               }}>
                 <motion.div
@@ -289,7 +553,7 @@ function Pillars() {
                     position: "absolute", inset: 0,
                     backgroundImage: `url(${p.img}), ${p.fallback}`,
                     backgroundSize: "cover",
-                    backgroundPosition: "center",
+                    backgroundPosition: p.imgPos || "center",
                     filter: "grayscale(50%) brightness(0.78) saturate(0.6)",
                   }}
                 />
@@ -378,7 +642,7 @@ function Complement() {
     {
       name: "荒川 悠次朗",
       role: "エバンジェリスト",
-      skills: ["事業開発", "M&A戦略", "PMI/PMO", "AI活用"],
+      skills: ["事業開発", "M&A戦略", "PMI", "AI活用"],
     },
     {
       name: "溝橋 正輝",
@@ -584,13 +848,21 @@ function CTA() {
       }}
     >
       <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-        <div style={{
-          fontFamily: FONTS.accent, fontSize: "clamp(48px,9vw,120px)",
-          fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em",
-          color: hovered ? G : "white",
-          transition: "color 0.4s",
-        }}>
-          Contact.
+        <div>
+          <div style={{ fontFamily: FONTS.body, fontSize: "clamp(12px,1.2vw,14px)", color: COLORS.G300, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12 }}>
+            Work With Us
+          </div>
+          <div style={{
+            fontFamily: FONTS.accent, fontSize: "clamp(48px,9vw,120px)",
+            fontWeight: 900, lineHeight: 1.0, letterSpacing: "-0.02em",
+            color: hovered ? G : "white",
+            transition: "color 0.4s",
+          }}>
+            Contact.
+          </div>
+          <div style={{ fontFamily: FONTS.body, fontSize: "clamp(13px,1.3vw,15px)", color: "rgba(255,255,255,0.35)", marginTop: 16, lineHeight: 1.8 }}>
+            BOARの取り組みに共感いただいた方、ぜひ話しましょう。
+          </div>
         </div>
         <div style={{
           fontFamily: FONTS.accent, fontSize: 13, fontWeight: 700,
@@ -647,6 +919,7 @@ export default function AboutPage() {
         </section>
 
         <Origin />
+        <Philosophy />
         <Pillars />
         <Team />
         <Company />
