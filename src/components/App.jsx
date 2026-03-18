@@ -1303,6 +1303,18 @@ function Services() {
         </FadeIn>
 
         <FadeIn delay={0.15}>
+          <div style={{ display: "flex", alignItems: "center", marginBottom: 28 }}>
+            <div style={{
+              fontFamily: FONTS.accent, fontSize: "clamp(20px,2.2vw,28px)",
+              fontWeight: 900, letterSpacing: "0.06em", textTransform: "uppercase",
+              color: "#0d1a14",
+            }}>Value Forward</div>
+            <div style={{ flex: 1, height: 1, background: "rgba(9,26,20,0.12)", margin: "0 20px" }} />
+            <div style={{
+              fontFamily: FONTS.body, fontSize: 13,
+              color: COLORS.G200, letterSpacing: "0.04em",
+            }}>技術の価値を、市場に届けきる。</div>
+          </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "16px", marginBottom: 56 }}>
             {services.map((s, i) => (
               <motion.a
