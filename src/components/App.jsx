@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { Briefcase, BookOpen, Cpu, FlaskConical, TrendingUp } from "lucide-react";
 import { Header, Footer, useIsMobile } from "./shared.jsx";
@@ -135,7 +135,7 @@ function TypewriterText({ text, loop = false }) {
     const t = setInterval(() => setPos(p => {
       if (p >= flat.length) return loop ? 0 : p;
       return p + 1;
-    }), 28);
+    }), 70);
     return () => clearInterval(t);
   }, [loop, flat.length]);
 
@@ -154,9 +154,13 @@ function TypewriterText({ text, loop = false }) {
       </span>
     );
     if (idx + 1 === pos && !done) {
-      nodes.push(<span key={`cur${i}`} style={{ animation: "cursorBlink 1.5s linear infinite" }}>|</span>);
+      nodes.push(<span key={`cur${i}`} style={{ animation: "cursorBlink 1.8s linear infinite", color: "#555", marginLeft: "1px" }}>|</span>);
     }
   });
+  // 完了後も末尾でカーソルを点滅させ続ける
+  if (done) {
+    nodes.push(<span key="cursor-end" style={{ animation: "cursorBlink 1.8s linear infinite", color: "#555", marginLeft: "1px" }}>|</span>);
+  }
   return <>{nodes}</>;
 }
 
@@ -355,7 +359,7 @@ function Hero() {
   };
 
   const styles = <style>{`
-    @keyframes cursorBlink { 0%{opacity:0.18}70%{opacity:0.18}71%{opacity:0}100%{opacity:0} }
+    @keyframes cursorBlink { 0%,77%{opacity:1} 78%,100%{opacity:0} }
     @keyframes gridDrift   { 0%{transform:translateY(0)}100%{transform:translateY(-100px)} }
     @keyframes particleRise{ 0%{transform:translateY(0);opacity:0}10%{opacity:0.6}90%{opacity:0.3}100%{transform:translateY(-100vh);opacity:0} }
     @keyframes lineRun1    { 0%{opacity:0;transform:rotate(18deg) scaleX(2) translateX(-60%)}15%{opacity:1}85%{opacity:0.5}100%{opacity:0;transform:rotate(18deg) scaleX(2) translateX(60%)} }
@@ -520,6 +524,299 @@ function Hero() {
   );
 }
 
+// ─── ALLIANCE ───
+// ── Ecosystem logos — フラット管理。増えたらカテゴリ分類を検討 ──
+const ALLIANCE_LOGOS = [
+  { name: "commissure", sub: "Deep Tech × 製造業", logo: "/logos/commissure.svg" },
+  { name: "Parkour Japan", sub: "スポーツ × フィジカルアーツ", logo: "/logos/parkour-japan.webp" },
+  { name: "東京大学", sub: "アカデミア × 産学連携", logo: "/logos/tokyo-university.svg" },
+  { name: "みずほ", sub: "メガバンク × 産業DX", logo: "/logos/mizuho.svg" },
+  { name: "三菱UFJ銀行", sub: "メガバンク × 産業ファイナンス", logo: "/logos/mufg.svg" },
+  { placeholder: true },
+];
+
+function AllianceSection() {
+  return (
+    <>
+      <style>{`
+        @keyframes fd-ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        @keyframes fd-scan   { 0%{left:-220px} 100%{left:110%} }
+      `}</style>
+
+      {/* ── Ticker strip (dark) ── */}
+      <div style={{ position: "relative", height: 38, overflow: "hidden", background: "#040a06", borderTop: "1px solid rgba(61,168,96,0.3)", borderBottom: "1px solid rgba(61,168,96,0.3)" }}>
+        <div style={{ position: "absolute", top: 0, width: 220, height: "100%", background: "linear-gradient(to right, transparent, rgba(61,168,96,0.14) 50%, transparent)", animation: "fd-scan 4s linear infinite", zIndex: 2, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", left: 0, top: 0, width: 120, height: "100%", background: "linear-gradient(to right, #040a06, transparent)", zIndex: 3, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", right: 0, top: 0, width: 120, height: "100%", background: "linear-gradient(to left, #040a06, transparent)", zIndex: 3, pointerEvents: "none" }} />
+        <div style={{ display: "flex", alignItems: "center", height: "100%", animation: "fd-ticker 30s linear infinite", whiteSpace: "nowrap" }}>
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+            <React.Fragment key={i}>
+              <span style={{ fontFamily: FONTS.accent, fontSize: 11, color: "rgba(61,168,96,0.88)", textShadow: "0 0 8px rgba(61,168,96,0.75), 0 0 20px rgba(61,168,96,0.35)", letterSpacing: "0.14em", padding: "0 26px", whiteSpace: "nowrap" }}>{item}</span>
+              <span style={{ color: "rgba(61,168,96,0.28)", fontSize: 10, flexShrink: 0 }}>›</span>
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Ecosystem content (light section) ── */}
+      <section id="ecosystem" style={{ background: "linear-gradient(180deg,#f0ece4 0%,#ede8df 100%)", padding: "80px 8vw 100px" }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <SectionLabel color={COLORS.G200}>Ecosystem</SectionLabel>
+          <TextReveal
+            lines={["共創パートナーシップ"]}
+            fontSize="clamp(24px,3.2vw,48px)"
+            color={COLORS.lightText}
+            style={{ marginBottom: 16 }}
+          />
+          <FadeIn delay={0.1}>
+            <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.lightBody, lineHeight: 1.9, maxWidth: 600, marginBottom: 64 }}>
+              ここにロゴが載ることを誇りに思えるエコシステムへ。<br />
+              BOARが共に動くパートナーたちで構成される、ディープテック産業実装の連合体。
+            </p>
+          </FadeIn>
+
+          {/* フラットグリッド — 増えたらカテゴリ分類を検討 */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+            gap: 12,
+          }}>
+            {ALLIANCE_LOGOS.map((logo, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={logo.placeholder ? {} : { y: -3 }}
+                style={{
+                  padding: "22px 26px",
+                  minHeight: 84,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  background: logo.placeholder ? "transparent" : "rgba(255,255,255,0.80)",
+                  border: logo.placeholder
+                    ? "1px dashed rgba(9,26,20,0.16)"
+                    : "1px solid rgba(9,26,20,0.10)",
+                  cursor: logo.placeholder ? "default" : "pointer",
+                  transition: "box-shadow 0.25s, border-color 0.25s",
+                }}
+                onMouseEnter={e => {
+                  if (!logo.placeholder) {
+                    e.currentTarget.style.borderColor = "rgba(9,26,20,0.22)";
+                    e.currentTarget.style.boxShadow = "0 6px 24px rgba(9,26,20,0.08)";
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!logo.placeholder) {
+                    e.currentTarget.style.borderColor = "rgba(9,26,20,0.10)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }
+                }}
+              >
+                {logo.placeholder ? (
+                  <div>
+                    <span style={{ display: "block", fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(9,26,20,0.38)" }}>COMING SOON</span>
+                    <span style={{ display: "block", fontFamily: FONTS.body, fontSize: 12, color: "rgba(9,26,20,0.28)", marginTop: 5 }}>Recruiting Partners</span>
+                  </div>
+                ) : logo.logo ? (
+                  <img
+                    src={logo.logo}
+                    alt={logo.name}
+                    style={{ maxWidth: 160, maxHeight: 40, objectFit: "contain", objectPosition: "left center" }}
+                  />
+                ) : (
+                  <>
+                    <span style={{ fontFamily: FONTS.accent, fontSize: 18, fontWeight: 900, color: COLORS.lightText, letterSpacing: "0.02em", lineHeight: 1.15 }}>{logo.name}</span>
+                    {logo.sub && (
+                      <span style={{ fontFamily: FONTS.body, fontSize: 12, color: COLORS.lightBody, marginTop: 6, lineHeight: 1.5 }}>{logo.sub}</span>
+                    )}
+                  </>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ─── FOCUS DOMAINS ───
+const FOCUS_DOMAINS_DATA = [
+  {
+    num: "01", name: "フィジカルAI", en: "Physical AI",
+    desc: "デジタルが物理世界に直接介入する技術群——触覚、ロボティクス、センシング。commissureとのForward R&D実績を起点に、製造業・建設の現場を変える。",
+    img: "/what-we-do-02.jpg",
+  },
+  {
+    num: "02", name: "エージェンティックAI", en: "Agentic AI",
+    desc: "指示を待つAIから、自ら判断し行動するAIへ。意思決定の構造そのものを再設計する。人月依存の業務構造を根本から変える次世代アーキテクチャ。",
+    img: "/what-we-do-03.jpg",
+  },
+  {
+    num: "03", name: "量子技術", en: "Quantum Technology",
+    desc: "研究は世界水準、産業化支援は空白。年間1,000億円超の国家予算が動く。キャズムが最も深い領域に、BOARは正面から入る。",
+    img: "/what-we-do-01.jpg",
+  },
+  {
+    num: "04", name: "Next Domain", en: "Coming Soon",
+    desc: "新たな技術領域への挑戦。詳細は近日公開予定。",
+    img: null, comingSoon: true,
+  },
+];
+
+const TICKER_ITEMS = ["PHYSICAL AI", "AGENTIC AI", "QUANTUM TECHNOLOGY", "DEEP TECH", "FORWARD R&D", "INDUSTRIAL INNOVATION", "BOAR PARTNERS", "技術の社会実装"];
+
+function FocusDomains() {
+  const [idx, setIdx] = useState(0);
+  const [trans, setTrans] = useState(true);
+  const drag = useRef({ active: false, startX: 0 });
+  const isMobile = useIsMobile();
+  const N = FOCUS_DOMAINS_DATA.length;
+  const sectionRef = useRef(null);
+  const inView = useInView(sectionRef, { once: false, margin: "0px 0px -20% 0px" });
+
+  // セクションがスクロールで視野に入ったらフィジカルAI（idx=0）にリセット
+  useEffect(() => {
+    if (inView) setIdx(0);
+  }, [inView]);
+
+  const go = useCallback((i) => {
+    setIdx(((i % N) + N) % N);
+    setTrans(true);
+  }, [N]);
+
+  const getCardStyle = (i) => {
+    const diff = ((i - idx + N) % N);
+    const GAP = isMobile ? 180 : 360;
+    if (diff === 0)     return { x: 0,    ry: 0,   scale: 1,    opacity: 1,    zIndex: 3 };
+    if (diff === 1)     return { x: GAP,  ry: -48, scale: 0.76, opacity: 0.52, zIndex: 2 };
+    if (diff === N - 1) return { x: -GAP, ry: 48,  scale: 0.76, opacity: 0.52, zIndex: 2 };
+    return                     { x: 0,    ry: 0,   scale: 0.4,  opacity: 0,    zIndex: 0 };
+  };
+
+  const CARD_W = isMobile ? 290 : 540;
+  const CARD_H = isMobile ? 260 : 320;
+
+  return (
+    <section ref={sectionRef} id="domains" style={{ padding: "100px 0 100px", background: "linear-gradient(180deg,#090c0e 0%,#0d1a14 100%)", position: "relative", overflow: "hidden" }}>
+
+      {/* ── Section header ── */}
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 8vw", marginBottom: 48 }}>
+        <SectionLabel>Focus Domains</SectionLabel>
+        <TextReveal lines={["注力する研究開発領域"]} fontSize="clamp(24px,3.2vw,48px)" style={{ marginBottom: 16 }} />
+        <FadeIn delay={0.1}>
+          <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 560 }}>
+            技術の社会実装が最も困難で、最もインパクトが大きい領域に集中する。
+          </p>
+        </FadeIn>
+      </div>
+
+      {/* ── Coverflow ── */}
+      <div
+        style={{ width: "100%", height: CARD_H + 40, perspective: "1200px", position: "relative", userSelect: "none", overflow: "hidden" }}
+        onMouseDown={e => { drag.current = { active: true, startX: e.clientX }; }}
+        onTouchStart={e => { drag.current = { active: true, startX: e.touches[0].clientX }; }}
+        onMouseUp={e => {
+          if (!drag.current.active) return;
+          const dx = e.clientX - drag.current.startX;
+          if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
+          drag.current.active = false;
+        }}
+        onTouchEnd={e => {
+          if (!drag.current.active) return;
+          const dx = e.changedTouches[0].clientX - drag.current.startX;
+          if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
+          drag.current.active = false;
+        }}
+      >
+        <div style={{ position: "absolute", top: 0, left: 0, width: "16%", height: "100%", background: "linear-gradient(to right, #090c0e, transparent)", zIndex: 10, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: 0, right: 0, width: "16%", height: "100%", background: "linear-gradient(to left, #0d1a14, transparent)", zIndex: 10, pointerEvents: "none" }} />
+
+        {FOCUS_DOMAINS_DATA.map((domain, i) => {
+          const { x, ry, scale, opacity, zIndex } = getCardStyle(i);
+          const diff = ((i - idx + N) % N);
+          const isCenter = diff === 0;
+          return (
+            <div
+              key={i}
+              onClick={() => { if (!isCenter) go(i); }}
+              style={{
+                position: "absolute",
+                width: CARD_W, height: CARD_H,
+                left: `calc(50% - ${CARD_W / 2}px)`,
+                top: 20,
+                borderRadius: 14, overflow: "hidden",
+                border: "1px solid rgba(255,255,255,0.09)",
+                transform: `translateX(${x}px) rotateY(${ry}deg) scale(${scale})`,
+                opacity, zIndex,
+                transition: trans ? "transform 0.65s cubic-bezier(0.23,1,0.32,1), opacity 0.65s ease" : "none",
+                cursor: isCenter ? "default" : "pointer",
+                boxShadow: isCenter ? "0 24px 60px rgba(0,0,0,0.6)" : "none",
+              }}
+            >
+              {domain.comingSoon ? (
+                <div style={{ width: "100%", height: "100%", background: "#070d09", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}>
+                  <div style={{ fontFamily: FONTS.accent, fontSize: 11, color: "rgba(61,168,96,0.5)", letterSpacing: "0.30em", textTransform: "uppercase" }}>Coming Soon</div>
+                  <div style={{ width: 32, height: 1, background: "rgba(61,168,96,0.2)" }} />
+                  <div style={{ fontFamily: FONTS.accent, fontSize: 12, color: "rgba(61,168,96,0.28)", letterSpacing: "0.18em" }}>PILLAR 04</div>
+                  <div style={{ fontFamily: FONTS.body, fontSize: 22, fontWeight: 700, color: "rgba(255,255,255,0.12)" }}>Next Domain</div>
+                </div>
+              ) : (
+                <>
+                  <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${domain.img})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg,rgba(9,12,14,0.88) 0%,rgba(13,26,20,0.82) 100%)" }} />
+                  <div style={{ position: "relative", zIndex: 1, padding: isMobile ? "32px 28px" : "48px 56px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <span style={{ fontFamily: FONTS.accent, fontWeight: 900, fontSize: 88, color: "rgba(255,255,255,0.04)", position: "absolute", top: 16, right: 24, lineHeight: 1 }}>{domain.num}</span>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: COLORS.G400, marginBottom: 18, display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ display: "inline-block", width: 20, height: 1, background: COLORS.G300 }} />
+                      Pillar {domain.num}
+                    </div>
+                    <div style={{ fontFamily: FONTS.body, fontSize: isMobile ? 22 : 30, color: COLORS.N500, fontWeight: 600, letterSpacing: "-0.01em", marginBottom: 4 }}>{domain.name}</div>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: COLORS.G300, marginBottom: isCenter ? 24 : 0 }}>{domain.en}</div>
+                    {isCenter && (
+                      <p style={{ fontFamily: FONTS.body, fontSize: isMobile ? 13 : 14, color: "rgba(255,255,255,0.50)", lineHeight: 1.9, maxWidth: 400 }}>{domain.desc}</p>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ── Navigation ── */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 20, marginTop: 24 }}>
+        <button
+          onClick={() => go(idx - 1)}
+          style={{ width: 44, height: 44, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.45)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "#fff"; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "rgba(255,255,255,0.45)"; }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div style={{ display: "flex", gap: 6 }}>
+          {Array.from({ length: N }).map((_, i) => (
+            <button key={i} onClick={() => go(i)} style={{ width: i === idx ? 20 : 6, height: 6, borderRadius: 3, background: i === idx ? COLORS.G300 : "rgba(255,255,255,0.18)", border: "none", cursor: "pointer", padding: 0, transition: "all 0.3s" }} />
+          ))}
+        </div>
+        <button
+          onClick={() => go(idx + 1)}
+          style={{ width: 44, height: 44, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.45)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "#fff"; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "rgba(255,255,255,0.45)"; }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+    </section>
+  );
+}
+
 // ─── PHILOSOPHY ───
 function Philosophy() {
   const [linkHovered, setLinkHovered] = useState(false);
@@ -531,7 +828,14 @@ function Philosophy() {
   ];
 
   return (
-    <DiagSection id="philosophy" bg="radial-gradient(ellipse 70% 60% at 15% 40%, rgba(45,90,64,0.22) 0%, transparent 70%), linear-gradient(180deg,#090c0e 0%,#0d1a14 100%)">
+    <section id="philosophy" style={{
+      background: "radial-gradient(ellipse 70% 60% at 15% 40%, rgba(45,90,64,0.22) 0%, transparent 70%), #0d1a14",
+      padding: "100px 8vw",
+      position: "relative",
+      zIndex: 1,
+    }}>
+      {/* FocusDomains / Philosophy 区切り線 */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(to right, transparent 0%, rgba(106,170,136,0.25) 20%, rgba(106,170,136,0.25) 80%, transparent 100%)" }} />
       <GridOverlay />
       <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <SectionLabel>Philosophy</SectionLabel>
@@ -543,9 +847,8 @@ function Philosophy() {
         <FadeIn delay={0.15}>
           <p style={{ fontFamily: FONTS.body, fontSize: "clamp(15px,1.8vw,19px)",
             color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 1080, marginBottom: 56 }}>
-            知の探究と、利益の追求の間にある深い溝を、正面から越えていく。<br />
-            誰もが難しいと言う。それでも動き続けることが、私たちの証明です。<br />
-            限界は、挑む者だけが突破できる。
+            知の探究と利益の追求——相容れない二つの世界に、橋を架ける。<br />
+            それがBOARの存在意義です。
           </p>
         </FadeIn>
 
@@ -591,8 +894,55 @@ function Philosophy() {
             </motion.div>
           ))}
         </div>
+        {/* ─ What We Do (統合) ─ */}
+        <FadeIn delay={0.35}>
+          <div style={{ marginTop: 56, marginBottom: 0 }}>
+            <div style={{
+              fontFamily: FONTS.accent, fontSize: "clamp(13px,1.1vw,16px)", letterSpacing: "0.18em",
+              textTransform: "uppercase", color: COLORS.G300, marginBottom: 32,
+            }}>What We Do</div>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: 1,
+            }}>
+              {[
+                { num: "01", en: "EXECUTE", one: "戦略立案から実行まで、チームとして並走します。", img: "/what-we-do-01.jpg", fallback: "linear-gradient(160deg,#152f26 0%,#0d1a14 100%)" },
+                { num: "02", en: "BRIDGE",  one: "研究室の言語で語り、技術の価値を市場につなげます。", img: "/what-we-do-02.jpg", fallback: "linear-gradient(160deg,#1e3a2a 0%,#0d1a14 100%)" },
+                { num: "03", en: "ACCELERATE", one: "AIをチームに組み込み、意思決定のサイクルを加速します。", img: "/what-we-do-03.jpg", fallback: "linear-gradient(160deg,#0a1a12 0%,#152f26 100%)" },
+              ].map((p, i) => (
+                <motion.div
+                  key={p.en}
+                  {...cardEntrance(i)}
+                  style={{
+                    position: "relative",
+                    overflow: "hidden",
+                    minHeight: 200,
+                  }}
+                >
+                  <div style={{
+                    position: "absolute", inset: 0,
+                    backgroundImage: `url(${p.img}), ${p.fallback}`,
+                    backgroundSize: "cover", backgroundPosition: "center",
+                    filter: "grayscale(50%) brightness(0.72) saturate(0.55)",
+                  }} />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(9,12,14,0.95) 0%, rgba(9,12,14,0.45) 60%, rgba(9,12,14,0.08) 100%)" }} />
+                  {i > 0 && (
+                    <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: 1, background: "rgba(255,255,255,0.08)" }} />
+                  )}
+                  <div style={{ position: "relative", zIndex: 1, padding: "32px 28px", display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: 10, letterSpacing: "0.25em", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>{p.num}</div>
+                    <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(22px,2.5vw,34px)", fontWeight: 900, color: COLORS.darkHL, lineHeight: 1, marginBottom: 10 }}>{p.en}</div>
+                    <p style={{ fontFamily: FONTS.body, fontSize: 13, color: "rgba(255,255,255,0.48)", lineHeight: 1.85, margin: 0 }}>{p.one}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </FadeIn>
+
         <FadeIn delay={0.3}>
-          <a href="#about"
+          <a href="/about"
             onMouseEnter={() => setLinkHovered(true)}
             onMouseLeave={() => setLinkHovered(false)}
             style={{
@@ -612,7 +962,7 @@ function Philosophy() {
           </a>
         </FadeIn>
       </div>
-    </DiagSection>
+    </section>
   );
 }
 
@@ -652,8 +1002,6 @@ function WhatWeAre() {
   const isMobile = useIsMobile();
 
   return (
-    // Philosophy(DiagSection)が marginBottom:"-4vw" で引き上げるため、
-    // ヘッダー padding-top に +4vw 追加。下も Services が marginTop:"-4vw" で被るため +4vw。
     <section id="what-we-do" style={{ position: "relative", overflow: "hidden", zIndex: 2, background: "#0d1a14" }}>
 
       {/* Philosophy / WWD 区切り線 */}
@@ -662,7 +1010,7 @@ function WhatWeAre() {
       {/* セクションラベル + 見出し */}
       <div style={{
         background: "radial-gradient(ellipse 65% 70% at 85% 80%, rgba(45,90,64,0.18) 0%, transparent 65%), #0d1a14",
-        padding: isMobile ? "calc(72px + 4vw) 6vw 32px" : "calc(80px + 4vw) 8vw 56px",
+        padding: isMobile ? "72px 6vw 24px" : "80px 8vw 32px",
       }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
           <div>
@@ -713,7 +1061,7 @@ function WhatWeAre() {
       </div>
 
       {/* 画像カラム — モバイル: 縦積み / デスクトップ: 3分割 */}
-      <div style={{ padding: isMobile ? "24px 6vw 24px" : "40px 8vw 40px", background: "transparent" }}>
+      <div style={{ padding: isMobile ? "0 6vw 24px" : "0 8vw 40px", background: "transparent" }}>
       <div style={{
         maxWidth: 1080, margin: "0 auto",
         display: "grid",
@@ -872,9 +1220,8 @@ function Services() {
     {
       num: "01",
       label: "Forward R&D",
-      sub: "価値の発見・証明",
-      framework: "Define → Drive → Deliver",
-      desc: "課題の発見・定義から入り、ディープテックと共創して社会実装まで走ります。既製の技術を購買するのではなく、研究開発段階から課題ごと一緒に解きます。",
+      sub: "研究開発の共創設計",
+      desc: "ディープテックと大企業を繋ぎ、課題定義から社会実装まで共創する。",
       // I02: フラスコ（ラインスタイル）
       icon: (
         <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke={COLORS.G300} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
@@ -903,9 +1250,8 @@ function Services() {
     {
       num: "02",
       label: "Forward Buyout",
-      sub: "価値の統合",
-      framework: "Valuation → Structure → PMI → Monetize",
-      desc: "共創の延長線上にあるM&AやExitを設計・実行します。技術を深く理解しているからこそ、社会実装のポテンシャルを正しく評価したストラクチャーを組めます。",
+      sub: "共創の延長線上にあるM&A",
+      desc: "技術を深く理解しているからこそ、本質的な価値に基づくM&Aを設計する。",
       // I02: 上昇矢印（ラインスタイル）
       icon: (
         <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke={COLORS.G300} strokeWidth="1.2" strokeLinecap="round">
@@ -956,95 +1302,61 @@ function Services() {
           </p>
         </FadeIn>
 
-        {/* ── Value Forward 親ボックス（B04: アウトライン） ── */}
         <FadeIn delay={0.15}>
-          <div style={{
-            position: "relative",
-            background: "transparent",
-            padding: "36px 40px 40px",
-            marginBottom: 56,
-          }}>
-            {/* BX06: コーナーブラケット */}
-            {[["top","left"],["top","right"],["bottom","left"],["bottom","right"]].map(([v,h]) => (
-              <div key={`${v}${h}`} style={{
-                position: "absolute", [v]: 0, [h]: 0, width: 24, height: 24,
-                borderTop: v === "top" ? `2px solid ${COLORS.lightLine}` : "none",
-                borderBottom: v === "bottom" ? `2px solid ${COLORS.lightLine}` : "none",
-                borderLeft: h === "left" ? `2px solid ${COLORS.lightLine}` : "none",
-                borderRight: h === "right" ? `2px solid ${COLORS.lightLine}` : "none",
-              }} />
-            ))}
-            {/* 親ヘッダー */}
-            <div style={{ display: "flex", alignItems: "center", marginBottom: 28 }}>
-              <div style={{
-                fontFamily: FONTS.accent, fontSize: "clamp(20px,2.2vw,28px)",
-                fontWeight: 900, letterSpacing: "0.06em", textTransform: "uppercase",
-                color: "#0d1a14",
-              }}>Value Forward</div>
-              <div style={{ flex: 1, height: 1, background: "rgba(9,26,20,0.12)", margin: "0 20px" }} />
-              <div style={{
-                fontFamily: FONTS.body, fontSize: 13,
-                color: COLORS.G200, letterSpacing: "0.04em",
-              }}>技術の価値を、市場に届けきる。</div>
-            </div>
-
-            {/* 2枚のカード */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "16px", justifyContent: "center" }}>
-              {services.map((s, i) => (
-                <motion.a
-                  key={s.label}
-                  href="#services"
-                  {...cardEntrance(i)}
-                  whileHover={{ y: -2 }}
-                  onMouseEnter={() => setHoveredCard(i)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                  style={{
-                    position: "relative", overflow: "hidden",
-                    padding: "32px 32px 28px",
-                    background: s.bg,
-                    border: `1px solid ${hoveredCard === i ? s.borderHover : "rgba(255,255,255,0.07)"}`,
-                    cursor: "pointer", textDecoration: "none",
-                    display: "block",
-                    transition: "border-color 0.35s",
-                  }}
-                >
-                  {s.decoration}
-                  <div style={{ position: "relative", zIndex: 1 }}>
-                    {/* アイコン */}
-                    <div style={{ marginBottom: 24 }}>{s.icon}</div>
-                    {/* 番号 */}
-                    <div style={{
-                      fontFamily: FONTS.accent, fontSize: 10, fontWeight: 700,
-                      letterSpacing: "0.2em", color: s.accentColor,
-                      marginBottom: 10, opacity: 0.6,
-                    }}>{s.num}</div>
-                    {/* サービス名 */}
-                    <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(24px,2.5vw,36px)",
-                      fontWeight: 900, color: COLORS.darkHL, lineHeight: 1.05, marginBottom: 8 }}>
-                      {s.label}
-                    </div>
-                    {/* フレームワーク */}
-                    <div style={{ fontSize: 11, color: s.accentColor, letterSpacing: "0.08em",
-                      marginBottom: 20, fontFamily: FONTS.body }}>
-                      {s.framework}
-                    </div>
-                    {/* 説明 */}
-                    <p style={{ fontSize: 14, color: COLORS.darkBody, lineHeight: 1.95, fontFamily: FONTS.body, margin: "0 0 24px" }}>
-                      {s.desc}
-                    </p>
-                    {/* 詳しく見る */}
-                    <div style={{
-                      display: "inline-flex", alignItems: "center", gap: 6,
-                      fontFamily: FONTS.accent, fontSize: 11, fontWeight: 700,
-                      letterSpacing: "0.15em", textTransform: "uppercase",
-                      color: s.accentColor,
-                    }}>
-                      詳しく見る <span style={{ fontSize: 14 }}>→</span>
-                    </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "16px", marginBottom: 56 }}>
+            {services.map((s, i) => (
+              <motion.a
+                key={s.label}
+                href="/services"
+                {...cardEntrance(i)}
+                whileHover={{ y: -2 }}
+                onMouseEnter={() => setHoveredCard(i)}
+                onMouseLeave={() => setHoveredCard(null)}
+                style={{
+                  position: "relative", overflow: "hidden",
+                  padding: "32px 32px 28px",
+                  background: s.bg,
+                  border: `1px solid ${hoveredCard === i ? s.borderHover : "rgba(255,255,255,0.07)"}`,
+                  cursor: "pointer", textDecoration: "none",
+                  display: "block",
+                  transition: "border-color 0.35s",
+                }}
+              >
+                {s.decoration}
+                <div style={{ position: "relative", zIndex: 1 }}>
+                  {/* アイコン */}
+                  <div style={{ marginBottom: 24 }}>{s.icon}</div>
+                  {/* 番号 */}
+                  <div style={{
+                    fontFamily: FONTS.accent, fontSize: 10, fontWeight: 700,
+                    letterSpacing: "0.2em", color: s.accentColor,
+                    marginBottom: 10, opacity: 0.6,
+                  }}>{s.num}</div>
+                  {/* サービス名 */}
+                  <div style={{ fontFamily: FONTS.accent, fontSize: "clamp(24px,2.5vw,36px)",
+                    fontWeight: 900, color: COLORS.darkHL, lineHeight: 1.05, marginBottom: 8 }}>
+                    {s.label}
                   </div>
-                </motion.a>
-              ))}
-            </div>
+                  {/* sub テキスト */}
+                  <div style={{ fontFamily: FONTS.body, fontSize: 13, color: COLORS.darkSub38, marginBottom: 20 }}>
+                    {s.sub}
+                  </div>
+                  {/* 説明 */}
+                  <p style={{ fontSize: 14, color: COLORS.darkBody, lineHeight: 1.95, fontFamily: FONTS.body, margin: "0 0 24px" }}>
+                    {s.desc}
+                  </p>
+                  {/* 詳しく見る */}
+                  <div style={{
+                    display: "inline-flex", alignItems: "center", gap: 6,
+                    fontFamily: FONTS.accent, fontSize: 11, fontWeight: 700,
+                    letterSpacing: "0.15em", textTransform: "uppercase",
+                    color: s.accentColor,
+                  }}>
+                    詳しく見る <span style={{ fontSize: 14 }}>→</span>
+                  </div>
+                </div>
+              </motion.a>
+            ))}
           </div>
         </FadeIn>
       </div>
@@ -1271,8 +1583,9 @@ export default function App() {
     <div style={{ overflowX: "clip" }}>
       <Header />
       <Hero />
+      <FocusDomains />
+      <AllianceSection />
       <Philosophy />
-      <WhatWeAre />
       <Services />
       <ReleasesPreview />
       <ContactCTA />
