@@ -56,22 +56,9 @@ function GridOverlay() {
 function AcronymRow({ item, isMobile, delay = 0 }) {
   const [hovered, setHovered] = useState(false);
 
-  const handleClick = (e) => {
-    const url = new URL(item.href, window.location.href);
-    if (url.pathname === window.location.pathname && url.hash) {
-      e.preventDefault();
-      const el = document.querySelector(url.hash);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-        history.pushState(null, "", url.hash);
-      }
-    }
-  };
-
   return (
     <motion.a
       href={item.href}
-      onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       initial={{ opacity: 0, y: 16 }}

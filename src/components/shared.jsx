@@ -2,7 +2,7 @@
  * shared.jsx — 共通定数・コンポーネント
  * Header / Footer / FadeIn / TextReveal / SectionLabel / hooks
  */
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
@@ -127,6 +127,163 @@ const NAV_ITEMS = [
   { label: "Contact",   href: "/contact" },
 ];
 
+// ─── ページ遷移アニメーション（落ち着きバージョン）────────────────
+
+// 別ページ用: 暗転フェード + BOARゴースト + スキャンライン1本
+function _FadeOverlay() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      style={{ position: "fixed", inset: 0, background: "#040a06", zIndex: 9000, overflow: "hidden" }}
+    >
+      <div style={{
+        position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
+        fontFamily: FONTS.accent, fontSize: "clamp(80px,15vw,160px)", fontWeight: 900,
+        color: "rgba(90,140,115,0.06)", letterSpacing: "-0.03em", userSelect: "none", pointerEvents: "none",
+      }}>BOAR</div>
+      <motion.div
+        initial={{ top: "-2px" }} animate={{ top: "102%" }}
+        transition={{ duration: 0.9, ease: "linear" }}
+        style={{ position: "absolute", left: 0, right: 0, height: 1, background: `linear-gradient(to right, transparent, ${COLORS.G300}, transparent)`, opacity: 0.35 }}
+      />
+    </motion.div>
+  );
+}
+
+// 同ページ用: 半透明ターミナル（1行・短縮版）
+function _TerminalOverlay({ onDone }) {
+  const [visible, setVisible] = useState(false);
+  const [phase, setPhase] = useState(0); // 0=slide-in, 1=slide-out
+  useEffect(() => {
+    const t1 = setTimeout(() => setVisible(true), 50);
+    const t2 = setTimeout(() => setPhase(1), 800);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+  useEffect(() => {
+    if (phase === 1) { const t = setTimeout(onDone, 650); return () => clearTimeout(t); }
+  }, [phase, onDone]);
+  return (
+    <motion.div
+      initial={{ y: "100%" }}
+      animate={phase < 1 ? { y: "0%" } : { y: "-100%" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        position: "fixed", inset: 0, zIndex: 9000,
+        background: "rgba(4,10,6,0.78)", backdropFilter: "blur(2px)",
+        display: "flex", flexDirection: "column", justifyContent: "center",
+        padding: "0 clamp(20px, 6vw, 80px)",
+      }}
+    >
+      <div style={{ maxWidth: 1080, width: "100%", margin: "0 auto" }}>
+        <motion.div
+          initial={{ opacity: 0, x: -6 }} animate={visible ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.25 }}
+          style={{ fontFamily: "monospace", fontSize: "clamp(12px,2vw,16px)", color: COLORS.G300, letterSpacing: "0.04em" }}
+        >
+          &gt; navigating...
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+function _PageTransitionOverlay({ type, onPeak, onDone }) {
+  const peakFired = useRef(false);
+  useEffect(() => {
+    // 別ページ: 350ms(フェード完了) / 同ページ: 600ms(スライド完了)
+    const delay = type === "page" ? 380 : 610;
+    const t = setTimeout(() => { if (!peakFired.current) { peakFired.current = true; onPeak?.(); } }, delay);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (type === "page") return <_FadeOverlay />;
+  return <_TerminalOverlay onDone={onDone} />;
+}
+
+// onClick など <a> を経由しない遷移にも使える外部トリガー
+export function navigateWithTransition(href) {
+  document.dispatchEvent(new CustomEvent("boar:navigate", { detail: { href } }));
+}
+
+// グローバル click インターセプター — Header に組み込み全ページに適用
+function PageTransitionManager() {
+  const [transition, setTransition] = useState(null);
+  const transitionRef = useRef(null);
+
+  const trigger = useCallback((href) => {
+    if (transitionRef.current) return;
+    const url = new URL(href, window.location.href);
+    const isSamePage = url.pathname === window.location.pathname;
+    if (isSamePage && !url.hash) return;
+    const t = { href, type: isSamePage ? "same" : "page" };
+    transitionRef.current = t;
+    setTransition(t);
+  }, []);
+
+  useEffect(() => {
+    // <a> クリックのインターセプト
+    const clickHandler = (e) => {
+      if (transitionRef.current) return;
+      const anchor = e.target.closest("a[href]");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href");
+      if (!href) return;
+      if (href.startsWith("http") || href.startsWith("//") || href.startsWith("mailto") || href.startsWith("tel") || anchor.target === "_blank") return;
+      const url = new URL(href, window.location.href);
+      const isSamePage = url.pathname === window.location.pathname;
+      if (isSamePage && !url.hash) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      trigger(href);
+    };
+    // navigateWithTransition() からのカスタムイベント
+    const navHandler = (e) => trigger(e.detail.href);
+
+    document.addEventListener("click", clickHandler, { capture: true });
+    document.addEventListener("boar:navigate", navHandler);
+    return () => {
+      document.removeEventListener("click", clickHandler, { capture: true });
+      document.removeEventListener("boar:navigate", navHandler);
+    };
+  }, [trigger]);
+
+  const handlePeak = useCallback(() => {
+    const t = transitionRef.current;
+    if (!t) return;
+    if (t.type === "same") {
+      const url = new URL(t.href, window.location.href);
+      const el = document.querySelector(url.hash);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const centerY = window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2;
+        window.scrollTo({ top: Math.max(0, centerY), behavior: "instant" });
+        history.pushState(null, "", url.hash);
+      }
+    } else {
+      window.location.href = t.href;
+    }
+  }, []);
+
+  const handleDone = useCallback(() => {
+    transitionRef.current = null;
+    setTransition(null);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {transition && (
+        <_PageTransitionOverlay
+          key={transition.href + transition.type}
+          type={transition.type}
+          onPeak={handlePeak}
+          onDone={handleDone}
+        />
+      )}
+    </AnimatePresence>
+  );
+}
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -158,6 +315,7 @@ export function Header() {
 
   return (
     <>
+      <PageTransitionManager />
       <header style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
         background: scrolled ? "rgba(9,12,14,0.97)" : "rgba(9,12,14,0.85)",

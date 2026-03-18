@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { Briefcase, BookOpen, Cpu, FlaskConical, TrendingUp } from "lucide-react";
-import { Header, Footer, useIsMobile } from "./shared.jsx";
+import { Header, Footer, useIsMobile, navigateWithTransition } from "./shared.jsx";
 
 const FONTS = {
   display: "'Hiragino Sans W6', 'Hiragino Kaku Gothic ProN', sans-serif",
@@ -119,6 +119,7 @@ function DiagSection({ children, bg, style: extra = {}, id }) {
 // variant: "dark"（暗背景）| "light"（明背景）
 function SectionCTAStrip({ href, bigLabel, label, title, variant = "dark" }) {
   const [hovered, setHovered] = useState(false);
+  const isMobile = useIsMobile();
   const isDark = variant === "dark";
 
   const lineColor    = isDark ? "rgba(61,168,96,0.45)"   : "rgba(9,12,14,0.18)";
@@ -146,14 +147,29 @@ function SectionCTAStrip({ href, bigLabel, label, title, variant = "dark" }) {
       <div style={{ position: "absolute", top: 0, left: "10%", right: "10%", height: 1, background: `linear-gradient(to right, transparent, ${lineColor} 30%, ${lineColor} 70%, transparent)` }} />
       <div style={{ position: "absolute", top: -8, left: "25%", right: "25%", height: 18, background: `radial-gradient(ellipse 60% 100% at 50% 100%, ${glowColor} 0%, transparent 100%)`, pointerEvents: "none" }} />
       {/* コンテンツ */}
-      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "28px 8vw", display: "flex", alignItems: "center", gap: 36, position: "relative", zIndex: 1 }}>
-        <div style={{ fontFamily: FONTS.accent, fontWeight: 900, fontSize: "clamp(48px,7vw,80px)", color: hovered ? bigHover : bigDefault, letterSpacing: "-0.03em", lineHeight: 1, whiteSpace: "nowrap", transition: "color 0.3s", flexShrink: 0 }}>{bigLabel}</div>
-        <div style={{ width: 1, height: 48, background: vlineColor, flexShrink: 0 }} />
-        <div>
-          <div style={{ fontFamily: FONTS.accent, fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: labelColor, marginBottom: 5 }}>{label}</div>
-          <div style={{ fontFamily: FONTS.accent, fontWeight: 900, fontSize: "clamp(15px,1.5vw,20px)", color: hovered ? titleHover : titleDefault, letterSpacing: "-0.01em", transition: "color 0.3s" }}>{title}</div>
-        </div>
-        <div style={{ marginLeft: "auto", fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.1em", color: hovered ? arrowHover : arrowDefault, transition: "color 0.3s, transform 0.3s", transform: hovered ? "translateX(6px)" : "translateX(0)", whiteSpace: "nowrap" }}>詳しく見る →</div>
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: isMobile ? "20px 6vw" : "28px 8vw", display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center", gap: isMobile ? 8 : 36, position: "relative", zIndex: 1 }}>
+        {isMobile ? (
+          <>
+            <div style={{ fontFamily: FONTS.accent, fontWeight: 900, fontSize: "clamp(36px,11vw,56px)", color: hovered ? bigHover : bigDefault, letterSpacing: "-0.03em", lineHeight: 1, transition: "color 0.3s" }}>{bigLabel}</div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+              <div>
+                <div style={{ fontFamily: FONTS.accent, fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: labelColor, marginBottom: 4 }}>{label}</div>
+                <div style={{ fontFamily: FONTS.accent, fontWeight: 900, fontSize: "clamp(14px,4vw,18px)", color: hovered ? titleHover : titleDefault, letterSpacing: "-0.01em", transition: "color 0.3s" }}>{title}</div>
+              </div>
+              <div style={{ fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.1em", color: hovered ? arrowHover : arrowDefault, transition: "color 0.3s", whiteSpace: "nowrap" }}>→</div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div style={{ fontFamily: FONTS.accent, fontWeight: 900, fontSize: "clamp(48px,7vw,80px)", color: hovered ? bigHover : bigDefault, letterSpacing: "-0.03em", lineHeight: 1, whiteSpace: "nowrap", transition: "color 0.3s", flexShrink: 0 }}>{bigLabel}</div>
+            <div style={{ width: 1, height: 48, background: vlineColor, flexShrink: 0 }} />
+            <div>
+              <div style={{ fontFamily: FONTS.accent, fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: labelColor, marginBottom: 5 }}>{label}</div>
+              <div style={{ fontFamily: FONTS.accent, fontWeight: 900, fontSize: "clamp(15px,1.5vw,20px)", color: hovered ? titleHover : titleDefault, letterSpacing: "-0.01em", transition: "color 0.3s" }}>{title}</div>
+            </div>
+            <div style={{ marginLeft: "auto", fontFamily: FONTS.accent, fontSize: 11, letterSpacing: "0.1em", color: hovered ? arrowHover : arrowDefault, transition: "color 0.3s, transform 0.3s", transform: hovered ? "translateX(6px)" : "translateX(0)", whiteSpace: "nowrap" }}>詳しく見る →</div>
+          </>
+        )}
       </div>
     </a>
   );
@@ -226,8 +242,7 @@ function TypewriterText({ text, loop = false }) {
         {lines[lines.length - 1].split("").map((ch, i) => (
           <span key={i} style={{ opacity: 1 }}>{ch}</span>
         ))}
-        {/* 完了後も末尾でカーソルを点滅させ続ける */}
-        <span key="cursor-end" style={{ animation: "cursorBlink 1.8s linear infinite", color: "#555", marginLeft: "1px" }}>|</span>
+        <span key="cursor-end" style={{ opacity: 0 }}>|</span>
       </span>
     );
   }
@@ -241,7 +256,7 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
   const smooth = useSpring(scrollYProgress, { stiffness: 60, damping: 20, restDelta: 0.0005 });
 
   // 初期: タイトルを少し下に → スクロールで自然位置へ浮き上がる
-  const titleY = useTransform(smooth, [0, 0.2], ["6vh", "0vh"]);
+  const titleY = useTransform(smooth, [0, 0.2], ["14vh", "0vh"]);
   const subOpacity = useTransform(smooth, [0.06, 0.18], [0, 1]);
   const dividerOpacity = useTransform(smooth, [0.06, 0.18], [0, 1]);
 
@@ -303,7 +318,7 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
           </motion.div>
 
           {/* ブロック切り替えエリア */}
-          <div style={{ position: "relative", minHeight: "190px" }}>
+          <div style={{ position: "relative", minHeight: "260px" }}>
             {rightBlocks.map((block, i) => (
               <motion.div
                 key={i}
@@ -348,7 +363,7 @@ function MobileHero({ rightBlocks, bgStyle, styles }) {
           </div>
 
           {/* ドットインジケーター */}
-          <div style={{ display: "flex", gap: 8, marginTop: 24 }}>
+          <div style={{ display: "flex", gap: 8, marginTop: 48 }}>
             {dots.map((dot, i) => (
               <motion.div key={i} style={{
                 width: 6, height: 6, borderRadius: "50%",
@@ -682,7 +697,7 @@ function FocusDomains() {
 
   const getCardStyle = (i) => {
     const diff = ((i - idx + N) % N);
-    const GAP = isMobile ? 180 : 360;
+    const GAP = isMobile ? 140 : 280;
     if (diff === 0)     return { x: 0,    ry: 0,   scale: 1,    opacity: 1,    zIndex: 3 };
     if (diff === 1)     return { x: GAP,  ry: -48, scale: 0.76, opacity: 0.52, zIndex: 2 };
     if (diff === N - 1) return { x: -GAP, ry: 48,  scale: 0.76, opacity: 0.52, zIndex: 2 };
@@ -696,7 +711,7 @@ function FocusDomains() {
     <section ref={sectionRef} id="domains" style={{ padding: "140px 0 0", scrollMarginTop: "80px", background: "linear-gradient(180deg,#090c0e 0%,#0d1a14 100%)", position: "relative", overflow: "hidden" }}>
 
       {/* ── Section header ── */}
-      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 8vw", marginBottom: 48 }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 8vw", marginBottom: 24 }}>
         <SectionLabel>Deep Tech Ecosystem</SectionLabel>
         <SectionLabel fontSize="clamp(20px,2.4vw,34px)" color={COLORS.G400} style={{ marginBottom: 16 }}>Focus Domains</SectionLabel>
         <FadeIn delay={0.1}>
@@ -738,7 +753,7 @@ function FocusDomains() {
               key={i}
               onClick={() => {
                 if (!isCenter) { go(i); return; }
-                if (!domain.comingSoon) window.location.href = `/ecosystem#domain-${domain.num}`;
+                if (!domain.comingSoon) navigateWithTransition(`/ecosystem#domain-${domain.num}`);
               }}
               style={{
                 position: "absolute",
@@ -831,7 +846,7 @@ function FocusDomains() {
       {/* ── Alliance Partners ── */}
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "80px 8vw 56px" }}>
         <SectionLabel fontSize="clamp(20px,2.4vw,34px)" color={COLORS.G400} style={{ marginBottom: 16 }}>Alliance Partners</SectionLabel>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
           {ALLIANCE_LOGOS.map((logo, i) => (
             <motion.div
               key={i}
