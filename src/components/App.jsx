@@ -83,16 +83,17 @@ function FadeIn({ children, delay = 0, style: extra = {} }) {
 }
 
 // ─── SectionLabel ───
-const SectionLabel = ({ children, color }) => (
+const SectionLabel = ({ children, color, fontSize, style: extStyle }) => (
   <motion.div
     initial={{ opacity: 0, y: 12 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "0px" }}
     transition={{ duration: 0.7 }}
     style={{
-      fontFamily: FONTS.accent, fontSize: "clamp(28px, 3.5vw, 48px)", letterSpacing: "-0.01em",
+      fontFamily: FONTS.accent, fontSize: fontSize || "clamp(28px, 3.5vw, 48px)", letterSpacing: "-0.01em",
       textTransform: "uppercase", fontWeight: 900, marginBottom: 32,
       color: color || COLORS.G300,
+      ...extStyle,
     }}
   >
     {children}
@@ -623,17 +624,10 @@ function FocusDomains() {
 
       {/* ── Section header ── */}
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 8vw", marginBottom: 48 }}>
-        {/* メインセクション: ディープテックエコシステム */}
-        <SectionLabel>Ecosystem</SectionLabel>
-        <TextReveal lines={["Deep Tech Ecosystem"]} fontSize="clamp(28px,4.2vw,64px)" style={{ marginBottom: 52 }} />
-        {/* サブセクション: Focus Domains */}
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
-          <span style={{ fontFamily: FONTS.accent, fontSize: 10, letterSpacing: "0.22em", color: COLORS.G300, textTransform: "uppercase", whiteSpace: "nowrap" }}>01 — Focus Domains</span>
-          <span style={{ flex: 1, height: 1, background: "rgba(106,170,136,0.18)" }} />
-        </div>
-        <TextReveal lines={["Focus Domains"]} fontSize="clamp(18px,2.5vw,36px)" style={{ marginBottom: 16 }} />
+        <SectionLabel>Deep Tech Ecosystem</SectionLabel>
+        <SectionLabel fontSize="clamp(20px,2.4vw,34px)" color={COLORS.G400} style={{ marginBottom: 16 }}>Focus Domains</SectionLabel>
         <FadeIn delay={0.1}>
-          <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 560 }}>
+          <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 560, marginBottom: 0 }}>
             技術の社会実装が最も困難で、最もインパクトが大きい領域に集中する。
           </p>
         </FadeIn>
@@ -739,11 +733,7 @@ function FocusDomains() {
 
       {/* ── Alliance Partners ── */}
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "80px 8vw 100px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
-          <span style={{ fontFamily: FONTS.accent, fontSize: 10, letterSpacing: "0.22em", color: COLORS.G300, textTransform: "uppercase", whiteSpace: "nowrap" }}>02 — Alliance Partners</span>
-          <span style={{ flex: 1, height: 1, background: "rgba(106,170,136,0.18)" }} />
-        </div>
-        <TextReveal lines={["Alliance Partners"]} fontSize="clamp(18px,2.5vw,36px)" style={{ marginBottom: 16 }} />
+        <SectionLabel fontSize="clamp(20px,2.4vw,34px)" color={COLORS.G400} style={{ marginBottom: 16 }}>Alliance Partners</SectionLabel>
         <FadeIn delay={0.1}>
           <p style={{ fontFamily: FONTS.body, fontSize: "clamp(14px,1.5vw,17px)", color: COLORS.darkBody, lineHeight: 1.9, maxWidth: 600, marginBottom: 48 }}>
             ここにロゴが載ることを誇りに思えるエコシステムへ。<br />
