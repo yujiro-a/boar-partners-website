@@ -92,6 +92,7 @@ function ValueForwardSection() {
       title: "研究開発の共創設計",
       desc: "アカデミア発ディープテックと大企業を繋ぎ、課題定義から事業化・社会実装まで共創プロセスをディレクションする。提言ではなく、チームの一員として現場に入り込む。",
       points: ["課題の発見・定義", "技術パートナー選定・共同開発", "PoC推進・事業化ロードマップ", "チームとして現場に入り実装まで伴走"],
+      anchorId: "forward-rd",
     },
     {
       num: "02",
@@ -100,6 +101,7 @@ function ValueForwardSection() {
       title: "共創の延長線上にあるM&A",
       desc: "共同開発を通じて深く理解した技術の段階的グループインを設計・実行する。財務指標だけでなく、技術の社会実装ポテンシャルを織り込んだバリュエーションが特徴。",
       points: ["段階的グループイン設計", "技術価値ベースのバリュエーション", "ストラクチャー組成", "PMI実行・マネタイズ支援"],
+      anchorId: "forward-buyout",
     },
   ];
 
@@ -185,12 +187,14 @@ function ValueForwardSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.85, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ y: -2 }}
+                  onClick={() => document.getElementById(s.anchorId)?.scrollIntoView({ behavior: "smooth", block: "start" })}
                   style={{
                     position: "relative", overflow: "hidden",
                     padding: "32px 32px 36px",
                     background: "rgba(9,12,14,0.04)",
                     border: `1px solid ${L.line}`,
                     transition: "border-color 0.3s",
+                    cursor: "pointer",
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.borderColor = "rgba(45,90,64,0.35)"}
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = L.line}
