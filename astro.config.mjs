@@ -5,6 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 import react from '@astrojs/react';
 
+import cloudflare from '@astrojs/cloudflare';
+
 /** @type {import('astro').AstroIntegration} */
 const studioOverlay = {
   name: 'studio-overlay',
@@ -32,5 +34,6 @@ export default defineConfig({
     },
   },
 
-  integrations: [react(), studioOverlay]
+  integrations: [react(), studioOverlay],
+  adapter: cloudflare()
 });
